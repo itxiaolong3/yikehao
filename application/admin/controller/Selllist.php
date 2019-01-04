@@ -29,7 +29,7 @@ class Selllist extends Base {
         }else{
             $getkeyword=input('keyword');
             $types=input('type');
-            if ($types<3){
+            if (!empty($types)){
                 $selllist=Db::table('sellinfo')
                     ->alias('s')
                     ->join('haotype h','s.type = h.htid')

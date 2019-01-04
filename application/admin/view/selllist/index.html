@@ -17,18 +17,18 @@
 				<form class="c8 layui-form" action="" lay-filter="form">
 					<div class="layui-input-inline">
 						<select name="type">
-							{if condition="($types eq 3) or($types eq '')"}
-							<option value="3" selected>全部类型</option>
-							{else/}<option value="3" selected>全部类型</option>{/if}
-							{if condition="($types eq 1)"}
-							<option value="1" selected>已审核</option>
-							{else/}<option value="1">已审核</option>{/if}
-							{if condition="($types eq 0)"}
-							<option value="0" selected>待审核</option>
-							{else/}<option value="0">待审核</option>{/if}
+							{if condition="($types eq 0) or($types eq '')"}
+							<option value="0" selected>全部类型</option>
+							{else/}<option value="0" selected>全部类型</option>{/if}
 							{if condition="($types eq 2)"}
-							<option value="2" selected>已拒绝</option>
-							{else/}<option value="2">已拒绝</option>{/if}
+							<option value="2" selected>已审核</option>
+							{else/}<option value="2">已审核</option>{/if}
+							{if condition="($types eq 1)"}
+							<option value="1" selected>待审核</option>
+							{else/}<option value="1">待审核</option>{/if}
+							{if condition="($types eq 3)"}
+							<option value="3" selected>已拒绝</option>
+							{else/}<option value="3">已拒绝</option>{/if}
 
 						</select>
 					</div>
@@ -69,8 +69,8 @@
 					<td>{if condition="$vo.isrz eq 0"}未认证
 						{elseif condition="$vo.isrz eq 1"/}个人认证{else/}企业认证{/if}</td>
 					<td>{if condition="$vo.isliu eq 0"}未开通{else/}已开通{/if}</td>
-					<td class="td-status">{if condition="$vo.state eq 1"}<span class="label label-success radius">已通过</span>
-						{elseif condition="$vo.state eq 2"/}<span class="label label-warning radius">被拒绝</span>
+					<td class="td-status">{if condition="$vo.state eq 2"}<span class="label label-success radius">已通过</span>
+						{elseif condition="$vo.state eq 3"/}<span class="label label-warning radius">被拒绝</span>
 						<a onclick="showreason('{$vo.nopassdesc}')" href="javascript:;" style="background-color: #0da3f9;color: white;padding: 1px 8px;">理由</a>
 						{else/}<span class="label radius">待审核</span>{/if}</td>
 					<td>{$vo.phone}</td>
