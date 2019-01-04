@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"E:\mydemo\yikehao/application/admin\view\selllist\detail.html";i:1546596909;s:59:"E:\mydemo\yikehao\application\admin\view\common\footer.html";i:1542697499;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"E:\mydemo\yikehao/application/admin\view\selllist\detail.html";i:1546615532;s:59:"E:\mydemo\yikehao\application\admin\view\common\footer.html";i:1546615532;}*/ ?>
 ﻿<!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
 <html>
@@ -160,12 +160,11 @@
 
 					<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;width: 95%;margin-left: 20px;">
 						附图：
-						<div class="layui-upload-list" id="demo3" style="height: auto;width: auto">
+
 							<?php if(is_array($imgarr) || $imgarr instanceof \think\Collection || $imgarr instanceof \think\Paginator): $i = 0; $__LIST__ = $imgarr;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
 							<div><img src="<?php echo $vo; ?>"/></div>
-
 							<?php endforeach; endif; else: echo "" ;endif; ?>
-						</div>
+
 					</blockquote>
 				</div>
 			</div>
@@ -173,17 +172,10 @@
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit="" lay-filter="demo1" id="postinfo" style="width: 120px;">提交</button>
+				<button class="layui-btn" lay-submit="" lay-filter="demo1" id="postinfo" style="width: 120px;">提交修改</button>
 			</div>
 		</div>
 	</form>
-		<div class="row cl" style="margin-top: 15px;margin-bottom: 15px;">
-			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input type="hidden" value="<?php echo $info['id']; ?>" name="id" id="getid">
-				<input class="btn btn-primary radius" id="form-admin-add" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-			</div>
-		</div>
-
 </article>
 
 <!--这里写引入的js文件-->
@@ -214,30 +206,6 @@
 <script type="text/javascript">
     $(function(){
         $("#form-admin-add").click(function () {
-            var name=$("#name").val();
-//            var num=$("#num").val();
-            var id=$("#getid").val();
-            if (name==''){
-                layer.msg('请填写拒绝理由',{icon:0,time:1000});
-			}else{
-                var lod=layer.load(0, {shade: false});
-                $.post("<?php echo url('admin/selllist/reason'); ?>",{'nopassdesc':name,'id':id,'state':2},function (e) {
-                    console.log(e);
-                    var data=JSON.parse(e);
-                    if (data.code){
-                        var index = parent.layer.getFrameIndex(window.name);
-                        layer.msg(data.msg,{icon:1,time:1000});
-                        parent.location.reload();
-                        //parent.$('.btn-refresh').click();
-                        parent.layer.close(index);
-                    }else{
-                       layer.close(lod);
-                        layer.msg(data.msg,{icon:0,time:1000});
-                    }
-                });
-			}
-
-
 
         });
     });

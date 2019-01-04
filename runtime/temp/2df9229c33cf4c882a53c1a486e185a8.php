@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:60:"E:\mydemo\yikehao/application/admin\view\selllist\index.html";i:1546593470;s:59:"E:\mydemo\yikehao\application\admin\view\common\header.html";i:1546569129;s:59:"E:\mydemo\yikehao\application\admin\view\common\footer.html";i:1542697499;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:60:"E:\mydemo\yikehao/application/admin\view\selllist\index.html";i:1546615532;s:59:"E:\mydemo\yikehao\application\admin\view\common\header.html";i:1546615532;s:59:"E:\mydemo\yikehao\application\admin\view\common\footer.html";i:1546615532;}*/ ?>
 ﻿<!--引入头部文件，如css-->
 <!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
