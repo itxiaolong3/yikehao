@@ -1,0 +1,121 @@
+﻿<!--引入头部文件，如css-->
+{include file="common:header" /}
+<style>
+	<!--图片放大-->
+	#enlarge_images{position:absolute;display:none;z-index:1111;border:5px solid #f4f4f4}
+	.bigimg{
+		cursor:pointer;
+	}
+</style>
+<section class="Hui-article-box">
+
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="{:url('admin/Index/index')}">首页</a> <span class="c-gray en">&gt;</span> 新闻列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+	<div id="enlarge_images"></div>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="mt-10">
+				<div class="cl pd-5 bg-1 bk-gray mt-20">
+					<span class="l">
+				<a href="javascript:;" onclick="admin_news_add('添加新闻','{:url(\'admin/sernewlist/addnews\')}')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加新闻</a></span>
+				</div>
+			<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr>
+						<th scope="col" colspan="7">新闻管理</th>
+					</tr>
+					<tr class="text-c">
+						<th width="40">ID</th>
+						<th width="70">首图</th>
+						<th width="110">标题</th>
+						<th width="110">内容简要</th>
+						<th width="70">添加时间</th>
+						<th width="100">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				{volist name="list" id="vo"}
+					<tr class="text-c">
+						<td>{$vo.id}</td>
+						<td class="bigimg"><img width="60" class="picture-thumb" src="{$vo.titleimg}"></td>
+						<td>{$vo.title}</td>
+						<td>{$vo.desc}</td>
+						<td>{$vo.addtime}</td>
+						<td><a title="编辑" href="javascript:;" onclick="admin_news_edit('新闻编辑','{:url(\'admin/sernewlist/addnews\',[\'id\'=>$vo.id])}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+							<a title="删除" href="javascript:;" onclick="admin_news_del(this,'{$vo.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					</tr>
+				{/volist}
+				</tbody>
+			</table>
+			</div>
+		</article>
+	</div>
+</section>
+{include file="common:footer" /}
+<script>
+    $("#menu-ser dd").css('display','block');
+    $("#news").addClass("current");
+    function admin_news_add(title,url,w,h){
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+        //layer_show(title,url,w,h);
+    }
+    /*管理员-权限-编辑*/
+    function admin_news_edit(title,url,id,w,h){
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+        //layer_show(title,url,w,h);
+    }
+/*-删除*/
+function admin_news_del(obj,id){
+	layer.confirm('删除须谨慎，确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+        var lod=layer.load(0, {shade: false});
+        $.post('',{id:id},function (e) {
+            var data=JSON.parse(e);
+            if (data.code){
+                $(obj).parents("tr").remove();
+                var index = parent.layer.getFrameIndex(window.name);
+                layer.msg(data.msg,{icon:1,time:1000});
+                parent.$('.r').click();
+                layer.close(lod);
+                parent.layer.close(index);
+            }else{
+                layer.msg(data.msg,{icon:0,time:1000});
+            }
+        });
+	});
+}
+</script>
+<!--图片放大js-->
+<script>
+    var gg = $('.bigimg img');
+    var ei = document.getElementById("enlarge_images");
+    for(i=0; i<gg.length; i++){
+        var ts = gg[i];
+//        ts.onmousemove = function(event){
+//            event = event || window.event;
+//            ei.style.display = "block";
+//            ei.innerHTML = '<img width="50%" height="50%" src="' + this.src + '" />';
+//            ei.style.top  = document.body.scrollTop + event.clientY + 10 + "px";
+//            ei.style.left = document.body.scrollLeft + event.clientX + 10 + "px";
+//        }
+//        ts.onmouseout = function(){
+//            ei.innerHTML = "";
+//            ei.style.display = "none";
+//        }
+        ts.onclick = function(){
+            window.open( this.src );
+        }
+    }
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

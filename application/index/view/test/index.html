@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试入口</title>
+</head>
+<body>
+<!--<a href="{:url('index/Image/image')}">点击进入图片上传界面</a>-->
+<form action="http://localhost/tp5/admin/uploadimg" method="post" enctype="multipart/form-data">
+    图片上传<input type="file"  name="file"/>
+    <input type="submit" value="上传"/>
+    <!--<input type="text" value=""/>-->
+    <!--<input type="submit" id="targets" />-->
+</form>
+</body>
+<script>
+    document.getElementById("targets").click();
+</script>
+</html>

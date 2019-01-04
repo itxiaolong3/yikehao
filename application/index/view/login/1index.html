@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>翻转式用户登录注册界面设计</title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__static/index/login/css/styles.css">
+	<!--[if IE]>
+		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+	<link href="__PUBLIC__static/index/css/layer.css" rel="stylesheet">
+	<script src="__PUBLIC__static/index/js/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__static/index/js/jquery.mini.js"></script>
+	<style>
+	</style>
+</head>
+<body>
+	<div class="container" style="padding-top:100px">
+		<div class="login-wrap">
+			<span style="width: 100%;margin: 0 auto;display: flex;align-items: center;">
+				<img src="__PUBLIC__static/index/login/img/logo.png" width="250px" height="250px" style="margin: 0 auto;">
+			</span>
+			<div id="paycode" style="margin-bottom: 50px;">
+
+			</div>
+
+			<div class="login-html">
+
+					<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
+					<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
+				<div class="login-form">
+					<div class="sign-in-htm">
+						<div class="group">
+							<label for="username" class="label">用户名</label>
+							<input id="username" type="text" class="input">
+						</div>
+						<div class="group">
+							<label for="psw" class="label">密码</label>
+							<input id="psw" type="password" class="input" data-type="password">
+						</div>
+						<!--<div class="group">-->
+							<!--<input id="check" type="checkbox" class="check" checked>-->
+							<!--<label for="check"><span class="icon"></span> Keep me Signed in</label>-->
+						<!--</div>-->
+						<div class="group">
+							<input type="submit" class="button lgbt" value="立即登录">
+						</div>
+						<div class="group">
+							<input type="submit" class="button pay" value="扫码支付">
+						</div>
+						<div class="hr"></div>
+						<!--<div class="foot-lnk">-->
+							<!--<a href="#forgot">Forgot Password?</a>-->
+						<!--</div>-->
+					</div>
+					<div class="sign-up-htm">
+						<div class="group">
+							<label for="rusername" class="label">用户名</label>
+							<input id="rusername" type="text" class="input">
+						</div>
+						<div class="group">
+							<label for="rpsw" class="label">密码</label>
+							<input id="rpsw" type="password" class="input" data-type="password">
+						</div>
+						<div class="group">
+							<label for="reppass" class="label">确认密码</label>
+							<input id="reppass" type="password" class="input" data-type="password">
+						</div>
+						<div class="group">
+							<label for="phone" class="label">手机号</label>
+							<input id="phone" type="text" class="input">
+						</div>
+
+						<div class="group">
+							<label for="code" class="label">验证码</label>
+							<input id="code" type="text" placeholder="输入验证码" class="input">
+							<input id="getCodes" type="button" value="发送验证码" class="getcode r bo-none"/>
+						</div>
+						<div class="group">
+							<label for="qq" class="label">Q&nbsp;Q</label>
+							<input id="qq" type="text" class="input">
+						</div>
+						<div class="group">
+							<input type="submit" class="button regbt" value="提交注册">
+						</div>
+						<div class="hr"></div>
+						<!--<div class="foot-lnk">-->
+							<!--<label for="tab-1">Already Member?</a>-->
+						<!--</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+<script>
+    //	验证码
+    var ischeck=0;
+    var countdown;
+    var times=60;
+	$(function () {
+	    $(".pay").click(function () {
+            showmsg('点击了');
+            img="<img alt='扫码支付' width='100' src='{:url('index/Login/payforcode')}'/>";
+            $("#paycode").append(img);
+        })
+	    $(".lgbt").click(function () {
+
+	        var username=$("#username").val();
+	        var psw=$("#psw").val();
+	        if (username==''){
+                showmsg('用户名不可为空');
+			}else if (psw==''){
+                showmsg('密码不可为空');
+			}else{
+                $.post('',{username:username,psw:psw},function (e) {
+                    var data=JSON.parse(e);
+                    if (data.code==1){
+                        showmsg(data.msg)
+                    }else{
+                        showmsg(data.msg)
+                    }
+                })
+			}
+
+        })
+        $(".regbt").click(function () {
+            var rusername=$("#rusername").val();
+            var rpsw=$("#rpsw").val();
+            var reppass=$("#reppass").val();
+            var phone=$("#phone").val();
+            var code=$("#code").val();
+            var qq=$("#qq").val();
+            rusername==''?showmsg('用户名不可为空'):rpsw==''? showmsg('密码不可为空'):phone==''?showmsg('手机号不可为空')
+				:(rpsw!=reppass)?showmsg('密码不一致'):code==""?showmsg('验证码不可为空'):$(this).attr("disabled",true);$.post("registers",{username:rusername,psw:rpsw
+				,phone:phone,qq:qq,code:code},function (e) {
+					var data=JSON.parse(e);
+					if (data.status==1){
+					    showmsg(data.msg)
+                        //$(".regbt").attr("disabled",false);
+					}else{
+                        showmsg(data.msg)
+                        $(".regbt").attr("disabled",false);
+					}
+                })
+
+        })
+		$("#getCodes").click(function () {
+            var getphone=$("#phone").val();
+            var isphone=isPoneAvailable($("#phone"));
+            console.log(getphone);
+            if(getphone&&isphone){
+                //判断手机是否重复checkphoneishave
+                $.post("checkphoneishave",{phone:getphone},function (e1) {
+                    var res=JSON.parse(e1);
+                    if (res.status==1){
+                        invokeSettime($("#getCodes"));
+                    }else{
+                        showmsg(res.msg)
+                    }
+                })
+            }else{
+                showmsg('手机号无效');
+            }
+
+        });
+
+        function invokeSettime(obj){
+            if(ischeck==0){
+                var getphone=$("#phone").val();
+                var isphone=isPoneAvailable($("#phone"));
+                if (isphone){
+                    //发送验证码
+                    $.post("sendcode",{phone:getphone},function (e1) {
+                        var res=JSON.parse(e1);
+                        if (res.status==1){
+                            showmsg(res.msg)
+                        }else{
+                            showmsg(res.msg)
+                        }
+                    })
+                    countdown=times;
+                    settime(obj);
+                }else{
+                    showmsg('请输入正确手机号')
+                }
+
+            }
+            function settime(obj) {
+                console.log('countdown实时值='+countdown)
+                if (countdown == 0) {
+                    $(obj).attr("disabled",false);
+                    $(obj).val("发送验证码");
+                    countdown = times;
+                    ischeck=0;
+                    return;
+                } else {
+                    ischeck=1;
+                    $(obj).attr("disabled",true);
+                    $(obj).val("(" + countdown + ") s 后重发");
+                    countdown--;
+                }
+                setTimeout(function() {
+                        settime(obj)
+					}
+                    ,1000)
+            }
+        }
+
+        function isPoneAvailable($poneInput) {
+            var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test($poneInput.val())) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+		function showmsg(msg) {
+            layer.open({
+                content: msg,
+                skin: 'msg',
+                time: 2, //2秒后自动关闭
+            });
+        }
+
+    })
+</script>
+
+
+</html>

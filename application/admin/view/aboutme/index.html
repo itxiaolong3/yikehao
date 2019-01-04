@@ -1,0 +1,65 @@
+﻿{include file="common:header" /}
+<section class="Hui-article-box">
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="" class="maincolor">关于我</a>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+           href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <article class="cl pd-20">
+
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">关于我的内容：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+                    </div>
+                </div>
+                <div class="row cl" style="margin-top: 15px;margin-bottom: 15px;">
+                    <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                    <input type="hidden" value="{$aboutme['id']}" name="id" id="getid">
+                    <input class="btn btn-primary radius" id="form-admin-add" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                    </div>
+                </div>
+        </article>
+    </div>
+</section>
+
+{include file="common:footer" /}
+
+<!--请在下方写此页面业务相关的脚本-->
+ <script>
+//实例化编辑器
+//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+var ue = UE.getEditor('editor');
+//setContent("{$aboutme.contents}");
+// editor准备好之后才可以使用
+ue.addListener("ready", function () {
+    //赋值
+    ue.setContent('{$aboutme.contents}');
+});
+
+$(function () {
+    ue = UE.getEditor('editor');
+
+    $("#form-admin-add").click(function () {
+        var ishava = ue.hasContents();
+        var titleimg=$("#file_upload_image").val();
+        var id=$("#getid").val();
+        var contents=ue.getContent();
+
+            $.post('',{'id':id,'contents':contents},function (e) {
+                $('.r').click();
+                console.log(id);
+                var data=JSON.parse(e);
+                if (data.code){
+                    layer.msg(data.msg,{icon:1,time:1000});
+                    location.reload();
+                }else{
+                    layer.msg(data.msg,{icon:0,time:1000});
+                }
+            });
+
+
+    });
+})
+</script>
+</body>
+</html>

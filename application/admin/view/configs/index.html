@@ -1,0 +1,221 @@
+﻿{include file="common:header" /}
+<section class="Hui-article-box">
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="" class="maincolor">配置</a>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+           href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <article class="cl pd-20">
+            <label>配置信息：</label>
+            <form action="" method="post" class="form form-horizontal" id="form-article-add">
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">公众号appid：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="appid"  placeholder="" value="{$configs.appid}" class="input-text">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">公众号appSecret：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="appSecret" placeholder="" value="{$configs.appSecret}" class="input-text">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">支付商户号：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="paynum" placeholder="" value="{$configs.paynum}" class="input-text">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">支付密钥：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="paykey" placeholder="" value="{$configs.paykey}" class="input-text">
+                </div>
+            </div>
+
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">短信模板code：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="smscode" placeholder="" value="{$configs.smscode}" class="input-text">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">短信签名：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="smssign" placeholder="" value="{$configs.smssign}" class="input-text">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">短信AccessKey ID：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="accesskeyid" placeholder="" value="{$configs.accesskeyid}" class="input-text">
+                </div>
+            </div>
+            <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">短信AccessKeyseret：</label>
+                <div class="formControls col-xs-6 col-sm-7">
+                    <input type="text" name="accesskeyseret" placeholder="" value="{$configs.accesskeyseret}" class="input-text">
+                </div>
+            </div>
+            <!--<div class="row cl">-->
+                <!--<label class="form-label col-xs-4 col-sm-2">支付界面logo图片：</label>-->
+                <!--<div class="formControls col-xs-6 col-sm-7">-->
+                    <!--<div class="layui-upload col-sm-10">-->
+                        <!--<button type="button" class="layui-btn" id="test1">选择图片</button>-->
+                        <!--<div class="layui-upload-list">-->
+                            <!--<input type="hidden" id="file_upload_image" required="required" name="gtopimg" multiple="true" value=""/>-->
+                            <!--<div id="showimg">-->
+
+                            <!--</div>-->
+                            <!--<p id="demoText"></p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+                <!--<div class="row cl">-->
+                    <!--<label class="form-label col-xs-4 col-sm-2">多图上传：</label>-->
+                    <!--<div class="formControls col-xs-6 col-sm-7">-->
+                        <!--<div class="layui-upload col-sm-10">-->
+                            <!--<button type="button" class="layui-btn" id="test3">多图片上传</button>-->
+                            <!--<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">-->
+                                <!--预览图：-->
+                                <!--<div class="layui-upload-list" id="demo3"></div>-->
+                            <!--</blockquote>-->
+                            <!--<input type="hidden" name="gimgs" id="manyimg" value=""/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="row cl">
+                    <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                        <input type="hidden" name="id" placeholder="" value="{$configs.id}" class="input-text">
+                        <button onClick="dopost();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+                    </div>
+                </div>
+            </form>
+
+        </article>
+    </div>
+</section>
+
+{include file="common:footer" /}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript">
+
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+        //图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: "{:url('admin/Index/upImg')}"
+            ,before: function(obj){
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                console.log(res);
+                //var obj=JSON.parse(res);
+                console.log(res.data);
+                var newElement = "<li><img class='layui-upload-img' id='showone' src='"+res.data
+                    + "' style='width:100px;height:100px;'>" +
+                    "<img class='button' id='oneimgclose' src="+"__PUBLIC__static/layer/images/fancy_close.png"+"></li>";
+                if ($("#file_upload_image").val()!='images/nopic.png'){
+                    if($("#file_upload_image").val()==''){
+                        $("#showimg").append(newElement);//deleteqrcodeimg
+                        $("#file_upload_image").attr('value',res.data);
+                    }else{
+                        $("#file_upload_image").attr('value',res.data);
+                        $("#showone").attr('src',res.data);
+                    }
+
+                }else{
+                    $("#showimg").append(newElement);//deleteqrcodeimg
+                    $("#file_upload_image").attr('value',res.data);
+                }
+                $("#oneimgclose").bind("click", deletefimg);
+                $('#demo1').show();
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+        //多图片上传
+        upload.render({
+            elem: '#test3'
+            ,url: "{:url('admin/Index/upImg')}"
+            ,multiple: true
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    // $('#demo3').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img" style="width: 250px;height: 200px;margin-left: 20px;margin-top: 20px;">')
+                });
+            }
+            ,done: function(res){
+                //每个文件提交一次触发一次。详见“请求成功的回调”
+                //alert(res);
+                console.log(res);
+                var newElement = "<li><img class='layui-upload-img'  src='" +res.data+
+                    "' style='width:100px;height:100px;'><img class='button' src="+"__PUBLIC__static/layer/images/fancy_close.png"+"></li>";
+                $("#demo3").append(newElement);
+                $("img.button").last().bind("click", del);
+                var $svalue=$('#manyimg').val();
+                if($svalue==''){
+                    $('#manyimg').val("|"+res.data);
+                }else{
+                    $('#manyimg').val($svalue+"|"+res.data);
+                }
+                console.log('打印我');
+
+            }
+        });
+        //多图中的删除
+        var del = function(){
+            var src=$(this).siblings('img').attr('src');
+            var $svalue=$('#manyimg').val();
+            $.ajax({
+                type: "POST", //访问WebService使用Post方式请求
+                url: "{:url('admin/Index/del')}", //调用WebService的地址和方法名称组合---WsURL/方法名
+                data: "src=" + src,
+                success: function(data){
+                    console.log(data);
+                    var $val=$svalue.replace(data,'');
+                    $('#manyimg').val($val);
+                }
+            });
+            $(this).parent().remove();
+        }
+    });
+    function dopost() {
+        layer.msg('已保存',{icon:1,time:800});
+        $('#form-article-add').submit();
+    }
+
+</script>
+<script>
+    function deletefimg() {
+        var src=$(this).siblings('img').attr('src');
+        //alert(src);
+        $.ajax({
+            type: "POST", //访问WebService使用Post方式请求
+            url: "{:url('admin/Index/delone')}", //调用WebService的地址和方法名称组合---WsURL/方法名
+            data: "src=" + src,
+            success: function(data){
+                console.log(data);
+            }
+        });
+        $("#file_upload_image").attr('value','');
+        $(this).parent().remove();
+
+    }
+
+</script>
+</body>
+</html>

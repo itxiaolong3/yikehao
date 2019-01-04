@@ -1,0 +1,208 @@
+﻿<!--引入头部文件，如css-->
+{include file="common:header" /}
+<style>
+	.findstyle{
+		display: flex;
+	}
+</style>
+<section class="Hui-article-box">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="{:url('admin/Index/index')}">首页</a>
+		<span class="c-gray en">&gt;</span>
+		卖号管理
+		<span class="c-gray en">&gt;</span>
+		账号列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a> </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="findstyle">
+				<form class="c8 layui-form" action="" lay-filter="form">
+					<div class="layui-input-inline">
+						<select name="type">
+							{if condition="($types eq 3) or($types eq '')"}
+							<option value="3" selected>全部类型</option>
+							{else/}<option value="3" selected>全部类型</option>{/if}
+							{if condition="($types eq 1)"}
+							<option value="1" selected>已审核</option>
+							{else/}<option value="1">已审核</option>{/if}
+							{if condition="($types eq 0)"}
+							<option value="0" selected>待审核</option>
+							{else/}<option value="0">待审核</option>{/if}
+							{if condition="($types eq 2)"}
+							<option value="2" selected>已拒绝</option>
+							{else/}<option value="2">已拒绝</option>{/if}
+
+						</select>
+					</div>
+				</form>
+				<div class="text-c" style="margin-left: 10px;margin-top: 3px;">
+					<input type="text" class="input-text" style="width:250px" placeholder="输入手机号" id="keyword" value="{$keyword}" name="keyword">
+					<button type="submit" class="btn btn-success" id="findkeyword" name=""><i class="Hui-iconfont">&#xe665;</i> 查找</button>
+				</div>
+			</div>
+
+			<table class="table table-border table-bordered table-bg">
+				<thead>
+				<tr>
+					<th scope="col" colspan="9">账号列表</th>
+				</tr>
+				<tr class="text-c">
+					<th width="150">名称</th>
+					<th width="90">价格</th>
+					<th width="130">粉丝量</th>
+					<th width="130">类型</th>
+					<th width="130">分类</th>
+					<th width="150">认证情况</th>
+					<th width="100">流量主</th>
+					<th width="100">审核状态</th>
+					<th width="100">手机号</th>
+					<th width="100">注册时间</th>
+					<th width="100">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{volist name="list" id="vo"}
+				<tr class="text-c">
+					<td>{$vo.zhname}</td>
+					<td>{$vo.price}</td>
+					<td>{$vo.fansnum}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.fortypetext}</td>
+					<td>{if condition="$vo.isrz eq 0"}未认证
+						{elseif condition="$vo.isrz eq 1"/}个人认证{else/}企业认证{/if}</td>
+					<td>{if condition="$vo.isliu eq 0"}未开通{else/}已开通{/if}</td>
+					<td class="td-status">{if condition="$vo.state eq 1"}<span class="label label-success radius">已通过</span>
+						{elseif condition="$vo.state eq 2"/}<span class="label label-warning radius">被拒绝</span>
+						<a onclick="showreason('{$vo.nopassdesc}')" href="javascript:;" style="background-color: #0da3f9;color: white;padding: 1px 8px;">理由</a>
+						{else/}<span class="label radius">待审核</span>{/if}</td>
+					<td>{$vo.phone}</td>
+					<td>{$vo.regtime}</td>
+					<td class="td-manage">
+						{if condition="($vo.state eq 0)"}
+						<a style="text-decoration:none" onclick="selllist_nopass('填写拒绝理由',
+						'{:url(\'admin/selllist/reason\',[\'id\'=>$vo.id])}','1','','310')"
+						   href="javascript:;" title="拒绝">
+							<i class="Hui-iconfont">&#xe631;拒绝</i>
+						</a>
+						<a style="text-decoration:none;margin-left: 5px;" onClick="selllist_start(this,'{$vo.id}')" href="javascript:;" title="通过"><i class="Hui-iconfont">&#xe615;通过</i></a>
+						{elseif condition="$vo.state eq 1"/}
+						<a style="text-decoration:none" onclick="selllist_nopass('填写拒绝理由',
+						'{:url(\'admin/selllist/reason\',[\'id\'=>$vo.id])}','1','','310')"
+						   href="javascript:;" title="拒绝">
+							<i class="Hui-iconfont">&#xe631;拒绝</i>
+						</a>
+						{else/}<a style="text-decoration:none" onClick="selllist_start(this,'{$vo.id}')" href="javascript:;" title="通过"><i class="Hui-iconfont">&#xe615;通过</i></a>{/if}
+						<a title="编辑" href="javascript:;" onclick="selllist_edit('编辑/查看','{:url(\'admin/selllist/detail\',[\'id\'=>$vo.id])}')" class="ml-5" style="text-decoration:none">
+							<i class="Hui-iconfont">&#xe6df;</i>详细</a>
+						<a title="删除" href="javascript:;" onclick="selllist_del(this,'{$vo.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					</td>
+				</tr>
+				{/volist}
+
+
+				</tbody>
+			</table>
+		</article>
+	</div>
+</section>
+{include file="common:footer" /}
+<script>
+    layui.use(['form','layer'], function(){
+        var form = layui.form;
+        var layer = layui.layer;
+        //监听提交
+        form.on('select()', function(data){
+            window.location.href="{:url('admin/selllist/index')}?type="+data.value;
+            console.log("选择值"+data.value);
+        });
+    });
+</script>
+<script type="text/javascript">
+    $("#menu-selllist dd").css('display','block');
+    $("#selllist").addClass("current");
+    //    搜索
+    $("#findkeyword").click(function () {
+        layer.load();
+        var getkeyword=$('#keyword').val();
+        window.location.href="{:url('admin/selllist/index')}?keyword="+getkeyword;
+
+    })
+    /*
+        参数解释：
+        title	标题
+        url		请求的url
+        id		需要操作的数据id
+        w		弹出层宽度（缺省调默认值）
+        h		弹出层高度（缺省调默认值）
+    */
+    /*账号-增加*/
+    function selllist_add(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+    /*账号-删除*/
+    function selllist_del(obj,id){
+        layer.confirm('删除后不可恢复，是否继续？',function(index){
+            //此处请求后台程序，下方是成功后的前台处理……
+            var lod=layer.load(0, {shade: false});
+            $.post('',{id:id},function (e) {
+                var data=JSON.parse(e);
+                if (data.code){
+                    $(obj).parents("tr").remove();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    layer.msg(data.msg,{icon:1,time:1000});
+                    parent.$('.r').click();
+                    layer.close(lod);
+                    parent.layer.close(index);
+                }else{
+                    layer.msg(data.msg,{icon:0,time:1000});
+                }
+            });
+        });
+    }
+    /*账号-编辑*/
+    function selllist_edit(title,url,w,h){
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+        //layer_show(title,url,w,h);
+    }
+    /*账号-停用*/
+    /*管理员-权限-编辑*/
+    function selllist_nopass(title,url,id,w,h){
+        layer_show(title,url,w,h);
+    }
+	function showreason(str) {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['420px', '240px'], //宽高
+            content: "<span style='padding: 20px;'>"+str+"</span>"
+        });
+    }
+    /*账号-启用*/
+    function selllist_start(obj,id){
+        layer.confirm('确认要通过吗？',function(index){
+            //此处请求后台程序，下方是成功后的前台处理……
+            var lod=layer.load(0, {shade: false});
+            $.post("{:url('admin/selllist/stoppass')}",{id:id,state:1},function (e) {
+                var data=JSON.parse(e);
+                if (data.code){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    layer.msg(data.msg,{icon:1,time:1000});
+                    location.replace(location.href);
+                    layer.close(lod);
+                    parent.layer.close(index);
+                }else{
+                    layer.msg(data.msg,{icon:5,time:1000});
+                }
+            });
+//            $(obj).parents("tr").find(".td-manage").prepend('<a onClick="selllist_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+//            $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+//            $(obj).remove();
+            //layer.msg('已启用!', {icon: 6,time:1000});
+        });
+    }
+</script>
+</body>
+</html>

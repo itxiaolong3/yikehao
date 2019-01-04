@@ -1,0 +1,88 @@
+﻿{include file="common:header" /}
+<style>
+   .myrow{
+      /*border: 1px royalblue solid;*/
+      height: 90px;
+      width: 23%;
+      margin: 5px;
+   }
+   .value{
+      /*border: 1px rosybrown solid;*/
+      display: flex;
+      align-items: center;
+      margin: 10px;
+      height: 110px;
+      padding-left: 10px;
+      background-color: #E2E2E2;
+      -moz-box-shadow:2px 2px 5px #333333; -webkit-box-shadow:2px 2px 5px #333333; box-shadow:2px 2px 5px #333333;
+      border-radius: 10px;
+   }
+   .value p{
+      display: flex;
+      /*border: 1px red solid;*/
+      width: 50%;
+      margin-left: 20px;
+      font-size: 20px;
+
+   }
+
+</style>
+<section class="Hui-article-box">
+   <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="{:url('admin/Index/index')}">首页</a>
+     <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+        <i class="Hui-iconfont">&#xe68f;</i></a>
+   </nav>
+   <div class="row cnm" style="width: auto;height:140px;margin: 50px;">
+      <div class="col-lg-3 col-sm-6 myrow" >
+         <section class="panel">
+            <div class="symbol blue">
+               <i class="icon-bar-chart"></i>
+            </div>
+            <div class="value">
+               <h1 class=" count4">0</h1>
+               <p>待处理</p>
+            </div>
+         </section>
+      </div>
+      <div class="col-lg-3 col-sm-6 myrow">
+         <section class="panel">
+            <div class="symbol yellow">
+               <i class="icon-bar-chart"></i>
+            </div>
+            <div class="value">
+               <h1 class=" count3">0</h1>
+               <p>今日单数</p>
+            </div>
+         </section>
+      </div>
+      <div class="col-lg-3 col-sm-6 myrow">
+         <section class="panel">
+            <div class="symbol terques">
+               <img src="">
+            </div>
+            <div class="value">
+               <h1 class="count">0.00</h1>
+               <p>历史交易</p>
+            </div>
+         </section>
+      </div>
+      <div class="col-lg-3 col-sm-6 myrow" >
+         <section class="panel">
+            <div class="symbol red">
+               <i class="icon-comments"></i>
+            </div>
+            <div class="value">
+               <h1 class=" count2"><a href="tencent://message/?uin=1018774866&amp;Site=%E5%9C%A8%E7%BA%BFQQ&amp;Menu=yes" target="_blank">
+                  <img src="__PUBLIC__static/h-admin/static/h-ui.admin/images/kef.png" style=" max-width:70px;max-height: 70px; margin:5px;cursor:pointer;" class="QQ"></a></h1>
+               <p>VIP专属客服</p>
+            </div>
+         </section>
+      </div>
+
+   </div>
+</section>
+{include file="common:footer" /}
+
+
+</body>
+</html>

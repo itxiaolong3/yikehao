@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>基于 Layui form 组件的省市区级联的实现</title>
+    <link rel="stylesheet" href="http://www.zhengjinfan.cn/plugins/layui/css/layui.css" />
+</head>
+<body>
+<div style="margin: 50px auto; ">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择地区</label>
+            <div class="layui-input-inline">
+                <select name="province" lay-filter="province">
+                    <option value="">请选择省</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="display: none;">
+                <select name="city" lay-filter="city">
+                    <option value="">请选择市</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" style="display: none;">
+                <select name="area" lay-filter="area">
+                    <option value="">请选择县/区</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="http://www.zhengjinfan.cn/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="http://www.zhengjinfan.cn/js/area.js"></script>
+<script>
+    layui.use(['picker'], function() {
+        var picker = layui.picker;
+        //demo1
+        var p1 = new picker();
+        p1.set({
+            elem: '#p1',
+            data: Areas,
+            codeConfig: {
+                code: 440104,
+                type: 3
+            }
+        }).render();
+        var p3 = new picker();
+        p3.set({
+            elem: '#p3',
+            data: Areas,
+            codeConfig: {
+                code: 110200,
+                type: 2
+            }
+        }).render();
+        var p4 = new picker();
+        p4.set({
+            elem: '#p4',
+            data: Areas,
+            codeConfig: {
+                code: 410000,
+                type: 1
+            },
+            canSearch: true
+        }).render();
+        //demo2
+        var p2 = new picker();
+        p2.set({
+            elem: '#p2',
+            data: Areas,
+            canSearch: true
+        }).render();
+    });
+</script>
+
+</body>
+</html>

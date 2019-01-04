@@ -1,0 +1,77 @@
+﻿<!--引入头部文件，如css-->
+{include file="common:header" /}
+
+<section class="Hui-article-box">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="{:url('admin/Index/index')}">首页</a> <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="text-c">
+				<!--<form class="Huiform" method="post" action="" target="_self">-->
+				<input type="text" class="input-text" style="width:250px" placeholder="手机号" id="keyword" value="{$keyword}" name="keyword">
+				<button type="submit" class="btn btn-success" id="findkeyword"><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+				<!--</form>-->
+			</div>
+			<div class="mt-10">
+			<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr>
+						<th scope="col" colspan="7">用户管理</th>
+					</tr>
+					<tr class="text-c">
+						<th width="40">ID</th>
+						<th width="70">用户名</th>
+						<th width="100">密码</th>
+						<th width="110">微信</th>
+						<th width="100">手机号</th>
+						<th width="100">QQ</th>
+						<th width="70">注册时间</th>
+					</tr>
+				</thead>
+				<tbody>
+				{volist name="list" id="vo"}
+					<tr class="text-c">
+						<td>{$vo.uid}</td>
+						<td>{$vo.username}</td>
+						<td>{$vo.psw}</td>
+						<td>{$vo.wx}</td>
+						<td>{$vo.phone}</td>
+						<td>{$vo.qq}</td>
+						<td>{$vo.addtime}</td>
+						<!--<td class="f-14">-->
+							<!--<a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>-->
+						<!--</td>-->
+					</tr>
+				{/volist}
+				</tbody>
+			</table>
+			</div>
+		</article>
+	</div>
+</section>
+{include file="common:footer" /}
+<script>
+    $("#menu-member dd").css('display','block');
+    $("#userlist").addClass("current");
+    //搜索
+    $("#findkeyword").click(function () {
+        layer.load();
+        var getkeyword=$('#keyword').val();
+        //$.post("",{keyword:getkeyword},function (a) {
+        window.location.href="{:url('admin/userlist/index')}?keyword="+getkeyword;
+        // })
+
+    })
+/*管理员-角色-删除*/
+function admin_role_del(obj,id){
+	layer.confirm('角色删除须谨慎，确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+
+
+		$(obj).parents("tr").remove();
+		layer.msg('已删除!',{icon:1,time:1000});
+	});
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
