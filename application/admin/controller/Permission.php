@@ -8,6 +8,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
 use think\Url;
 
 class Permission extends Base {
@@ -39,6 +40,10 @@ class Permission extends Base {
             $idsarr=explode(',',$getrootids);
             if (in_array('1',$idsarr)){
                 $this->assign('ids',$getrootids);
+                $rootname=Session::get('rootname');
+                $loginname=Session::get('loginname');
+                $this->assign('rootname',$rootname);
+                $this->assign('loginname',$loginname);
                 return $this->fetch();
             }else{
                 echo "无权访问";
@@ -88,6 +93,10 @@ class Permission extends Base {
             $idsarr=explode(',',$getrootids);
             if (in_array('1',$idsarr)){
                 $this->assign('ids',$getrootids);
+                $rootname=Session::get('rootname');
+                $loginname=Session::get('loginname');
+                $this->assign('rootname',$rootname);
+                $this->assign('loginname',$loginname);
                 return $this->fetch('addpermis');
             }else{
                 echo "无权访问";

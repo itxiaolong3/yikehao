@@ -36,6 +36,8 @@ return [
     'prodetail'=>'index/prodetail/index',
     'newdetail'=>'index/newdetail/index',
     'productdetail'=>'index/productdetail/index',
+    'postorder'=>'index/productdetail/postorder',
+    'checklogin'=>'index/productdetail/checklogin',
     'registers'=>'index/Login/registers',
     'sendcode'=>'index/Login/sendcode',
     'loginsms'=>'index/Login/loginsms',

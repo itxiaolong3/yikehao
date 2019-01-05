@@ -22,6 +22,8 @@ class Login extends Controller{
                     //设置session
                     Session::set('uid',$re['id']);
                     Session::set('rootids',$re['rootnum']);
+                    Session::set('rootname',$re['rolename']);
+                    Session::set('loginname',$re['adminname']);
                 }else{
                     $res['status'] = 2;
                     $res['msg'] = '您的账号未开启！！！';

@@ -47,13 +47,13 @@
 				<tr class="text-c">
 					<th width="150">名称</th>
 					<th width="90">价格</th>
-					<th width="130">粉丝量</th>
+					<th width="100">手机号</th>
 					<th width="130">类型</th>
 					<th width="130">分类</th>
 					<th width="150">认证情况</th>
 					<th width="100">流量主</th>
 					<th width="100">审核状态</th>
-					<th width="100">手机号</th>
+					<th width="130">转接操作</th>
 					<th width="100">注册时间</th>
 					<th width="100">操作</th>
 				</tr>
@@ -63,7 +63,7 @@
 				<tr class="text-c">
 					<td>{$vo.zhname}</td>
 					<td>{$vo.price}</td>
-					<td>{$vo.fansnum}</td>
+					<td>{$vo.phone}</td>
 					<td>{$vo.name}</td>
 					<td>{$vo.fortypetext}</td>
 					<td>{if condition="$vo.isrz eq 0"}未认证
@@ -73,17 +73,20 @@
 						{elseif condition="$vo.state eq 3"/}<span class="label label-warning radius">被拒绝</span>
 						<a onclick="showreason('{$vo.nopassdesc}')" href="javascript:;" style="background-color: #0da3f9;color: white;padding: 1px 8px;">理由</a>
 						{else/}<span class="label radius">待审核</span>{/if}</td>
-					<td>{$vo.phone}</td>
+					<td>
+						<a title="转接" href="javascript:;" onclick="selllist_del(this,'{$vo.id}',1)" class="ml-5" style="background-color: #0da3f9;color: white;padding: 1px 8px;">
+							转接</a>
+					</td>
 					<td>{$vo.regtime}</td>
 					<td class="td-manage">
-						{if condition="($vo.state eq 0)"}
+						{if condition="($vo.state eq 1)"}
 						<a style="text-decoration:none" onclick="selllist_nopass('填写拒绝理由',
 						'{:url(\'admin/selllist/reason\',[\'id\'=>$vo.id])}','1','','310')"
 						   href="javascript:;" title="拒绝">
 							<i class="Hui-iconfont">&#xe631;拒绝</i>
 						</a>
 						<a style="text-decoration:none;margin-left: 5px;" onClick="selllist_start(this,'{$vo.id}')" href="javascript:;" title="通过"><i class="Hui-iconfont">&#xe615;通过</i></a>
-						{elseif condition="$vo.state eq 1"/}
+						{elseif condition="$vo.state eq 2"/}
 						<a style="text-decoration:none" onclick="selllist_nopass('填写拒绝理由',
 						'{:url(\'admin/selllist/reason\',[\'id\'=>$vo.id])}','1','','310')"
 						   href="javascript:;" title="拒绝">
@@ -92,14 +95,13 @@
 						{else/}<a style="text-decoration:none" onClick="selllist_start(this,'{$vo.id}')" href="javascript:;" title="通过"><i class="Hui-iconfont">&#xe615;通过</i></a>{/if}
 						<a title="编辑" href="javascript:;" onclick="selllist_edit('编辑/查看','{:url(\'admin/selllist/detail\',[\'id\'=>$vo.id])}')" class="ml-5" style="text-decoration:none">
 							<i class="Hui-iconfont">&#xe6df;</i>详细</a>
-						<a title="删除" href="javascript:;" onclick="selllist_del(this,'{$vo.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+						<a title="删除" href="javascript:;" onclick="selllist_del(this,'{$vo.id}',0)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i>删除</a>
 					</td>
 				</tr>
 				{/volist}
-
-
 				</tbody>
 			</table>
+			{$list->render()}
 		</article>
 	</div>
 </section>
@@ -110,7 +112,7 @@
         var layer = layui.layer;
         //监听提交
         form.on('select()', function(data){
-            window.location.href="{:url('admin/selllist/index')}?type="+data.value;
+            window.location.href="{:url('admin/selllist/index')}?state="+data.value;
             console.log("选择值"+data.value);
         });
     });
@@ -138,21 +140,39 @@
         layer_show(title,url,w,h);
     }
     /*账号-删除*/
-    function selllist_del(obj,id){
-        layer.confirm('删除后不可恢复，是否继续？',function(index){
+    function selllist_del(obj,id,istoother){
+        var warnimg="";
+        if(istoother==1){
+            warnimg="是否转接给其他在线销售员？";
+        }else{
+            warnimg="删除后不可恢复，是否继续？";
+        }
+        iszj=istoother
+        layer.confirm(warnimg,function(index){
             //此处请求后台程序，下方是成功后的前台处理……
             var lod=layer.load(0, {shade: false});
-            $.post('',{id:id},function (e) {
+            $.post('',{id:id,ischange:istoother},function (e) {
                 var data=JSON.parse(e);
+                var msgs='';
                 if (data.code){
-                    $(obj).parents("tr").remove();
+                    if(iszj){
+                        msgs="转接成功"
+					}else{
+                        msgs=data.msg;
+                        $(obj).parents("tr").remove();
+					}
                     var index = parent.layer.getFrameIndex(window.name);
-                    layer.msg(data.msg,{icon:1,time:1000});
+                    layer.msg(msgs,{icon:1,time:1000});
                     parent.$('.r').click();
                     layer.close(lod);
                     parent.layer.close(index);
                 }else{
-                    layer.msg(data.msg,{icon:0,time:1000});
+                    if(iszj){
+                        msgs="转接失败"
+                    }else{
+                        msgs=data.msg;
+                    }
+                    layer.msg(msgs,{icon:0,time:1000});
                 }
             });
         });
@@ -185,7 +205,7 @@
         layer.confirm('确认要通过吗？',function(index){
             //此处请求后台程序，下方是成功后的前台处理……
             var lod=layer.load(0, {shade: false});
-            $.post("{:url('admin/selllist/stoppass')}",{id:id,state:1},function (e) {
+            $.post("{:url('admin/selllist/stoppass')}",{id:id,state:2},function (e) {
                 var data=JSON.parse(e);
                 if (data.code){
                     var index = parent.layer.getFrameIndex(window.name);

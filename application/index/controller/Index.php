@@ -37,6 +37,18 @@ class Index extends Base
         $userid=Session::get('userid');
         $uinfo=Db::table('userinfo')->where('uid',$userid)->find();
         $this->assign('uinfo',$uinfo);
+        //优品推荐
+        $goodhao=Db::table('sellinfo')
+            ->alias('s')
+            ->join('haotype h','s.type = h.htid')
+            ->join('admin a','s.kefuid = a.id')
+            ->field('s.*,h.*,a.qq as kfqq')
+            ->limit(4)->select();
+        foreach ($goodhao as $k=>$v){
+            $goodhao[$k]['oneprice']=number_format(intval($v['price'])/intval($v['fansnum']),2);
+        }
+        $this->assign('goodhao',$goodhao);
+
         return $this->fetch();
     }
     public function loginout(){

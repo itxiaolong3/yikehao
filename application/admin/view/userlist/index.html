@@ -23,6 +23,7 @@
 						<th width="100">密码</th>
 						<th width="110">微信</th>
 						<th width="100">手机号</th>
+						<th width="100">会员等级</th>
 						<th width="100">QQ</th>
 						<th width="70">注册时间</th>
 					</tr>
@@ -35,6 +36,16 @@
 						<td>{$vo.psw}</td>
 						<td>{$vo.wx}</td>
 						<td>{$vo.phone}</td>
+						<td>{if condition="$vo.vipstate eq 1"}
+							<span class="label label-warning radius">月卡会员</span>
+						{elseif condition="$vo.vipstate eq 2"/}
+							<span class="label label-danger radius">季卡会员</span>
+							{elseif condition="$vo.vipstate eq 3"/}
+							<span class="label label-success radius">永久会员</span>
+							{elseif condition="$vo.vipstate eq 2"/}
+							{else/}
+							<span class="label radius">普通会员</span>
+							{/if}</td>
 						<td>{$vo.qq}</td>
 						<td>{$vo.addtime}</td>
 						<!--<td class="f-14">-->

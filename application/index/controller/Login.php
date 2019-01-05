@@ -21,6 +21,7 @@ class Login extends Base
                 Session::set('userid',$re['uid']);
                 //更新登录时间和ip
                 $this->updatelogininfo($re['uid']);
+                $this->checkviptime($re['uid']);
             }else{
                 $res['status'] = 0;
                 $res['msg'] = '账户或者密码错误';
@@ -197,6 +198,27 @@ class Login extends Base
             $num .= rand(0,9);
         }
         return $num;
+    }
+    //判断更新会员过期状态
+    public function checkviptime($uid){
+        $uinfo=Db::table('userinfo')->where('uid',$uid)->find();
+        if($uinfo['vipstate']==2){
+            //判断时间
+            $viptime=$uinfo['paytime'];
+            $pktime=(strtotime($viptime))+86400*90-time();
+            if ($pktime<=0){
+                //过期
+                Db::table('userinfo')->where('uid',$uid)->update(array('vipstate'=>0));
+            }
+        }else if($uinfo['vipstate']==1){
+            //判断时间
+            $viptime=$uinfo['paytime'];
+            $pktime=(strtotime($viptime))+86400*30-time();
+            if ($pktime<=0){
+                //过期
+                Db::table('userinfo')->where('uid',$uid)->update(array('vipstate'=>0));
+            }
+        }
     }
 
 

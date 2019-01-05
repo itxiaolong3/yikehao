@@ -8,6 +8,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
 
 class Banner extends Base {
     public function _initialize(){
@@ -35,6 +36,10 @@ class Banner extends Base {
             $idsarr=explode(',',$getrootids);
             if (in_array('4',$idsarr)){
                 $this->assign('ids',$getrootids);
+                $rootname=Session::get('rootname');
+                $loginname=Session::get('loginname');
+                $this->assign('rootname',$rootname);
+                $this->assign('loginname',$loginname);
                 return $this->fetch();
             }else{
                 echo "无权访问";
@@ -84,6 +89,10 @@ class Banner extends Base {
             $idsarr=explode(',',$getrootids);
             if (in_array('4',$idsarr)){
                 $this->assign('ids',$getrootids);
+                $rootname=Session::get('rootname');
+                $loginname=Session::get('loginname');
+                $this->assign('rootname',$rootname);
+                $this->assign('loginname',$loginname);
                 return $this->fetch('addbanner');
             }else{
                 echo "无权访问";

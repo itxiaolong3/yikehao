@@ -8,6 +8,8 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
+
 class Selllist extends Base {
     public function _initialize(){
         //判断是否登录，未登录跳转到登录页面
@@ -16,7 +18,14 @@ class Selllist extends Base {
     public function index(){
         if (request()->isPost()){
             $getid=input('id');
-            $re=Db::table('sellinfo')->where('id',$getid)->delete();
+            $ischange=input('ischange');
+            $kfidarr=Db::table('sellinfo')->where('id',$getid)->find();
+            if (empty($ischange)){
+                $re=Db::table('sellinfo')->where('id',$getid)->delete();
+            }else{
+                $getonekf=Db::table('admin')->where(array('iskf'=>1,'state'=>1))->where('id','<>',$kfidarr['kefuid'])->order('num asc')->limit(1)->find();
+                $re=Db::table('sellinfo')->where('id',$getid)->update(array('kefuid'=>$getonekf['id']));
+            }
             if ($re){
                 $redata['code']=1;
                 $redata['msg']='删除成功';
@@ -28,20 +37,22 @@ class Selllist extends Base {
             }
         }else{
             $getkeyword=input('keyword');
-            $types=input('type');
+            $types=input('state');
+            $pageparam=['query'=>[]];//查询条件
+            $pageparam['query']['phone']=['like',"%".$getkeyword."%"];
             if (!empty($types)){
+                $pageparam['query']['state']=$types;
                 $selllist=Db::table('sellinfo')
                     ->alias('s')
                     ->join('haotype h','s.type = h.htid')
-                    ->where('phone','like',"%".$getkeyword."%")
-                    ->where(array('state'=>$types))
-                    ->select();
+                    ->where($pageparam['query'])
+                    ->paginate(15,false,$pageparam);
             }else{
                 $selllist=Db::table('sellinfo')
                     ->alias('s')
                     ->join('haotype h','s.type = h.htid')
-                    ->where('phone','like',"%".$getkeyword."%")
-                    ->select();
+                    ->where($pageparam['query'])
+                    ->paginate(15,false,$pageparam);
             }
 
             $this->assign('keyword',$getkeyword);
@@ -52,6 +63,10 @@ class Selllist extends Base {
             $idsarr=explode(',',$getrootids);
             if (in_array('9',$idsarr)){
                 $this->assign('ids',$getrootids);
+                $rootname=Session::get('rootname');
+                $loginname=Session::get('loginname');
+                $this->assign('rootname',$rootname);
+                $this->assign('loginname',$loginname);
                 return $this->fetch();
             }else{
                 echo "无权访问";
@@ -64,7 +79,7 @@ class Selllist extends Base {
     public function stoppass(){
         $state=input('state');
         $getid=input('id');
-        $re=Db::table('sellinfo')->where('id',$getid)->update(array('state'=>$state));
+        $re=Db::table('sellinfo')->where('id',$getid)->update(array('state'=>$state,'addtime'=>date('Y-m-d',time())));
         if ($re){
             $redata['code']=1;
             $redata['msg']='操作成功';
@@ -79,6 +94,7 @@ class Selllist extends Base {
     public function reason(){
         if(request()->isPost()){
             $getinfo=input();
+            $getinfo['addtime']=date('Y-m-d',time());
             $getid=input('id');
             //修改
             $re=Db::table('sellinfo')->where('id',$getid)->update($getinfo);
@@ -94,6 +110,10 @@ class Selllist extends Base {
         }else{
             $id=input('id');
             $this->assign('id',$id);
+            $rootname=Session::get('rootname');
+            $loginname=Session::get('loginname');
+            $this->assign('rootname',$rootname);
+            $this->assign('loginname',$loginname);
             return $this->fetch();
         }
 
@@ -125,6 +145,10 @@ class Selllist extends Base {
 
             $haotype=$this->haotype();
             $this->assign('haotype',$haotype);
+            $rootname=Session::get('rootname');
+            $loginname=Session::get('loginname');
+            $this->assign('rootname',$rootname);
+            $this->assign('loginname',$loginname);
             return $this->fetch();
         }
 

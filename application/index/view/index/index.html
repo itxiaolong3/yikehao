@@ -696,190 +696,59 @@
 </div>
 <div id="wechat" class="media_lists">
     <ul>
+        {volist name="goodhao" id="vo"}
         <li>
             <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
                 <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
                     <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
+                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">{$vo.zhname}</label>
                 </span>
                 <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
                     <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
-                    <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【教育】</label>
+                    <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【{$vo.fortypetext}】</label>
                 </span>
                 <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
-                 flex;flex-direction: column;align-items: flex-start;">￥10000</span>
+                 flex;flex-direction: column;align-items: flex-start;">￥{$vo.price}</span>
             </div>
             <div style="height: 20%;display: flex;padding-left: 10px;">
                 <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
                     <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">订阅号</span>
+                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">{$vo.name}</span>
                 </div>
                 <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
                     <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.5W+</span>
+                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">{$vo.fansnum}</span>
                 </div>
             </div>
             <div style="height: 20%;display: flex;padding-left: 10px;">
                 <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
                     <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">61%</span>
+                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">
+                        {switch name="$vo.sexbli" }
+                            {case value="1"}男居多{/case}
+                            {case value="2"}女居多{/case}
+                            {default /}男女平衡
+                        {/switch}
+                    </span>
                 </div>
                 <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
                     <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.00元/粉</span>
+                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">{$vo.oneprice}元/粉</span>
                 </div>
             </div>
             <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
-                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
+                <div style="width: 51%;display: flex;justify-content: center;align-items: center;">
                     <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
-                    <a href="#" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
+                    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$vo.kfqq}&site=qq&menu=yes" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
                     <span style="color: #F0F0F2;margin-left: 35px;">|</span>
                 </div>
-
                 <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
                     <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
-                    <a href="productdetail" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
+                    <a href="{:url('index/productdetail/index')}?id={$vo.id}" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
                 </div>
             </div>
         </li>
-        <li>
-            <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
-                </span>
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
-                    <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【教育】</label>
-                </span>
-                <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
-                 flex;flex-direction: column;align-items: flex-start;">￥10000</span>
-            </div>
-            <div style="height: 20%;display: flex;padding-left: 10px;">
-                <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">订阅号</span>
-                </div>
-                <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.5W+</span>
-                </div>
-            </div>
-            <div style="height: 20%;display: flex;padding-left: 10px;">
-                <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">61%</span>
-                </div>
-                <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.00元/粉</span>
-                </div>
-            </div>
-            <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
-                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                    <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
-                    <a href="#" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
-                    <span style="color: #F0F0F2;margin-left: 35px;">|</span>
-                </div>
-
-                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                    <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
-                    <a href="productdetail" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
-                </span>
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
-                    <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【教育】</label>
-                </span>
-                <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
-                 flex;flex-direction: column;align-items: flex-start;">￥10000</span>
-            </div>
-            <div style="height: 20%;display: flex;padding-left: 10px;">
-                <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">订阅号</span>
-                </div>
-                <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.5W+</span>
-                </div>
-            </div>
-            <div style="height: 20%;display: flex;padding-left: 10px;">
-                <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">61%</span>
-                </div>
-                <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.00元/粉</span>
-                </div>
-            </div>
-            <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
-                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                    <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
-                    <a href="#" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
-                    <span style="color: #F0F0F2;margin-left: 35px;">|</span>
-                </div>
-
-                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                    <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
-                    <a href="#" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
-                </span>
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
-                    <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【教育】</label>
-                </span>
-                <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
-                 flex;flex-direction: column;align-items: flex-start;">￥10000</span>
-            </div>
-            <div style="height: 20%;display: flex;padding-left: 10px;">
-                <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">订阅号</span>
-                </div>
-                <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.5W+</span>
-                </div>
-            </div>
-            <div style="height: 20%;display: flex;padding-left: 10px;">
-                <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">61%</span>
-                </div>
-                <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                    <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
-                    <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.00元/粉</span>
-                </div>
-            </div>
-            <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
-                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                    <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
-                    <a href="#" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
-                    <span style="color: #F0F0F2;margin-left: 35px;">|</span>
-                </div>
-
-                <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                    <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
-                    <a href="#" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
-                </div>
-            </div>
-        </li>
+        {/volist}
     </ul>
 </div>
 <div id="jiaoyi">

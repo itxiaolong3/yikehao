@@ -8,6 +8,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
 
 class Serproblist extends Base {
     public function _initialize(){
@@ -35,6 +36,10 @@ class Serproblist extends Base {
             $idsarr=explode(',',$getrootids);
             if (in_array('6',$idsarr)){
                 $this->assign('ids',$getrootids);
+                $rootname=Session::get('rootname');
+                $loginname=Session::get('loginname');
+                $this->assign('rootname',$rootname);
+                $this->assign('loginname',$loginname);
                 return $this->fetch();
             }else{
                 echo "无权访问";
@@ -85,6 +90,10 @@ class Serproblist extends Base {
             $idsarr=explode(',',$getrootids);
             if (in_array('6',$idsarr)){
                 $this->assign('ids',$getrootids);
+                $rootname=Session::get('rootname');
+                $loginname=Session::get('loginname');
+                $this->assign('rootname',$rootname);
+                $this->assign('loginname',$loginname);
                 return $this->fetch('addprob');
             }else{
                 echo "无权访问";

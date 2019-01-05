@@ -382,6 +382,7 @@
         border-radius: 5px;
         text-align: center;
         padding-top: 2px;
+        cursor: pointer;
     }
     .topay a{
         color: whitesmoke;
@@ -394,6 +395,20 @@
         border-radius: 5px;
         text-align: center;
         margin-left: 25px;
+        cursor: pointer;
+    }
+    .showphone{
+        width: 120px;
+        height: 30px;
+        background-color: #5A72F6;
+        border-radius: 5px;
+        text-align: center;
+        margin-left: 25px;
+        line-height: 35px;
+        cursor: pointer;
+    }
+    .showphone a{
+        color: white;
     }
     .callkf a{
         color:#1F9EBF;
@@ -413,9 +428,164 @@
     }
     .paymain{
         width: 1200px;
-        height: 600px;
+        height: 700px;
         margin: 5px auto;
         background-color: white;
+    }
+    .paymain .hh {
+        width: 100%;
+        height: 50px;
+        padding: 0 30px;
+        display: flex;
+        align-items: center;
+        color: #000;
+        font-size: 15px;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    .paymain .bb {
+        padding: 20px 30px;
+    }
+    .c1 {
+        width: 100%;
+        height: 130px;
+        padding: 10px 20px;
+        background-color: #f5fbfb;
+    }
+    .c1 .title {
+        display: flex;
+        margin-bottom: 15px;
+    }
+    .c1 .title span {
+        color: #000;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+    .c1 .info {
+        width: 800px;
+        height: 120px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .c1 .info .item {
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+    }
+    .c1 .info .item p {
+        color: #666;
+        font-size: 10px;
+        line-height: 20px;
+        margin-bottom: 10px;
+    }
+    .c1 .info .item p span {
+        color: #ff3b3c;
+    }
+    .c1 .info .item p .price {
+        color: #ff4d00;
+        font-size: 15px;
+    }
+    .c1 .info .item p .state {
+        color: #000;
+    }
+    .c2 {
+        display: flex;
+        margin-bottom: 20px;
+    }
+    .c2 .item {
+        border: 1px solid #ddd;
+        width: 120px;
+        height: 40px;
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .c2 .item img {
+        width: 90px;
+    }
+    .c3 {
+        color: #999;
+        font-size: 10px;
+        margin-top: 20px;
+    }
+    .c4 {
+        float: right;
+        margin-top: 50px;
+        margin-right: 30px;
+        width: 500px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+    }
+    .c4 .r1 {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .c4 .r1 .left {
+        width: 200px;
+        color: #000;
+        font-size: 15px;
+        text-align: right;
+    }
+    .c4 .r1 .right {
+        width: 200px;
+        color: #333;
+        font-size: 15px;
+    }
+    .c4 .r1 .price {
+        color: #ff3b3c;
+        font-size: 20px;
+    }
+    .c4 .r2 {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .c4 .b1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 180px;
+        height: 30px;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: #ff3b3c;
+        cursor: pointer;
+    }
+    .c4 .b2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 30px;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 15px;
+        font-weight: bold;
+        background-color: #009688;
+        cursor: pointer;
+        margin: 0 50px;
+    }
+    .c5 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .c5 .code {
+        width: 200px;
+        height: 200px;
+        margin-left: 100px;
+    }
+    .c5 .code .codeimg {
+        width: 200px;
+        height: 200px;
     }
 </style>
 <div id="location">当前位置：
@@ -426,18 +596,48 @@
         <div style="padding: 30px;">
             <div style="margin-left: 12px;">
                 <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
+                <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">{$detail.zhname}</label>
             </div>
             <ul>
-                <li><a>所属平台</a><i>微信公众号</i><a>头条阅读数</a><i>4000+</i><a>封号次数</a><i>0</i><a>注册时间</a><i style="width: 100px;">2018-10-01</i></li>
-                <li><a>所属类目</a><i>电影视频</i><a>阅读UV</a><i>1%-3%</i><a>粉丝数量</a><i>16.39W+</i></li>
-                <li><a>账号类型</a><i>订阅号</i><a>流量主月收入</a><i>1500</i><a>粉丝偏向</a><i>男女平衡</i></li>
-                <li><a>认证状态</a><i>未认证</i><a>违规次数</a><i>0</i><a>粉丝区域</a><i>全国</i></li>
+                <li>
+                    <a>所属平台</a><i>微信公众号</i>
+                    <a>头条阅读数</a><i>{$detail.headernum}</i>
+                    <a>封号次数</a><i>0</i>
+                    <a>注册时间</a><i style="width: 100px;">{$detail.regtime}</i>
+                </li>
+                <li>
+                    <a>所属类目</a><i>{$detail.fortypetext}</i>
+                    <a>阅读UV</a><i>{$detail.UV}</i>
+                    <a>粉丝数量</a><i>{$detail.fansnum}</i>
+                </li>
+                <li>
+                    <a>账号类型</a><i>{$detail.name}</i>
+                    <a>流量主月收入</a><i>{$detail.getmonth}</i>
+                    <a>粉丝偏向</a>
+                    <i>
+                    {switch name="$detail.sexbli" }
+                    {case value="1"}男居多{/case}
+                    {case value="2"}女居多{/case}
+                    {default /}男女平衡
+                    {/switch}
+                    </i>
+                </li>
+                <li>
+                    <a>认证状态</a>
+                    <i>
+                        {switch name="$detail.isrz" }
+                        {case value="1"}个人认证{/case}
+                        {case value="2"}企业认证{/case}
+                        {default /}未认证
+                        {/switch}
+                    </i>
+                    <a>违规次数</a><i>{$detail.weiguinum|default="0"}</i>
+                    <a>粉丝区域</a><i>全国</i></li>
             </ul>
             <div class="buyfooter">
                 <ul>
                     <span>价格</span>
-                    <li class="price">￥163.000</li>
+                    <li class="price">￥{$detail.price}</li>
                     <li  class="xieyi">
                         <div class="squaredFour">
                             <input type="checkbox" value="None" id="squaredFour" name="check" checked />
@@ -447,8 +647,9 @@
                     </li>
                     <li class="bt">
                         <span class="topay"><a onclick="topay();">立即购买</a></span>
-                        <span class="callkf"><a href="#">联系客服</a></span>
-                        <span style="font-size: 10px;color: #565A5F;margin: 0 auto">发布时间&nbsp;2018-12-16&nbsp;09:22:45</span>
+                        <span class="callkf"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$detail.kfqq}&site=qq&menu=yes">联系客服</a></span>
+                        <span class="showphone"><a onclick="showphone();">卖家联系方式</a></span>
+                        <span style="font-size: 10px;color: #565A5F;margin: 0 auto">发布时间{$detail.addtime}</span>
                     </li>
                 </ul>
             </div>
@@ -468,8 +669,8 @@
                     <ul>
                         <li style="color: #A09D9D;font-size: 16px;font-weight:bold;margin-top: 30px;">云乐顾问</li>
                         <li style="color: #61656C;font-size: 18px;font-weight: bold;margin-top: 10px;">专业公众号顾问</li>
-                        <li style="color: #A09D9D;font-size: 16px;font-weight:bold;margin-top: 20px;">联系电话:18315444444</li>
-                        <li style="height: 40px;width: 80%;padding:5px 20px;margin:10px auto;background-color: #5A72F6;"><a href="#" style="color: white">联系客服</a></li>
+                        <li style="color: #A09D9D;font-size: 16px;font-weight:bold;margin-top: 20px;">联系电话:{$detail.kfphone}</li>
+                        <li style="height: 40px;width: 80%;padding:5px 20px;margin:10px auto;background-color: #5A72F6;"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$detail.kfqq}&site=qq&menu=yes" style="color: white">联系客服</a></li>
                     </ul>
                 </div>
                 <div class="right_f">
@@ -501,7 +702,7 @@
                                 <div class="wemedia-xq-b-aaal"></div>
                                 <div class="wemedia-xq-b-aaar"></div>
                             </div>
-                            <div class="wemedia-xq-b-aae">厦门本地号出售，1.7w+粉丝，精准厦门本地粉，0违规，开通原创评论功能，特此出售</div>
+                            <div class="wemedia-xq-b-aae">{$detail.desc}</div>
                             <div class="wemedia-xq-b-aac">
                                 <div class="wemedia-xq-b-aacl"></div>
                                 <div class="wemedia-xq-b-aacr"></div>
@@ -518,7 +719,11 @@
                         <div class="wemedia-xq-tow-b">
                             <div class="wemedia-xq-tow-bl"></div>
                             <div class="wemedia-xq-tow-bm">
-                                <p><img src="__PUBLIC__static/index/picture/1535367318304665.jpg" style="" title="1535367318304665.jpg"/><br/></p><hr/><p><img src="__PUBLIC__static/index/picture/1535367318117932.jpg" style="" title="1535367318117932.jpg"/><br/></p><hr/><p><img src="__PUBLIC__static/index/picture/1535367318539042.jpg" style="" title="1535367318539042.jpg"/><br/></p><hr/><p><img src="__PUBLIC__static/index/picture/1535367318313702.jpg" style="" title="1535367318313702.jpg"/><br/></p><hr/><p><img src="__PUBLIC__static/index/picture/1535367318182848.jpg" style="" title="1535367318182848.jpg"/><br/></p><p><br/></p>                        </div>
+                                {volist name="imgarr" id="vo"}
+                                <p><img src="{$vo}" style="" title="1535367318117932.jpg"/><br/></p><hr/>
+                                {/volist}
+                                <p><br/></p>
+                            </div>
                             <div class="wemedia-xq-tow-br"></div>
                         </div>
 
@@ -587,9 +792,77 @@
     </div>
 </div>
 <div class="paymain">
-这里开始你的表演
+    <!--<div class="hh">订单号：201820182018201820182018</div>-->
+    <div class="bb">
+        <div class="c1">
+            <div class="title">
+                <img src="__PUBLIC__static/index/images/wx.png" />
+                <span>{$detail.zhname}</span>
+            </div>
+            <div class="info">
+                <div class="item">
+                    <p>自媒体类型：微信公众号</p>
+                    <p>主体类型：
+                        {switch name="$detail.isrz" }
+                        {case value="1"}个人认证{/case}
+                        {case value="2"}企业认证{/case}
+                        {default /}未认证
+                        {/switch}
+                    </p>
+                    <p>所属类目：{$detail.fortypetext}</p>
+                </div>
+                <div class="item">
+                    <p>注册时间：{$detail.regtime}</p>
+                    <p>粉丝数量：{$detail.fansnum}</p>
+                </div>
+                <div class="item">
+                    <p>数量：<span>1</span></p>
+                    <p>单价：<span>￥{$detail.price}</span></p>
+                    <!--<p>服务费：<span>￥1600.00</span></p>-->
+                </div>
+                <div class="item">
+                    <p class="price">￥{$detail.price}</p>
+                    <p class="state">状态：待支付</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hh">支付方式</div>
+    <div class="bb">
+        <div class="c2">
+            <!-- <div class="item"><img src="__PUBLIC__static/index/images/alipay.png" /></div> -->
+            <div class="item"><img src="__PUBLIC__static/index/images/wxpay.png" /></div>
+        </div>
+        <p class="c3">提示：购买商品，卖家无理由退款不退服务费</p>
+        <div class="c5">
+            <div class="code" id="paycode">
+                <!--<img class="codeimg dohidden" src="__PUBLIC__static/index/images/wemedia-xq-bg1.jpg" />-->
+            </div>
+            <div class="c4">
+                <div class="r1">
+                    <div class="left">1件商品，总商品金额：</div>
+                    <div class="right">￥{$detail.price}</div>
+                </div>
+                <!--<div class="r1">-->
+                    <!--<div class="left">服务费：</div>-->
+                    <!--<div class="right">￥1670.00</div>-->
+                <!--</div>-->
+                <!--<div class="r1">-->
+                    <!--<div class="left">已支付金额：</div>-->
+                    <!--<div class="right">￥34000.00</div>-->
+                <!--</div>-->
+                <div class="r1">
+                    <div class="left">应支付金额：</div>
+                    <div class="right price">￥{$detail.price}</div>
+                </div>
+                <div class="r2">
+                    <div id="pay" class="b1" onclick='getpaycode("{$detail.id}")'>立即付款</div>
+                    <div class="b2" onclick="hidepay()">返回</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 <script>
     layui.use(['form', 'layedit', 'laydate'], function(){
         var form = layui.form
@@ -607,8 +880,55 @@
     }
     showmain();
     function topay() {
-        showpay();
+        $.post("{:url('index/productdetail/checklogin')}",{},function (e) {
+            if (e==1){
+                console.log('e=='+e)
+                showpay();
+            }else{
+                console.log('e=='+e)
+                window.location.href="{:url('index/login/index')}";
+            }
+
+        })
+
     }
+    function getpaycode(id) {
+        console.log('收到的id='+id)
+        $('.codeimg').show();
+        //{:url("index/productdetail/postorder")}?gid=
+        img="<img alt='微信扫码支付' width='250px' src='{:url('index/productdetail/postorder')}?gid="+id+"'/>";
+        $("#paycode").html(img);
+    }
+    function showpay() {
+        $('.paymain').removeClass('dohidden');
+        $('.main').addClass('dohidden');
+    }
+    function hidepay() {
+        $('.main').removeClass('dohidden');
+        $('.paymain').addClass('dohidden');
+    }
+    function showmain() {
+        $('.paymain').addClass('dohidden');
+        $('.main').removeClass('dohidden');
+    }
+
+</script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+    })
+    function showxieyi() {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['700px', '850px'], //宽高
+            content: '<div style="padding: 20px;">{$payxieyi.contents}</div>'
+        });
+    }
+    showmain();
     function showpay() {
         $('.paymain').removeClass('dohidden');
         $('.main').addClass('dohidden');
@@ -616,6 +936,40 @@
     function showmain() {
         $('.paymain').addClass('dohidden');
         $('.main').removeClass('dohidden');
+    }
+    function showphone() {
+        layer.confirm('普通会员最多免费看3个商家，是否继续',function(index){
+            var lod=layer.load(0, {shade: false});
+            $.post('',{id:"{$detail.id}"},function (e) {
+                var datas=JSON.parse(e);
+                if(datas.code==1){
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['500px', '350px'], //宽高
+                        content: '<div style="padding: 20px;">手机号：'+datas.phone+'</div>',
+                        end:function () {
+                            layer.closeAll()
+                        }
+                    });
+                }else if(datas.code==0){
+                   layer.msg('免费次数已用请升级会员！')
+                    setTimeout(function () {
+                        layer.closeAll()
+                    },1000)
+                }else if(datas.code==-2){
+                    window.location.href="{:url('index/login/index')}";
+                }else{
+                    //过期
+                    layer.msg('会员已过期！')
+                    setTimeout(function () {
+                        layer.closeAll()
+                    },1000)
+                }
+
+
+            });
+        });
     }
     
 </script>

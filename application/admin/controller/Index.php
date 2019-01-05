@@ -34,6 +34,10 @@ class Index extends Base{
         //权限判断
         $getrootids=session('rootids');
         $this->assign('ids',$getrootids);
+        $rootname=session('rootname');
+        $loginname=session('loginname');
+        $this->assign('rootname',$rootname);
+        $this->assign('loginname',$loginname);
         return $this->fetch();
     }
     //上传图片

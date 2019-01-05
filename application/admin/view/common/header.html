@@ -51,7 +51,7 @@
 <!--_header 作为公共模版分离出去-->
 <header class="navbar-wrapper">
     <div class="navbar navbar-fixed-top">
-        <div class="container-fluid cl"><a class="logo navbar-logo f-l mr-10 hidden-xs">后台管理系统</a>
+        <div class="container-fluid cl"><a class="logo navbar-logo f-l mr-10 hidden-xs">后台管理系统&nbsp;&nbsp;{$loginname}</a>
             <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
             <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                 <ul class="cl">
@@ -60,7 +60,7 @@
                             <li><a href="{:url('admin/Login/loginout')}">退出</a></li>
                         </ul>
                     </li>
-                    <li>超级管理员</li>
+                    <li>{$rootname}</li>
 
 
                     <!--<li id="Hui-skin" class="dropDown right dropDown_hover"><a href="javascript:;" class="dropDown_A"-->
@@ -170,7 +170,7 @@
                     {in name="8" value="$ids"}
                     <li id="order"><a href="{:url('admin/Orderlist/index')}" title="买号订单">买号订单</a></li>
                     {else/}{/in}
-                    <li id="myorder"><a href="{:url('admin/Orderlist/myorder')}" title="我的订单">我的订单</a></li>
+                    <li id="myorder"><a href="{:url('admin/Orderlist/myorder')}" title="受理订单">受理订单</a></li>
                 </ul>
             </dd>
         </dl>

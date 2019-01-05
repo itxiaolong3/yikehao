@@ -31,7 +31,20 @@ class Notify extends Controller
             file_put_contents($file,$reArr['sign'].'---'.$sign);
 
             //这里写回调逻辑
-
+            $uidandtype=explode('|',$reArr['attach']);
+            $uid=$uidandtype[0];
+            $gid=$uidandtype[1];
+            $uinfo=Db::table('userinfo')->where('uid',$uid)->find();
+            $ginfo=Db::table('sellinfo')->where('id',$gid)->find();
+            $name=$ginfo['zhname'];
+            $payprice=number_format($reArr['cash_fee']/100,2);
+            $paytime=date('Y-m-d H:i:s',time());
+            $phone=$uinfo['phone'];
+            $types="买号支付";
+            $ordernum=$reArr['out_trade_no'];
+            //添加订单表
+            Db::table('payorder')->insert(array('name'=>$name,'phone'=>$phone,'payprice'=>$payprice,
+                'paytime'=>$paytime,'types'=>$types,'uid'=>$uid,'gid'=>$gid,'ordernum'=>$ordernum));
             echo '<xml> 
 				<return_code><![CDATA[SUCCESS]]></return_code>
 				<return_msg><![CDATA[OK]]></return_msg>

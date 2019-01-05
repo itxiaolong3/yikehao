@@ -8,6 +8,8 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
+
 class Userlist extends Base {
     public function _initialize(){
         //判断是否登录，未登录跳转到登录页面
@@ -23,6 +25,10 @@ class Userlist extends Base {
         $idsarr=explode(',',$getrootids);
         if (in_array('4',$idsarr)){
             $this->assign('ids',$getrootids);
+            $rootname=Session::get('rootname');
+            $loginname=Session::get('loginname');
+            $this->assign('rootname',$rootname);
+            $this->assign('loginname',$loginname);
             return $this->fetch();
         }else{
             echo "无权访问";
