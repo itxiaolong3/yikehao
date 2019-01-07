@@ -500,27 +500,27 @@
 <div class="hc-gd-big">
     <div class="hc-gd-big-p">
     交易动态:
-    <div class="myscoll" style="margin-left: 20px;color: #B6B6BA; width:80%;height: 25px;display: inline;overflow: hidden;" >
-        <ul>
-            {volist name="nowtime" id="vo"}
-            <li style="color: darkgrey;" >
-                <span><label style="color: red">{$vo.totime}</label>&nbsp;{$vo.name}成功以<label style="color: red">{$vo.payprice}</label>元购买</span>
-            </li>
-            {/volist}
-        </ul>
-        <script>
-            function AutoScroll2(obj) {
-                $(obj).find("ul").animate({
-                    marginTop: "-12px"
-                }, 2000, function() {
-                    $(this).css({
-                        marginTop: "5px"
-                    }).find("li:first").appendTo(this);
-                });
-            }
-            setInterval('AutoScroll2(".myscoll")', 2000)
-        </script>
-    </div>
+        <div class="myscoll" style="margin-left: 20px;color: #B6B6BA; width:80%;height: 35px;display: inline;overflow: hidden;" >
+            <ul>
+                {volist name="nowtime" id="vo"}
+                <li style="color: darkgrey;margin: 10px 1px;" >
+                    <span><label style="color: red">{$vo.totime}</label>&nbsp;{$vo.name}成功以<label style="color: red">{$vo.payprice}</label>元购买</span>
+                </li>
+                {/volist}
+            </ul>
+            <script>
+                function AutoScroll2(obj) {
+                    $(obj).find("ul").animate({
+                        marginTop: "-28px"
+                    }, 2000, function() {
+                        $(this).css({
+                            marginTop: "5px"
+                        }).find("li:first").appendTo(this);
+                    });
+                }
+                setInterval('AutoScroll2(".myscoll")', 2000)
+            </script>
+        </div>
 </div>
     <!--<div class="hc-gd">-->
         <!--<div class="hc-gd-ul">-->
