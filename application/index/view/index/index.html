@@ -34,7 +34,7 @@
             <div>
                 <em>
                     <input class="hc-input" hc-title name="title" placeholder="输入您需求的关键词，如“订阅号”">
-                    <input type="submit" value="搜索" class="hc-sub" style="color: #fff;padding-left: 3px;"/>
+                    <input type="text" value="搜索" id="dokeyword" class="hc-sub" style="color: #fff;padding-left: 30px;"/>
                 </em>
                 <ul>
                     {volist name="typetop" id="vo"}
@@ -48,11 +48,22 @@
 </form>
 </div>
 <script>
+    document.onkeydown=function(e){
+        var e = e || event;
+        var currKey = e.keyCode || e.which || e.charCode;//支持IE,FireFox
+        if (currKey == 13) {
+            var _title = $("[hc-title]").val();
+            var url="{:url('index/deal/index',['types'=>1,'keywords'=>'keys'])}";
+            newurl=url.replace('keys',_title);
+            window.location.href = newurl;
+        }
+    }
     $(".hc-sub").click(function () {
         var _title = $("[hc-title]").val();
-        alert(_title);
-        var _href = "?title=" + _title;
-        window.location.href = _href;
+        var url="{:url('index/deal/index',['types'=>1,'keywords'=>'keys'])}";
+        newurl=url.replace('keys',_title);
+        window.location.href = newurl;
+
     })
 </script>
 <style>
@@ -676,6 +687,14 @@
         align-items: center;
         justify-content: center;
     }
+    .hname{
+        display:block;
+        overflow:hidden;
+        word-break:keep-all;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;
+    }
 </style>
 <div class="goodtj">
     <div class="goodtj_1">
@@ -696,7 +715,7 @@
             <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
                 <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
                     <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">{$vo.zhname}</label>
+                    <label class="hname">{$vo.zhname}</label>
                 </span>
                 <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
                     <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
@@ -770,7 +789,7 @@
                         <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
                             <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
                                 <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                                <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">{$vo.zhname}</label>
+                                <label class="hname">{$vo.zhname}</label>
                             </span>
                             <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
                             <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">

@@ -15,10 +15,14 @@
 </style>
 <div id="header2">
     <div>
-        <div style="margin: 0 auto;width: 1200px;position: relative">您好，欢迎来到云乐互联！
+        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到云乐互联！
+            {notempty name="uinfo"}
+            <span onclick="loginout();" style="cursor: pointer;">【退出】</span>
+            {/notempty}
+
             <p>
-                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2852815254&site=qq&menu=yes">联系客服</a></span>
-                <span><a>服务热线：</a><i>173-5987-2786</i></span>
+                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$baseinfo.kfqq}&site=qq&menu=yes">联系客服</a></span>
+                <span><a>服务热线：</a><i>{$baseinfo.phone}</i></span>
             </p>
         </div>
     </div>

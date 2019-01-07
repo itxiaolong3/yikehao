@@ -56,9 +56,12 @@ class Deal extends Base
         $this->assign('sfnumsort',$sfnumsort);
         $this->assign('headersort',$headersort);
 
-        $getkeyword=input('keyword');
+        $getkeyword=input('keywords');
+        //判断是搜索还是选择搜索
+        $types=input('types');
         $pageparam=['query'=>[]];//查询条件
-        $pageparam['query']['a.phone']=['like',"%".$getkeyword."%"];
+        $pageparam['query']['s.zhname']=['like',"%".$getkeyword."%"];
+        $pageparam['query']['s.state']=2;
         $this->assign('keyword',$getkeyword);
         $selllist=Db::table('sellinfo')
             ->alias('s')
