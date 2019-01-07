@@ -23,7 +23,7 @@
     </div>
     <form  method="get" >
         <div>
-            <div><img onclick="gethref(this)" hc-href="/"  alt="公众号出售-公众号价格-公众号买卖-万易云公众号交易平台" src="__PUBLIC__static/index/picture/1522210272_68400000.jpg">
+            <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}"  alt="公众号出售-公众号价格-公众号买卖-万易云公众号交易平台" src="__PUBLIC__static/index/picture/1522210272_68400000.jpg">
                 <div>
                     <em>
                         <input class="hc-input" hc-title name="title" placeholder="输入您需求的关键词，如“订阅号”">
@@ -51,7 +51,7 @@
 
     <form method="get">
         <div>
-            <div><img onclick="gethref(this)" hc-href="/" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+            <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
                       src="__PUBLIC__static/index/picture/logo.jpg" width="230" height="90">
                 <div>
                     <em>
@@ -147,8 +147,12 @@
             <li>
                 <a mj-hv-sh-none href="{:url('index/aboutme/index')}" class="link">关于我们</a>
             </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li>
+                <a mj-hv-sh-none href="{:url('index/usercenter/index')}" class="link">个人中心</a>
+            </li>
         </ul>
-        <img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">
+        <!--<img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">-->
     </div>
 </div>
 <script>
@@ -898,6 +902,15 @@
         //{:url("index/productdetail/postorder")}?gid=
         img="<img alt='微信扫码支付' width='250px' src='{:url('index/productdetail/postorder')}?gid="+id+"'/>";
         $("#paycode").html(img);
+        var setin1=setInterval(function () {
+            console.log('监听支付');
+            $.post("{:url('index/usercenter/getstate')}",{gid:id,ishao:1},function (e) {
+                if(e){
+                    clearInterval(setin1);
+                    window.location.href="{:url('index/usercenter/index')}";
+                }
+            })
+        },1000)
     }
     function showpay() {
         $('.paymain').removeClass('dohidden');
@@ -983,9 +996,9 @@
                 <li>
                     <div class="tit">我们</div>
                     <div class="links">
-                        <a href="about_3_2.html" target="_blank">加入我们</a>
-                        <a href="about_4_3.html" target="_blank">联系我们</a>
-                        <a href="about_2_1.html" target="_blank">关于我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">加入我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">联系我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">关于我们</a>
                     </div>
                 </li>
                 <li>
@@ -999,14 +1012,14 @@
                 <li>
                     <div class="tit">帮助中心</div>
                     <div class="links">
-                        <a href="{:url('index/prodetail/index')}">交易流程</a>
-                        <a href="news_5_1.html">常见问题</a>
-                        <a href="product_8_2.html">自助服务</a>
+                        <a href="{:url('index/prodetail/index')}?id=4">交易流程</a>
+                        <a href="{:url('index/serves/index')}">常见问题</a>
+                        <a href="{:url('index/serves/index')}">服务中心</a>
                     </div>
                 </li>
                 <li>
                     <div class="footer_ewm">
-                        <img src="__PUBLIC__static/index/picture/1515422153_51200000.jpg"
+                        <img src="{$baseinfo.wxcode}"
                              style="width:110px;height:110px;margin-right: 10px">
                         <span style="margin-right: 10px;margin-top: 5px;">扫码关注微信</span>
                     </div>
@@ -1015,34 +1028,38 @@
                     <div style="display: flex;margin-top: 20px;">
                         <img src="__PUBLIC__static/index/images/phones.png"
                              style="width:30px;height:30px;margin-right: 10px">
-                        <span style="color:white;font-size: 25px;">1008610086</span>
+                        <span style="color:white;font-size: 25px;">{$baseinfo.phone}</span>
                     </div>
                     <span style="color: #7C7C7C;display: flex;padding: 10px 5px;">周一至周五 9:00-17:30</span>
                 </li>
             </ul>
         </div>
         <div class="clear footer_copyright">
-            公司地址:地质队顶顶顶顶订单的
-            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">闽ICP备0000号-1</a></p>
+            公司地址:{$baseinfo.cpaddress}
+            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">{$baseinfo.icp}</a></p>
 
         </div>
     </div>
 </div>
 <style>
-    .footer_ewm span{
-        display: inline-block; width:110px;height:50px;color: #a5a5a5;
+    .footer_ewm span {
+        display: inline-block;
+        width: 110px;
+        height: 50px;
+        color: #a5a5a5;
     }
 </style>
 <style>
-    #footer>p{
+    #footer > p {
         margin-top: 0;
     }
-    #footer a{
+
+    #footer a {
         color: #666;
     }
 </style>
 <style>
-    .mh-fixed{
+    .mh-fixed {
         width: 100%;
         height: 135px;
         background: #000;
@@ -1051,19 +1068,22 @@
         left: -100%;
         bottom: 0;
         box-sizing: border-box;
-        border-left:8px solid #ffda44;
+        border-left: 8px solid #ffda44;
         z-index: 8;
     }
-    .mh-fixed-in{
+
+    .mh-fixed-in {
         width: 1200px;
         margin: 0 auto;
     }
-    .mx-fixed-l{
+
+    .mx-fixed-l {
         width: 300px;
         height: 100%;
         float: left;
     }
-    .mh-fixed-logo{
+
+    .mh-fixed-logo {
         display: block;
         width: 170px;
 
@@ -1071,24 +1091,28 @@
         margin-top: 10px;
         margin-bottom: 2px;
     }
-    .mh-fixed-tip{
+
+    .mh-fixed-tip {
         font-size: 28px;
         color: #fff100;
         text-align: center;
         font-weight: bold;
     }
-    .mh-fixed-se{
+
+    .mh-fixed-se {
         width: 77px;
         height: 135px;
         float: left;
         background: url("__PUBLIC__static/index/images/mh-fix-se.png") center center no-repeat;
     }
-    .mh-fixed-input-out{
+
+    .mh-fixed-input-out {
         width: 260px;
         height: 100%;
         float: left;
     }
-    .mh-fixed-input-select{
+
+    .mh-fixed-input-select {
         width: 80%;
         height: 36px;
         border: 2px #dedede solid;
@@ -1107,13 +1131,15 @@
         cursor: pointer;
 
     }
-    .mh-fixed-input-total{
+
+    .mh-fixed-input-total {
         width: 80%;
         margin: 0 auto;
         margin-top: 10px;
         height: 36px;
     }
-    .mh-fixed-input-total-input{
+
+    .mh-fixed-input-total-input {
         width: 60%;
         height: 100%;
         box-sizing: border-box;
@@ -1122,22 +1148,25 @@
         color: #999;
         float: left;
     }
-    .mh-fixed-input-total-sub{
+
+    .mh-fixed-input-total-sub {
         width: 35%;
         height: 100%;
         border: 0;
         float: right;
         font-size: 18px;
-        background:#fff100 ;
+        background: #fff100;
     }
-    .mh-fixed-bg{
+
+    .mh-fixed-bg {
         width: 1.5px;
         height: 95px;
         margin: 20px 0 0 0;
         float: left;
         background: #fff;
     }
-    .mh-fixed-img{
+
+    .mh-fixed-img {
         width: 120px;
         height: 120px;
         border-radius: 50%;
@@ -1146,11 +1175,13 @@
         margin-left: 28px;
         overflow: hidden;
     }
-    .mh-fixed-img img{
+
+    .mh-fixed-img img {
         width: 100%;
         height: 100%;
     }
-    .mh-fixed-link{
+
+    .mh-fixed-link {
         width: 170px;
         height: 100px;
         box-sizing: border-box;
@@ -1158,17 +1189,20 @@
         margin-left: 28px;
         padding-top: 20px;
     }
-    .mh-fixed-link p,.mh-fixed-wx p{
+
+    .mh-fixed-link p, .mh-fixed-wx p {
         height: 35px;
         line-height: 35px;
         color: #fff;
         font-size: 18px;
     }
-    .mh-fixed-wx p{
+
+    .mh-fixed-wx p {
         text-align: center;
         margin-top: 3px;
     }
-    .mh-fixed-link a{
+
+    .mh-fixed-link a {
         display: block;
         background: #f00;
         width: 65%;
@@ -1178,7 +1212,8 @@
         line-height: 35px;
         color: #fff;
     }
-    .mh-fixed-wx{
+
+    .mh-fixed-wx {
         width: 160px;
         height: 100%;
         float: left;
@@ -1186,13 +1221,15 @@
         padding-top: 10px;
         box-sizing: border-box;
     }
-    .mh-fixed-wx img{
+
+    .mh-fixed-wx img {
         display: block;
         width: 80px;
         height: 80px;
         margin: 0 auto;
     }
-    .mh-fixed-close{
+
+    .mh-fixed-close {
         margin-left: 5px;
         margin-right: 20px;
         float: right;
@@ -1201,13 +1238,14 @@
         height: 40px;
         cursor: pointer;
     }
-    .mh-fixed-close img{
+
+    .mh-fixed-close img {
         width: 40px;
         height: 40px;
     }
 </style>
 <style>
-    .mh-hd{
+    .mh-hd {
         width: 143px;
         height: 135px;
         position: fixed;
@@ -1215,13 +1253,31 @@
         left: -143px;
         bottom: 0;
         box-sizing: border-box;
-        border-left:8px solid #ffda44;
+        border-left: 8px solid #ffda44;
         z-index: 8;
         background: url(__PUBLIC__static/index/images/mh-fix-se.png) center center no-repeat;
         background-color: #000;
         cursor: pointer;
     }
 </style>
+<div class="mh-hd"><img src=""/></div>
+<script>
+    $(".mh-fixed").animate({left: "0"}, 1000);
+    $("[mh-close]").click(function () {
+        $(".mh-fixed").animate({left: "-100%"}, 1000, showmhfix);
+    })
+    function showmhfix() {
+        $(".mh-hd").show();
+        $(".mh-hd").animate({left: "0"}, 300);
+    }
+
+    $(".mh-hd").click(function () {
+        $(".mh-hd").hide();
+        $(".mh-hd").animate({left: "-143px"}, 100);
+        $(".mh-fixed").animate({left: "0"}, 1000);
+
+    })
+</script>
 </body>
 </html>
           

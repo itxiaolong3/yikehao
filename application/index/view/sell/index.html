@@ -15,17 +15,21 @@
 </style>
 <div id="header2">
     <div>
-        <div style="margin: 0 auto;width: 1200px;position: relative">您好，欢迎来到云乐互联！
+        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到云乐互联！
+            {notempty name="uinfo"}
+            <span onclick="loginout();" style="cursor: pointer;">【退出】</span>
+            {/notempty}
+
             <p>
-                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2852815254&site=qq&menu=yes">联系客服</a></span>
-                <span><a>服务热线：</a><i>173-5987-2786</i></span>
+                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$baseinfo.kfqq}&site=qq&menu=yes">联系客服</a></span>
+                <span><a>服务热线：</a><i>{$baseinfo.phone}</i></span>
             </p>
         </div>
     </div>
 
     <form method="get">
         <div>
-            <div><img onclick="gethref(this)" hc-href="/" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+            <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
                       src="__PUBLIC__static/index/picture/logo.jpg" width="230" height="90">
                 <div>
                     <em>
@@ -619,9 +623,9 @@
                 <li>
                     <div class="tit">我们</div>
                     <div class="links">
-                        <a href="about_3_2.html" target="_blank">加入我们</a>
-                        <a href="about_4_3.html" target="_blank">联系我们</a>
-                        <a href="about_2_1.html" target="_blank">关于我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">加入我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">联系我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">关于我们</a>
                     </div>
                 </li>
                 <li>
@@ -635,14 +639,14 @@
                 <li>
                     <div class="tit">帮助中心</div>
                     <div class="links">
-                        <a href="{:url('index/prodetail/index')}">交易流程</a>
-                        <a href="news_5_1.html">常见问题</a>
-                        <a href="product_8_2.html">自助服务</a>
+                        <a href="{:url('index/prodetail/index')}?id=4">交易流程</a>
+                        <a href="{:url('index/serves/index')}">常见问题</a>
+                        <a href="{:url('index/serves/index')}">服务中心</a>
                     </div>
                 </li>
                 <li>
                     <div class="footer_ewm">
-                        <img src="__PUBLIC__static/index/picture/1515422153_51200000.jpg"
+                        <img src="{$baseinfo.wxcode}"
                              style="width:110px;height:110px;margin-right: 10px">
                         <span style="margin-right: 10px;margin-top: 5px;">扫码关注微信</span>
                     </div>
@@ -651,15 +655,15 @@
                     <div style="display: flex;margin-top: 20px;">
                         <img src="__PUBLIC__static/index/images/phones.png"
                              style="width:30px;height:30px;margin-right: 10px">
-                        <span style="color:white;font-size: 25px;">1008610086</span>
+                        <span style="color:white;font-size: 25px;">{$baseinfo.phone}</span>
                     </div>
                     <span style="color: #7C7C7C;display: flex;padding: 10px 5px;">周一至周五 9:00-17:30</span>
                 </li>
             </ul>
         </div>
         <div class="clear footer_copyright">
-            公司地址:地质队顶顶顶顶订单的
-            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">闽ICP备0000号-1</a></p>
+            公司地址:{$baseinfo.cpaddress}
+            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">{$baseinfo.icp}</a></p>
 
         </div>
     </div>

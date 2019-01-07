@@ -123,6 +123,23 @@ class Selllist extends Base {
         if(request()->isPost()){
             $getinfo=input();
             $getid=input('id');
+            $gethytpye=input('fortype');
+            $typeid=array();
+            $typetext=array();
+            if(strstr($gethytpye,',')){
+                $hytypearr=explode(',',$gethytpye);
+                foreach ($hytypearr as $k=>$v){
+                    $idandtext=explode('|',$v);
+                    array_push($typeid,$idandtext[0]);
+                    array_push($typetext,$idandtext[1]);
+                }
+            }else{
+                $idandtext=explode('|',$gethytpye);
+                array_push($typeid,$idandtext[0]);
+                array_push($typetext,$idandtext[1]);
+            }
+            $getinfo['fortype']=implode(',',$typeid);
+            $getinfo['fortypetext']=implode('|',$typetext);
             //修改
             $re=Db::table('sellinfo')->where('id',$getid)->update($getinfo);
             if ($re){

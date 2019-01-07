@@ -23,6 +23,7 @@ class Index extends Base
 
         $haotype=$this->haotype();
         $this->assign('haotype',$haotype);
+
         //问题列表
         $gettowprob=Db::table('problist')->limit(2)->select();
         $problist=Db::table('problist')->select();
@@ -43,16 +44,41 @@ class Index extends Base
             ->join('haotype h','s.type = h.htid')
             ->join('admin a','s.kefuid = a.id')
             ->field('s.*,h.*,a.qq as kfqq')
+            ->where('s.state',2)
             ->limit(4)->select();
         foreach ($goodhao as $k=>$v){
             $goodhao[$k]['oneprice']=number_format(intval($v['price'])/intval($v['fansnum']),2);
         }
         $this->assign('goodhao',$goodhao);
 
+        //中部分类
+        $typelist2=Db::table('type')->limit(8)->select();
+        $this->assign('type2',$typelist2);
+        //公众号交易
+        $goodhao2=Db::table('sellinfo')
+            ->alias('s')
+            ->join('haotype h','s.type = h.htid')
+            ->join('admin a','s.kefuid = a.id')
+            ->field('s.*,h.*,a.qq as kfqq')
+            ->where('s.state',2)
+            ->limit(3)->select();
+        foreach ($goodhao2 as $k=>$v){
+            $goodhao2[$k]['oneprice']=number_format(intval($v['price'])/intval($v['fansnum']),2);
+        }
+        $this->assign('goodhao2',$goodhao2);
+        $basainfo=Db::table('configs')->field('cpaddress,phone,icp,wxcode,kfqq')->where('id',1)->find();
+        $this->assign('baseinfo',$basainfo);
+        //交易动态
+        $ordernews=Db::table('payorder')->select();
+        foreach ($ordernews as $k=>$v){
+            $ordernews[$k]['totime']=$this->formatTime($v['paytime']);
+        }
+        $this->assign('nowtime',$ordernews);
         return $this->fetch();
     }
     public function loginout(){
         Session::set('userid','');
     }
+
 
 }

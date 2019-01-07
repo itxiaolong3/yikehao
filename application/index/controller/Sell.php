@@ -12,8 +12,8 @@ class Sell extends Base
         $islogin=Session::get('userid');
         if ($islogin){
             if(request()->isPost()){
-                $gethytpye=input('fortype');
                 $allinfo=input();
+                $gethytpye=input('fortype');
                 $typeid=array();
                 $typetext=array();
                 if(strstr($gethytpye,',')){
@@ -55,6 +55,8 @@ class Sell extends Base
 
                 $haotype=$this->haotype();
                 $this->assign('haotype',$haotype);
+                $basainfo=Db::table('configs')->field('cpaddress,phone,icp,wxcode,kfqq')->where('id',1)->find();
+                $this->assign('baseinfo',$basainfo);
                 $userid=Session::get('userid');
                 $uinfo=Db::table('userinfo')->where('uid',$userid)->find();
                 $this->assign('uinfo',$uinfo);

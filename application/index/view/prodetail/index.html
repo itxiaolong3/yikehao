@@ -27,7 +27,7 @@
 
     <form method="get">
         <div>
-            <div><img onclick="gethref(this)" hc-href="/" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+            <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
                       src="__PUBLIC__static/index/picture/logo.jpg" width="230" height="90">
                 <div>
                     <em>
@@ -103,8 +103,12 @@
             <li>
                 <a mj-hv-sh-none href="{:url('index/aboutme/index')}" class="link">关于我们</a>
             </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li>
+                <a mj-hv-sh-none href="{:url('index/usercenter/index')}" class="link">个人中心</a>
+            </li>
         </ul>
-        <img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">
+        <!--<img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">-->
         <!--账号选择条件悬浮框-->
         <div mj-cd id="select_box" class="mj-cd"
              style="display:none;position: absolute;left: 0;top:69px;z-index:10;width: auto;border: 4px solid #1F9EBF;border-top: 0">
@@ -229,7 +233,7 @@
     }
 
 </style>
-<div id="location">当前位置：云乐互联  &gt; {$prob.title}</div>
+<div id="location">当前位置：<a href="{:url('index/serves/index')}">服务中心</a>  &gt; {$prob.title}</div>
 
     <div id="detail">
         <div>
@@ -254,9 +258,9 @@
                 <li>
                     <div class="tit">我们</div>
                     <div class="links">
-                        <a href="about_3_2.html" target="_blank">加入我们</a>
-                        <a href="about_4_3.html" target="_blank">联系我们</a>
-                        <a href="about_2_1.html" target="_blank">关于我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">加入我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">联系我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">关于我们</a>
                     </div>
                 </li>
                 <li>
@@ -270,14 +274,14 @@
                 <li>
                     <div class="tit">帮助中心</div>
                     <div class="links">
-                        <a href="{:url('index/prodetail/index')}">交易流程</a>
-                        <a href="news_5_1.html">常见问题</a>
-                        <a href="product_8_2.html">自助服务</a>
+                        <a href="{:url('index/prodetail/index')}?id=4">交易流程</a>
+                        <a href="{:url('index/serves/index')}">常见问题</a>
+                        <a href="{:url('index/serves/index')}">服务中心</a>
                     </div>
                 </li>
                 <li>
                     <div class="footer_ewm">
-                        <img src="__PUBLIC__static/index/picture/1515422153_51200000.jpg"
+                        <img src="{$baseinfo.wxcode}"
                              style="width:110px;height:110px;margin-right: 10px">
                         <span style="margin-right: 10px;margin-top: 5px;">扫码关注微信</span>
                     </div>
@@ -286,15 +290,15 @@
                     <div style="display: flex;margin-top: 20px;">
                         <img src="__PUBLIC__static/index/images/phones.png"
                              style="width:30px;height:30px;margin-right: 10px">
-                        <span style="color:white;font-size: 25px;">1008610086</span>
+                        <span style="color:white;font-size: 25px;">{$baseinfo.phone}</span>
                     </div>
                     <span style="color: #7C7C7C;display: flex;padding: 10px 5px;">周一至周五 9:00-17:30</span>
                 </li>
             </ul>
         </div>
         <div class="clear footer_copyright">
-            公司地址:地质队顶顶顶顶订单的
-            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">闽ICP备0000号-1</a></p>
+            公司地址:{$baseinfo.cpaddress}
+            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">{$baseinfo.icp}</a></p>
 
         </div>
     </div>

@@ -104,6 +104,12 @@ class Productdetail extends Base
             $imgsarr=explode("|",$detail['imgs']);
             $this->assign('imgarr',$imgsarr);
             $this->assign('detail',$detail);
+            //基本信息
+            $basainfo=Db::table('configs')->field('cpaddress,phone,icp,wxcode,kfqq')->where('id',1)->find();
+            $this->assign('baseinfo',$basainfo);
+            $userid=Session::get('userid');
+            $uinfo=Db::table('userinfo')->where('uid',$userid)->find();
+            $this->assign('uinfo',$uinfo);
             return $this->fetch();
         }
 

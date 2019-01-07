@@ -21,15 +21,15 @@
             {/notempty}
 
             <p>
-                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2852815254&site=qq&menu=yes">联系客服</a></span>
-                <span><a>服务热线：</a><i>173-5987-2786</i></span>
+                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$baseinfo.kfqq}&site=qq&menu=yes">联系客服</a></span>
+                <span><a>服务热线：</a><i>{$baseinfo.phone}</i></span>
             </p>
         </div>
     </div>
 
 <form method="get">
     <div>
-        <div><img onclick="gethref(this)" hc-href="/" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+        <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
                   src="__PUBLIC__static/index/picture/logo.jpg" width="230" height="90">
             <div>
                 <em>
@@ -105,8 +105,12 @@
             <li>
                 <a mj-hv-sh-none href="{:url('index/aboutme/index')}" class="link">关于我们</a>
             </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li>
+                <a mj-hv-sh-none href="{:url('index/usercenter/index')}" class="link">个人中心</a>
+            </li>
         </ul>
-        <img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">
+        <!--<img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">-->
 
         <!--账号选择条件悬浮框-->
         <div mj-cd id="select_box" class="mj-cd"
@@ -394,7 +398,7 @@
         <p class="mh-index-l-li-ptwo">交易时签署法律合同</p>
     </div>
     <div style="display: flex;justify-content: center;">
-        <img src="__PUBLIC__static/index/picture/1515421962_5887500.jpg" width="120" height="120">
+        <img src="{$baseinfo.wxcode}" width="120" height="120">
     </div>
 </div>
 
@@ -456,7 +460,7 @@
     .hc-gd-big {
         width: 1200px;
         margin: 0 auto;
-        height: 145px;
+        height: 55px;
         background: #fff;
         margin-top: 20px;
         overflow: hidden;
@@ -498,27 +502,19 @@
     交易动态:
     <div class="myscoll" style="margin-left: 20px;color: #B6B6BA; width:80%;height: 25px;display: inline;overflow: hidden;" >
         <ul>
+            {volist name="nowtime" id="vo"}
             <li style="color: darkgrey;" >
-                <span>我是内容1</span>
+                <span><label style="color: red">{$vo.totime}</label>&nbsp;{$vo.name}成功以<label style="color: red">{$vo.payprice}</label>元购买</span>
             </li>
-            <li style="color: darkgrey;" >
-                <span>我是内容2</span>
-            </li>
-            <li style="color: darkgrey;" >
-                <span>我是内容3</span>
-            </li>
-            <li style="color: darkgrey;" >
-                <span>我是内容4</span>
-            </li>
-
+            {/volist}
         </ul>
         <script>
             function AutoScroll2(obj) {
                 $(obj).find("ul").animate({
-                    marginTop: "-10px"
+                    marginTop: "-12px"
                 }, 2000, function() {
                     $(this).css({
-                        marginTop: "6px"
+                        marginTop: "5px"
                     }).find("li:first").appendTo(this);
                 });
             }
@@ -526,132 +522,131 @@
         </script>
     </div>
 </div>
-    <p style="border-top: 1px #E8E8E8 solid;padding-bottom: 10px;"></p>
-    <div class="hc-gd">
-        <div class="hc-gd-ul">
-            <ul hc-gd-ul>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥455555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>深圳***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥100555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥655555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥455555元购买了</span></p>
-                </div>
+    <!--<div class="hc-gd">-->
+        <!--<div class="hc-gd-ul">-->
+            <!--<ul hc-gd-ul>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥455555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>深圳***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥100555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥655555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥455555元购买了</span></p>-->
+                <!--</div>-->
 
-            </ul>
-            <ul hc-gd-ul>
-                <div class="Zx-group">
-                    <p >
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>2长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">2以￥455555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>2深圳***公司</a>
-                    </p>
-                    <p><span style="color: red;">2以￥100555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>2长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">2以￥655555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥455555元购买了</span></p>
-                </div>
+            <!--</ul>-->
+            <!--<ul hc-gd-ul>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p >-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>2长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">2以￥455555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>2深圳***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">2以￥100555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>2长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">2以￥655555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥455555元购买了</span></p>-->
+                <!--</div>-->
 
-            </ul>
-            <ul hc-gd-ul>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>3长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥455555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>3深圳***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥100555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥655555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥455555元购买了</span></p>
-                </div>
+            <!--</ul>-->
+            <!--<ul hc-gd-ul>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>3长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥455555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>3深圳***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥100555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥655555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥455555元购买了</span></p>-->
+                <!--</div>-->
 
-            </ul>
-            <ul hc-gd-ul>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>4长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">4以￥455555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>深圳***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥100555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>4长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">4以￥655555元购买了</span></p>
-                </div>
-                <div class="hc-gd-ul-span"></div>
-                <div class="Zx-group">
-                    <p>
-                        <a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>
-                    </p>
-                    <p><span style="color: red;">以￥455555元购买了</span></p>
-                </div>
+            <!--</ul>-->
+            <!--<ul hc-gd-ul>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>2天前&nbsp;</span>4长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">4以￥455555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>3天前&nbsp;</span>深圳***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥100555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>6天前&nbsp;</span>4长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">4以￥655555元购买了</span></p>-->
+                <!--</div>-->
+                <!--<div class="hc-gd-ul-span"></div>-->
+                <!--<div class="Zx-group">-->
+                    <!--<p>-->
+                        <!--<a target="_blank" href="{:url('index/productdetail/index')}"><span>六天前&nbsp;</span>长沙***公司</a>-->
+                    <!--</p>-->
+                    <!--<p><span style="color: red;">以￥455555元购买了</span></p>-->
+                <!--</div>-->
 
-            </ul>
+            <!--</ul>-->
 
-        </div>
-    </div>
+        <!--</div>-->
+    <!--</div>-->
 </div>
 <script>
     function AutoScroll(obj) {
@@ -759,158 +754,65 @@
         <div class="jiaoyi_right_top">
             <div class="jy_right_topp_l">
                 <ul>
-                    <li><a href="a">幽默搞笑</a></li>
-                    <li><a href="a">本地生活</a></li>
-                    <li><a href="a">情感杂谈</a></li>
-                    <li><a href="a">商业财经</a></li>
-                    <li><a href="a">影音视听</a></li>
-                    <li><a href="a">明星八卦</a></li>
+                    {volist name="type2" id="vo"}
+                    <li><a href="{:url('index/deal/index',['tid'=>$vo.tid])}">{$vo.name}</a></li>
+                    {/volist}
                 </ul>
             </div>
             <div class="jy_right_topp_r">
-                <a href="#"><span class="jy_r_t_rspan">发现更多</span></a>
+                <a href="{:url('index/deal/index')}"><span class="jy_r_t_rspan">发现更多</span></a>
             </div>
         </div>
         <div class="jiaoyi_right_md">
             <ul>
-                <li>
-                    <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
-                        <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                            <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                            <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
-                        </span>
-                        <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                        <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
-                        <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【教育】</label>
-                        </span>
-                        <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
-                            flex;flex-direction: column;align-items: flex-start;">￥10000</span>
-                    </div>
-                    <div style="height: 20%;display: flex;padding-left: 10px;">
-                        <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">订阅号</span>
+                {volist name="goodhao2" id="vo"}
+                    <li>
+                        <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
+                            <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
+                                <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
+                                <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">{$vo.zhname}</label>
+                            </span>
+                            <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
+                            <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
+                            <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">{$vo.fortypetext}</label>
+                            </span>
+                            <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
+                                flex;flex-direction: column;align-items: flex-start;">￥{$vo.price}</span>
                         </div>
-                        <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.5W+</span>
+                        <div style="height: 20%;display: flex;padding-left: 10px;">
+                            <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
+                                <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
+                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">{$vo.type}</span>
+                            </div>
+                            <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
+                                <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
+                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">{$vo.fansnum}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div style="height: 20%;display: flex;padding-left: 10px;">
-                        <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">61%</span>
+                        <div style="height: 20%;display: flex;padding-left: 10px;">
+                            <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
+                                <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
+                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">{$vo.sexbli}</span>
+                            </div>
+                            <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
+                                <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
+                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">{$vo.oneprice}/粉</span>
+                            </div>
                         </div>
-                        <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.00元/粉</span>
-                        </div>
-                    </div>
-                    <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
-                        <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                            <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
-                            <a href="#" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
-                            <span style="color: #F0F0F2;margin-left: 35px;">|</span>
-                        </div>
+                        <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
+                            <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
+                                <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
+                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$vo.kfqq}&site=qq&menu=yes" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
+                                <span style="color: #F0F0F2;margin-left: 35px;">|</span>
+                            </div>
 
-                        <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                            <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
-                            <a href="productdetail" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
+                            <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
+                                <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
+                                <a href="{:url('index/productdetail/index')}?id={$vo.id}" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
-                </span>
-                        <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
-                    <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【教育】</label>
-                </span>
-                        <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
-                 flex;flex-direction: column;align-items: flex-start;">￥10000</span>
-                    </div>
-                    <div style="height: 20%;display: flex;padding-left: 10px;">
-                        <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">订阅号</span>
-                        </div>
-                        <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.5W+</span>
-                        </div>
-                    </div>
-                    <div style="height: 20%;display: flex;padding-left: 10px;">
-                        <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">61%</span>
-                        </div>
-                        <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.00元/粉</span>
-                        </div>
-                    </div>
-                    <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
-                        <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                            <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
-                            <a href="#" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
-                            <span style="color: #F0F0F2;margin-left: 35px;">|</span>
-                        </div>
-
-                        <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                            <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
-                            <a href="#" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div style="height: 35%;margin-top: 5px;padding-left: 10px;">
-                <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/wx.png" width="25" height="25">
-                    <label style="color: #363733;font-weight:bold;font-size: 17px;margin-left: 8px;line-height: 25px;">我是标题标题标题标题</label>
-                </span>
-                        <span style="display: flex;align-items: center;height: 30%;padding: 8px;">
-                    <img src="__PUBLIC__static/index/images/z.png" width="25" height="25">
-                    <label style="margin-left: 8px;line-height: 25px;font-size: 13px;color: #999999;">所属行业:【教育】</label>
-                </span>
-                        <span style="color: #F94C4C;font-size: 18px;padding: 10px;font-weight:bold;display:
-                 flex;flex-direction: column;align-items: flex-start;">￥10000</span>
-                    </div>
-                    <div style="height: 20%;display: flex;padding-left: 10px;">
-                        <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">订阅号</span>
-                        </div>
-                        <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.5W+</span>
-                        </div>
-                    </div>
-                    <div style="height: 20%;display: flex;padding-left: 10px;">
-                        <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">61%</span>
-                        </div>
-                        <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
-                            <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>
-                            <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 18px;">1.00元/粉</span>
-                        </div>
-                    </div>
-                    <div style="border-top: 1px #F0F0F2 solid;height: 25%;padding-left: 10px;display: flex;">
-                        <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                            <img src="__PUBLIC__static/index/images/kf.png" width="20" height="20">
-                            <a href="#" style="color: #ABA1D9;font-size:16px;font-weight:bold;margin-left: 15px;">咨询顾问</a>
-                            <span style="color: #F0F0F2;margin-left: 35px;">|</span>
-                        </div>
-
-                        <div style="width: 50%;display: flex;justify-content: center;align-items: center;">
-                            <img src="__PUBLIC__static/index/images/xx.png" width="20" height="20">
-                            <a href="#" style="color: #BCBECA;font-size:16px;font-weight:bold;margin-left: 15px;">查看详细</a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                {/volist}
             </ul>
         </div>
     </div>
@@ -1099,9 +1001,9 @@
                 <li>
                     <div class="tit">我们</div>
                     <div class="links">
-                        <a href="about_3_2.html" target="_blank">加入我们</a>
-                        <a href="about_4_3.html" target="_blank">联系我们</a>
-                        <a href="about_2_1.html" target="_blank">关于我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">加入我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">联系我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">关于我们</a>
                     </div>
                 </li>
                 <li>
@@ -1115,14 +1017,14 @@
                 <li>
                     <div class="tit">帮助中心</div>
                     <div class="links">
-                        <a href="{:url('index/prodetail/index')}">交易流程</a>
-                        <a href="news_5_1.html">常见问题</a>
-                        <a href="product_8_2.html">自助服务</a>
+                        <a href="{:url('index/prodetail/index')}?id=4">交易流程</a>
+                        <a href="{:url('index/serves/index')}">常见问题</a>
+                        <a href="{:url('index/serves/index')}">服务中心</a>
                     </div>
                 </li>
                 <li>
                     <div class="footer_ewm">
-                        <img src="__PUBLIC__static/index/picture/1515422153_51200000.jpg"
+                        <img src="{$baseinfo.wxcode}"
                              style="width:110px;height:110px;margin-right: 10px">
                         <span style="margin-right: 10px;margin-top: 5px;">扫码关注微信</span>
                     </div>
@@ -1131,15 +1033,15 @@
                     <div style="display: flex;margin-top: 20px;">
                     <img src="__PUBLIC__static/index/images/phones.png"
                          style="width:30px;height:30px;margin-right: 10px">
-                    <span style="color:white;font-size: 25px;">1008610086</span>
+                    <span style="color:white;font-size: 25px;">{$baseinfo.phone}</span>
                     </div>
                     <span style="color: #7C7C7C;display: flex;padding: 10px 5px;">周一至周五 9:00-17:30</span>
                 </li>
             </ul>
         </div>
         <div class="clear footer_copyright">
-            公司地址:地质队顶顶顶顶订单的
-            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">闽ICP备0000号-1</a></p>
+            公司地址:{$baseinfo.cpaddress}
+            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">{$baseinfo.icp}</a></p>
 
         </div>
     </div>

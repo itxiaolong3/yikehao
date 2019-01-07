@@ -46,6 +46,16 @@ class Usercenter extends Base
                 }
                 $this->assign('fblist',$fblist);
                 //个人购买订单
+                //买号
+                $payorder=Db::table('sellinfo')
+                    ->alias('s')
+                    ->join('haotype h','s.type = h.htid')
+                    ->join('payorder p','p.gid = s.id')
+                    ->field('s.id,s.type,h.name as typename,h.htid,p.*')
+                    ->where('s.state',2)
+                   ->select();
+                $this->assign('payorder',$payorder);
+                //会员
                 $viporder=Db::table('viporder')->where(array('uid'=>$userid,'isdel'=>0))->select();
                 $this->assign('viplist',$viporder);
                 return $this->fetch();
@@ -62,6 +72,8 @@ class Usercenter extends Base
         $types=input('types');
         if ($types==0){
             $delr=Db::table('viporder')->where('id',$id)->update(array('isdel'=>1));
+        }else if($types==2){
+            $delr=Db::table('payorder')->where('id',$id)->update(array('isdel'=>1));
         }else if($types==1){
             $delr=Db::table('sellinfo')->where('id',$id)->delete();
         }
@@ -110,16 +122,29 @@ class Usercenter extends Base
         $data =ob_get_contents();
         return "data:image/jpeg;base64,".base64_encode($data);
     }
-    //获取会员状态
+    //检查是否支付完成，实时更新
     public function getstate(){
         $uid=Session::get('userid');
         $types=input('typenum');
-        $re=Db::table('userinfo')->where('uid',$uid)->find();
-        if ( $re['vipstate']==$types){
-            return true;
+        //买号的
+        $ishaopay=input('ishao');
+        $haoid=input('gid');
+        if (empty($ishaopay)){
+            $re=Db::table('userinfo')->where('uid',$uid)->find();
+            if ( $re['vipstate']==$types){
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            $res=Db::table('payorder')->where(array('uid'=>$uid,'gid'=>$haoid))->find();
+            if ( $res){
+                return true;
+            }else{
+                return false;
+            }
         }
+
     }
     //随机生成数
     public function getcode(){

@@ -25,7 +25,7 @@
 
     <form method="get">
         <div>
-            <div><img onclick="gethref(this)" hc-href="/" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+            <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
                       src="__PUBLIC__static/index/picture/logo.jpg" width="230" height="90">
                 <div>
                     <em>
@@ -571,11 +571,27 @@
                             <td>已支付</td>
                             <td>{$vo.paytime}</td>
                             <td>
-                                <button class="layui-btn layui-btn-normal" onclick="del('{$vo.id}',this,0)">删除</button>
+                                <button class="layui-btn layui-btn-danger" onclick="del('{$vo.id}',this,0)">删除</button>
                             </td>
                         </tr>
                         {/volist}
-
+                        {volist name="payorder" id="vo"}
+                        <tr>
+                            <td>{$vo.ordernum}</td>
+                            <td>
+                                {$vo.name}
+                            </td>
+                            <td>买号</td>
+                            <td>{$vo.typename}</td>
+                            <td>{$vo.payprice}</td>
+                            <td>已支付</td>
+                            <td>{$vo.paytime}</td>
+                            <td style="display:flex;">
+                                <button class="layui-btn layui-btn-danger" onclick="del('{$vo.id}',this,2)">删除</button>
+                                <a class="layui-btn layui-btn-normal" style="margin-left: 5px;" href="{:url('index/productdetail/index')}?id={$vo.id}">查看</a>
+                            </td>
+                        </tr>
+                        {/volist}
                         </tbody>
                     </table>
                 </div>
@@ -692,7 +708,7 @@
                     <div class="links">
                         <a href="{:url('index/prodetail/index')}">交易流程</a>
                         <a href="news_5_1.html">常见问题</a>
-                        <a href="product_8_2.html">自助服务</a>
+                        <a href="product_8_2.html">服务中心</a>
                     </div>
                 </li>
                 <li>

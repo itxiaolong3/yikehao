@@ -10,7 +10,7 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">公众号appid：</label>
                 <div class="formControls col-xs-6 col-sm-7">
-                    <input type="text" name="appid"  placeholder="" value="{$configs.appid}" class="input-text">
+                    <input type="text" name="appid" id="appid"  placeholder="" value="{$configs.appid}" class="input-text">
                 </div>
             </div>
             <div class="row cl">
@@ -56,21 +56,62 @@
                     <input type="text" name="accesskeyseret" placeholder="" value="{$configs.accesskeyseret}" class="input-text">
                 </div>
             </div>
-            <!--<div class="row cl">-->
-                <!--<label class="form-label col-xs-4 col-sm-2">支付界面logo图片：</label>-->
-                <!--<div class="formControls col-xs-6 col-sm-7">-->
-                    <!--<div class="layui-upload col-sm-10">-->
-                        <!--<button type="button" class="layui-btn" id="test1">选择图片</button>-->
-                        <!--<div class="layui-upload-list">-->
-                            <!--<input type="hidden" id="file_upload_image" required="required" name="gtopimg" multiple="true" value=""/>-->
-                            <!--<div id="showimg">-->
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">如下是站点基本信息</label>
+                    <div class="formControls col-xs-6 col-sm-7"><hr/></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">公司地址：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <input type="text" name="cpaddress" placeholder="" value="{$configs.cpaddress}" class="input-text">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">联系电话：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <input type="text" name="phone" placeholder="" value="{$configs.phone}" class="input-text">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">首页客服QQ：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <input type="text" name="kfqq" placeholder="" value="{$configs.kfqq}" class="input-text">
+                    </div>
+                </div>
 
-                            <!--</div>-->
-                            <!--<p id="demoText"></p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">备案ICP：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <input type="text" name="icp" placeholder="" value="{$configs.icp}" class="input-text">
+                    </div>
+                </div>
+
+                <div class="row cl" style="margin-top: 15px;margin-bottom: 15px;">
+                    <label class="form-label col-xs-4 col-sm-2">首页客服二维码：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <div class="layui-upload col-sm-10">
+                            <button type="button" class="layui-btn" id="test1">选择图片</button>
+                            <div class="layui-upload-list">
+
+                                {if condition="$configs['wxcode'] eq '' "}
+                                <input type="hidden" id="file_upload_image" name="wxcode" required="required" value=""/>
+                                <div id="showimg"></div>
+                                <p id="demoText"></p>
+                                {else/}
+                                <input type="hidden" id="file_upload_image" required="required"
+                                       name="wxcode" value="{$configs.wxcode}"/>
+                                <div id="showimg">
+                                    <li><img class='layui-upload-img' id='showone' src="{$configs.wxcode}" style='width:100px;height:100px;'>
+                                        <img class='button' onclick="deletefimg('{$configs.wxcode}');" id='oneimgclose' src="__PUBLIC__static/layer/images/fancy_close.png">
+                                    </li>
+                                </div>
+                                <p id="demoText"></p>
+                                {/if}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--<div class="row cl">-->
                     <!--<label class="form-label col-xs-4 col-sm-2">多图上传：</label>-->
                     <!--<div class="formControls col-xs-6 col-sm-7">-->
@@ -87,7 +128,7 @@
                 <div class="row cl">
                     <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                         <input type="hidden" name="id" placeholder="" value="{$configs.id}" class="input-text">
-                        <button onClick="dopost();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+                        <button onClick="dopost();" class="btn btn-primary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
                     </div>
                 </div>
             </form>
@@ -119,21 +160,20 @@
                 //var obj=JSON.parse(res);
                 console.log(res.data);
                 var newElement = "<li><img class='layui-upload-img' id='showone' src='"+res.data
-                    + "' style='width:100px;height:100px;'>" +
+                    + "' style='width:200px;height:200px;'>" +
                     "<img class='button' id='oneimgclose' src="+"__PUBLIC__static/layer/images/fancy_close.png"+"></li>";
-                if ($("#file_upload_image").val()!='images/nopic.png'){
-                    if($("#file_upload_image").val()==''){
-                        $("#showimg").append(newElement);//deleteqrcodeimg
-                        $("#file_upload_image").attr('value',res.data);
-                    }else{
-                        $("#file_upload_image").attr('value',res.data);
-                        $("#showone").attr('src',res.data);
-                    }
 
-                }else{
+                if($("#file_upload_image").val()==''){
+                    console.log('为空中设值')
                     $("#showimg").append(newElement);//deleteqrcodeimg
                     $("#file_upload_image").attr('value',res.data);
+                }else{
+                    console.log('已存在中设值')
+                    $("#file_upload_image").attr('value',res.data);
+                    $("#showone").attr('src',res.data);
                 }
+
+
                 $("#oneimgclose").bind("click", deletefimg);
                 $('#demo1').show();
                 //上传成功
@@ -194,8 +234,40 @@
         }
     });
     function dopost() {
-        layer.msg('已保存',{icon:1,time:800});
-        $('#form-article-add').submit();
+        var lod=layer.load(0, {shade: false});
+        var appid=$("input[name='appid']").val();
+        var appSecret=$("input[name='appSecret']").val();
+        var paynum=$("input[name='paynum']").val();
+        var paykey=$("input[name='paykey']").val();
+        var smscode=$("input[name='smscode']").val();
+        var smssign=$("input[name='smssign']").val();
+        var accesskeyid=$("input[name='accesskeyid']").val();
+        var accesskeyseret=$("input[name='accesskeyseret']").val();
+        var cpaddress=$("input[name='cpaddress']").val();
+        var phone=$("input[name='phone']").val();
+        var icp=$("input[name='icp']").val();
+        var wxcode=$("input[name='wxcode']").val();
+        var kfqq=$("input[name='kfqq']").val();
+        $.post('',{
+            appid:appid,
+            appSecret:appSecret,
+            paynum:paynum,
+            paykey:paykey,
+            smscode:smscode,
+            smssign:smssign,
+            accesskeyid:accesskeyid,
+            accesskeyseret:accesskeyseret,
+            cpaddress:cpaddress,
+            phone:phone,
+            icp:icp,
+            wxcode:wxcode,
+            kfqq:kfqq,
+            id:1,
+            },function (e) {
+            layer.msg('已保存',{icon:1,time:800});
+            location.reload();
+        })
+        //$('#form-article-add').submit();
     }
 
 </script>
