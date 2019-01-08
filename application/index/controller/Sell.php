@@ -31,6 +31,7 @@ class Sell extends Base
                 $allinfo['fortype']=implode(',',$typeid);
                 $allinfo['fortypetext']=implode('|',$typetext);
                 $allinfo['imgs']=substr($allinfo['imgs'],1);
+                $allinfo['oneprice']=number_format(intval($allinfo['price'])/intval($allinfo['fansnum']),2);
                 //分配销售员
                 $getonekf=Db::table('admin')->where(array('iskf'=>1,'state'=>1))->order('num asc')->limit(1)->find();
                 $allinfo['kefuid']=$getonekf['id'];

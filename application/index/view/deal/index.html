@@ -1,5 +1,4 @@
 ﻿{include file="common:header" /}
-<script type="text/javascript" src="__PUBLIC__static/index/js/areacheck/js/city.js"></script>
 <style>
     /*分页*/
     .pagination {
@@ -185,37 +184,41 @@
     function selectFour(object, type,id) {
         var url = "{:url('index/deal/index')}";
         var string = $(object).html();
-        var haotype = GetQueryString("haotype");
-        var types = GetQueryString("types");
-        var author = GetQueryString("author");
+        var haotype = GetQueryString("type")?GetQueryString("type"):'';
+        var fortype = GetQueryString("fortype")?GetQueryString("fortype"):'';
+        var fsnum = GetQueryString("fansnum")?GetQueryString("fansnum"):'';
         //价格区间
-        var email = GetQueryString("email");
+        var price = GetQueryString("price")?GetQueryString("price"):'';
+        //头条uv
+        var uv = GetQueryString("uv")?GetQueryString("uv"):'';
         //其他筛选
 
-        var fsbili = GetQueryString("fsbili");
-        var editor = GetQueryString("editor");
-        var wg = GetQueryString("wg");
-        var branch = GetQueryString("branch");
-
+        var fsbili = GetQueryString("fsbili")?GetQueryString("fsbili"):3;
+        var liu = GetQueryString("liu")?GetQueryString("liu"):'';
+        var wg = GetQueryString("wg")?GetQueryString("wg"):'';
+        var isrz = GetQueryString("isrz")?GetQueryString("isrz"):3;
         if (type == 1) {
             console.log('类型1')
             haotype = id;
         } else if (type == 2) {
             console.log('类型2')
-            types = id;
+            fortype = id;
         } else if (type == 3) {
-            email = id;
+            price = id;
         } else if (type == 4) {
             //验证类型
-            branch = id;
+            isrz = id;
         }else if (type == 5) {
             //粉丝区间
-            author = id;
+            uv = id;
+        }else if(type==6){
+
         }
-        url = url + '?haotype=' + haotype + '&types=' + types
-            + '&author=' + author + '&fsbili=' + fsbili
-            + '&editor=' + editor + '&wg=' + wg
-            + '&email=' + email + '&branch=' + branch;
+
+        url = url + '?type=' + haotype + '&fortype=' + fortype
+            + '&fansnum=' + fsnum + '&price=' + price
+            + '&uv=' + uv + '&wg=' + wg+ '&liu=' + liu
+             + '&isrz=' + isrz+ '&fsbili=' + fsbili;
         window.location.href = url;
     }
 </script>
@@ -391,50 +394,49 @@
                 <li>
                     <div class="box_left">公众号类目</div>
                     <em>
-                        <a onclick="selectFour(this,type=2,'')" class="link {$types==''?'u':''}">全部</a>
+                        <a onclick="selectFour(this,type=2,'')" class="link {$fortype==''?'u':''}">全部</a>
                         {volist name="alltype" id="vo"}
-                        <a  onclick="selectFour(this,type=2,'{$vo.tid}')" class="link {$vo['tid']==$types?'u':''}">{$vo.name}</a>
+                        <a  onclick="selectFour(this,type=2,'{$vo.tid}')" class="link {$vo['tid']==$fortype?'u':''}">{$vo.name}</a>
                         {/volist}
                     </em>
                 </li>
                 <li>
                     <div class="box_left">价格区间</div>
                     <em>
-                        <a onclick="selectFour(this,type=3,'')" class="link {$email==''?'u':''}">全部</a>
-                        <a onclick="selectFour(this,type=3,1)" class="link {$email==1?'u':''}">1万以内</a>
-                        <a onclick="selectFour(this,type=3,2)" class="link {$email==2?'u':''}">1-3万</a>
-                        <a onclick="selectFour(this,type=3,3)" class="link {$email==3?'u':''}">3-5万</a>
-                        <a onclick="selectFour(this,type=3,4)" class="link {$email==4?'u':''}">10-20万</a>
-                        <a onclick="selectFour(this,type=3,5)" class="link {$email==5?'u':''}">20万以上</a>
-                        <!--<input onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" value="" name="email_first" class="mh-pro-input"/>-->
-                        <!--<a>-</a><input onkeyup="this.value=this.value.replace(/\D/g,'')" value="" name="email_end" class="mh-pro-input"/>-->
-                        <!--<input class="mh-pro-input-sub" type="submit" value="查询"/>-->
+                        <a onclick="selectFour(this,type=3,'')" class="link {$price==''?'u':''}">全部</a>
+                        <a onclick="selectFour(this,type=3,1)" class="link {$price==1?'u':''}">1万以内</a>
+                        <a onclick="selectFour(this,type=3,2)" class="link {$price==2?'u':''}">1-3万</a>
+                        <a onclick="selectFour(this,type=3,3)" class="link {$price==3?'u':''}">3-5万</a>
+                        <a onclick="selectFour(this,type=3,4)" class="link {$price==4?'u':''}">5-7万</a>
+                        <a onclick="selectFour(this,type=3,5)" class="link {$price==5?'u':''}">7-10万</a>
+                        <a onclick="selectFour(this,type=3,6)" class="link {$price==6?'u':''}">10-20万</a>
+                        <a onclick="selectFour(this,type=3,7)" class="link {$price==7?'u':''}">20万以上</a>
                     </em>
 
                 </li>
                 <li>
-                    <div class="box_left">粉丝数量量</div>
+                    <div class="box_left">粉丝数量</div>
                     <em>
-                        <a onclick="selectFour(this,type=5,'')" class="link {$author==''?'u':''}">全部</a>
-                        <a onclick="selectFour(this,type=5,1)" class="link {$author==1?'u':''}">5000以下</a>
-                        <a onclick="selectFour(this,type=5,2)" class="link {$author==2?'u':''}">5001-1万</a>
-                        <a onclick="selectFour(this,type=5,3)" class="link {$author==3?'u':''}">1万-2万</a>
-                        <a onclick="selectFour(this,type=5,4)" class="link {$author==4?'u':''}">5-10万</a>
-                        <a onclick="selectFour(this,type=5,5)" class="link {$author==5?'u':''}">10-15万</a>
-                        <a onclick="selectFour(this,type=5,6)" class="link {$author==6?'u':''}">15-20万</a>
-                        <a onclick="selectFour(this,type=5,7)" class="link {$author==7?'u':''}">20-25万</a>
-                        <a onclick="selectFour(this,type=5,8)" class="link {$author==8?'u':''}">25-30万</a>
-                        <a onclick="selectFour(this,type=5,9)" class="link {$author==9?'u':''}">30万以上</a>
+                        <a onclick="selectFour(this,type=5,'')" class="link {$fsnum==''?'u':''}">全部</a>
+                        <a onclick="selectFour(this,type=5,1)" class="link {$fsnum==1?'u':''}">5000以下</a>
+                        <a onclick="selectFour(this,type=5,2)" class="link {$fsnum==2?'u':''}">5001-1万</a>
+                        <a onclick="selectFour(this,type=5,3)" class="link {$fsnum==3?'u':''}">1万-2万</a>
+                        <a onclick="selectFour(this,type=5,4)" class="link {$fsnum==4?'u':''}">5-10万</a>
+                        <a onclick="selectFour(this,type=5,5)" class="link {$fsnum==5?'u':''}">10-15万</a>
+                        <a onclick="selectFour(this,type=5,6)" class="link {$fsnum==6?'u':''}">15-20万</a>
+                        <a onclick="selectFour(this,type=5,7)" class="link {$fsnum==7?'u':''}">20-25万</a>
+                        <a onclick="selectFour(this,type=5,8)" class="link {$fsnum==8?'u':''}">25-30万</a>
+                        <a onclick="selectFour(this,type=5,9)" class="link {$fsnum==9?'u':''}">30万以上</a>
                     </em>
 
                 </li>
                 <li>
                     <div class="box_left">单粉均价</div>
                     <em>
-                        <a onclick="selectFour(this,type=5,'')" class="link {$author==''?'u':''}">不限</a>
-                        <input onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" value="" name="pay_first" class="mh-pro-input"/>
-                        <a>-</a><input onkeyup="this.value=this.value.replace(/\D/g,'')" value="" name="pay_end" class="mh-pro-input"/><span style="line-height: 35px;color: #939598;">元/粉</span>
-                        <input class="mh-pro-input-sub" type="submit" value="确定"/>
+                        <a onclick="selectFour(this,type=5,'')" class="link {$fsnum==''?'u':''}">不限</a>
+                        <input  type="text" value="{$min}" name="min" class="mh-pro-input"/>
+                        <span style="line-height: 37px;">-</span><input  value="{$max}" name="max" class="mh-pro-input"/><span style="line-height: 35px;color: #939598;">元/粉</span>
+                        <input class="mh-pro-input-sub" type="button" id="findone" value="确定"/>
                     </em>
 
                 </li>
@@ -442,41 +444,40 @@
                 <li>
                     <div class="box_left">头条UV</div>
                     <em>
-                        <a onclick="selectFour(this,type=5,'')" class="link {$author==''?'u':''}">不限</a>
-                        <a onclick="selectFour(this,type=5,1)" class="link {$author==1?'u':''}">3%以下</a>
-                        <a onclick="selectFour(this,type=5,2)" class="link {$author==2?'u':''}">3%-5%</a>
-                        <a onclick="selectFour(this,type=5,3)" class="link {$author==3?'u':''}">5%-8%</a>
-                        <a onclick="selectFour(this,type=5,4)" class="link {$author==4?'u':''}">8%-10%</a>
+                        <a onclick="selectFour(this,type=5,'')" class="link {$uv==''?'u':''}">不限</a>
+                        <a onclick="selectFour(this,type=5,1)" class="link {$uv==1?'u':''}">3%以下</a>
+                        <a onclick="selectFour(this,type=5,2)" class="link {$uv==2?'u':''}">3%-5%</a>
+                        <a onclick="selectFour(this,type=5,3)" class="link {$uv==3?'u':''}">5%-8%</a>
+                        <a onclick="selectFour(this,type=5,4)" class="link {$uv==4?'u':''}">8%-10%</a>
+                        <a onclick="selectFour(this,type=5,5)" class="link {$uv==4?'u':''}">10%以上</a>
                     </em>
 
                 </li>
                 <li>
                     <div class="box_left">其它筛选</div>
                     <em style="display: flex;">
-                        <select hc-rzlx typename="branch">
-                            <option {$branch==''?'selected':''}  value="">认证主体</option>
-                            <option {$branch==1?'selected':''} value="1">个人认证</option>
-                            <option {$branch==2?'selected':''} value="2">企业认证</option>
+                        <select hc-rzlx typename="isrz">
+                            <option {$isrz=='3'?'selected':''}  value="3">认证主体</option>
+                            <option {$isrz==0?'selected':''} value="0">未认证</option>
+                            <option {$isrz==1?'selected':''} value="1">个人认证</option>
+                            <option {$isrz==2?'selected':''} value="2">企业认证</option>
                         </select>
-                        <div id="checktime"><img src="__PUBLIC__static/index/images/down.png" width="23px" height="20"><input type="text" class="layui-input yeardata" id="test3" placeholder="注册时间"></div>
-
                         <select hc-rzlx typename="wg">
                             <option {$wg==''?'selected':''} value="">有无违规</option>
                             <option {$wg==1?'selected':''} value="1">不限</option>
                             <option {$wg==2?'selected':''} value="2">无违规</option>
                             <option {$wg==3?'selected':''} value="3">有违规</option>
                         </select>
-                        <select hc-rzlx typename="editor">
-                            <option {$editor==''?'selected':''} value="">女粉丝占比</option>
-                            <option {$editor==1?'selected':''} value="1">不限</option>
-                            <option {$editor==2?'selected':''} value="2">10%以下</option>
-                            <option {$editor==3?'selected':''} value="3">10-20%</option>
-                            <option {$editor==4?'selected':''} value="4">20-30%</option>
+                        <select hc-rzlx typename="fsbili">
+                            <option {$fsbili=='3'?'selected':''} value="3">性别比例</option>
+                            <option {$fsbili==0?'selected':''} value="0">男女平衡</option>
+                            <option {$fsbili==1?'selected':''} value="1">男居多</option>
+                            <option {$fsbili==2?'selected':''} value="2">女居多</option>
                         </select>
-                        <select hc-rzlx typename="editor">
-                            <option {$editor==''?'selected':''} value="">流量主是否开通</option>
-                            <option {$editor==2?'selected':''} value="1">未开通</option>
-                            <option {$editor==3?'selected':''} value="2">已开通</option>
+                        <select hc-rzlx typename="liu">
+                            <option {$liu==''?'selected':''} value="">流量主是否开通</option>
+                            <option {$liu==1?'selected':''} value="1">未开通</option>
+                            <option {$liu==2?'selected':''} value="2">已开通</option>
                         </select>
 
                     </em>
@@ -495,10 +496,10 @@
             <aside class="cleanselet"><a href="#" class="cleanall" >清空筛选条件</a></aside>
         </div>
 
-        <input name="author" type="hidden" value="">
+        <input name="fsnum" type="hidden" value="">
         <input name="exp" type="hidden" value="">
         <input name="email" type="hidden" value="">
-        <input name="branch" type="hidden" value="">
+        <input name="isrz" type="hidden" value="">
         <input name="pay" type="hidden" value="">
     </form>
 </div>
@@ -599,22 +600,18 @@
         var getstate='';
         switch(type){
             case 1:
-
                 getstate=GetQueryString("onefssort");
                 getstate = getstate == 0 ? 1 : 0;
-                window.location.href="{:url('index/deal/index')}?haotype={$gethaotype}&types={$types}&author={$author}&email={$email}&fsbili={$fsbili}&editor={$editor}&branch={$branch}&wg={$wg}&pricesort={$pricesort}&sfnumsort={$sfnumsort}&headersort={$headersort}&onefssort="+getstate;
                 break;
             case 2:
 
                 getstate=GetQueryString("pricesort");
                 getstate = getstate == 0 ? 1 : 0;
-                window.location.href="{:url('index/deal/index')}?haotype={$gethaotype}&types={$types}&author={$author}&email={$email}&fsbili={$fsbili}&editor={$editor}&branch={$branch}&wg={$wg}&pricesort="+getstate+"&sfnumsort={$sfnumsort}&headersort={$headersort}&onefssort={$onefssort}";
                 break;
             case 3:
 
                 getstate=GetQueryString("sfnumsort");
                 getstate = getstate == 0 ? 1 : 0;
-                window.location.href="{:url('index/deal/index')}?haotype={$gethaotype}&types={$types}&author={$author}&email={$email}&fsbili={$fsbili}&editor={$editor}&branch={$branch}&wg={$wg}&sfnumsort="+getstate+"&pricesort={$pricesort}&headersort={$headersort}&onefssort={$onefssort}";
                 break;
         }
     }
@@ -646,6 +643,13 @@
     $(".mh-ewm-img").mouseout(function(){
         $(this).parents("#items>li").find("table").hide();
     })
+    $("#findone").click(function () {
+        var min=$("input[name='min']").val();
+        var max=$("input[name='max']").val();
+        selectFour(this,type=6,min+"|"+max)
+        console.log('最小=='+min+'最大=='+max);
+        window.location.href = "{:url('index/deal/index')}?min="+min+"&max="+max;
+    })
 
 </script>
 
@@ -655,17 +659,21 @@
         var _typename=$(this).attr("typename");
         switch(_typename)
         {
-            case "branch":
-                var _url='{:url('index/deal/index')}?haotype={$gethaotype}&types={$types}&author={$author}&email={$email}&fsbili={$fsbili}&editor={$editor}&wg={$wg}';
+            case "isrz":
+                var _url='{:url('index/deal/index')}?type={$gethaotype}&fortype={$fortype}&fansnum={$fsnum}' +
+            '&price={$price}&uv={$uv}&fsbili={$fsbili}&liu={$liu}&wg={$wg}';
                 break;
             case "fsbili":
-                var _url='{:url('index/deal/index')}?haotype={$gethaotype}&types={$types}&author={$author}&email={$email}&branch={$branch}&editor={$editor}&wg={$wg}';
+                var _url='{:url('index/deal/index')}?type={$gethaotype}&fortype={$fortype}&fansnum={$fsnum}' +
+            '&price={$price}&uv={$uv}&liu={$liu}&isrz={$isrz}&wg={$wg}';
                 break;
-            case "editor":
-                var _url='{:url('index/deal/index')}?haotype={$gethaotype}&types={$types}&author={$author}&email={$email}&fsbili={$fsbili}&branch={$branch}&wg={$wg}';
+            case "liu":
+                var _url='{:url('index/deal/index')}?type={$gethaotype}&fortype={$fortype}&fansnum={$fsnum}' +
+            '&price={$price}&uv={$uv}&fsbili={$fsbili}&isrz={$isrz}&wg={$wg}';
                 break;
             case "wg":
-                var _url='{:url('index/deal/index')}?haotype={$gethaotype}&types={$types}&author={$author}&email={$email}&fsbili={$fsbili}&editor={$editor}&branch={$branch}';
+                var _url='{:url('index/deal/index')}?type={$gethaotype}&fortype={$fortype}&fansnum={$fsnum}' +
+            '&price={$price}&uv={$uv}&fsbili={$fsbili}&liu={$liu}&isrz={$isrz}';
                 break;
         }
         var _val=$(this).val();

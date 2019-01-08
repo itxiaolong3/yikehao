@@ -222,7 +222,7 @@
     .main{
         width: 900px;
         background-color: white;
-        height: 1130px;
+        height: 1180px;
     }
     .main_right{
         width: 300px;
@@ -365,8 +365,9 @@
             </div>
             <div class="layui-form-item" style="padding-top: 20px;">
                 <label class="layui-form-label" style="width: 100px;">UV值:</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="uv" name="uv" lay-verify="uv" autocomplete="off" placeholder="UV值" class="layui-input">
+                <div class="layui-input-inline" style="display: flex;">
+                    <input type="text" id="uv" name="uv" lay-verify="uv" autocomplete="off" placeholder="单位%" class="layui-input">
+                    <span style="color: #5FB878;font-weight:bold;padding-top: 15px;margin-left: 10px;">%</span>
                 </div>
                 <label class="layui-form-label" style="width: 120px;">头条阅读数:</label>
                 <div class="layui-input-inline">
@@ -475,12 +476,12 @@
                 }
             },
             price: function(value){
-                if(value.length < 1){
-                    return '请填写价格';
+                if(value.length < 1||value<=0){
+                    return '请填写合理价格';
                 }
             },
             fsnum: function(value){
-                if(value.length < 1){
+                if(value.length < 1||value<=0){
                     return '请填写粉丝数量';
                 }
             }

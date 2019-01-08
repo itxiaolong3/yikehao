@@ -140,6 +140,7 @@ class Selllist extends Base {
             }
             $getinfo['fortype']=implode(',',$typeid);
             $getinfo['fortypetext']=implode('|',$typetext);
+            $getinfo['oneprice']=number_format(intval($getinfo['price'])/intval($getinfo['fansnum']),2);
             //修改
             $re=Db::table('sellinfo')->where('id',$getid)->update($getinfo);
             if ($re){
