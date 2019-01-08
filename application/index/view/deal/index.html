@@ -45,7 +45,7 @@
                 <div>
                     <em>
                         <input class="hc-input" hc-title name="title" placeholder="输入您需求的关键词，如“订阅号”">
-                        <input type="submit" value="搜索" class="hc-sub" style="color: #fff;padding-left: 3px;"/>
+                        <input type="text" value="搜索" id="dokeyword" class="hc-sub" style="color: #fff;padding-left: 30px;"/>
                     </em>
                     <ul>
                         {volist name="typetop" id="vo"}
@@ -59,10 +59,22 @@
     </form>
 </div>
 <script>
-    $("[hc-sub]").click(function(){
-        var _title=$("[hc-title]").val();
-        var _href="{:url('index/deal/index')}?title="+_title;
-        window.location.href=_href;
+    document.onkeydown=function(e){
+        var e = e || event;
+        var currKey = e.keyCode || e.which || e.charCode;//支持IE,FireFox
+        if (currKey == 13) {
+            var _title = $("[hc-title]").val();
+            var url="{:url('index/deal/index',['types'=>1,'keywords'=>'keys'])}";
+            newurl=url.replace('keys',_title);
+            window.location.href = newurl;
+        }
+    }
+    $(".hc-sub").click(function () {
+        var _title = $("[hc-title]").val();
+        var url="{:url('index/deal/index',['types'=>1,'keywords'=>'keys'])}";
+        newurl=url.replace('keys',_title);
+        window.location.href = newurl;
+
     })
 </script>
 <style>
@@ -206,13 +218,12 @@
         } else if (type == 3) {
             price = id;
         } else if (type == 4) {
-            //验证类型
-            isrz = id;
+            //粉丝数量
+            fsnum=id;
         }else if (type == 5) {
             //粉丝区间
-            uv = id;
         }else if(type==6){
-
+            uv = id;
         }
 
         url = url + '?type=' + haotype + '&fortype=' + fortype
@@ -417,16 +428,16 @@
                 <li>
                     <div class="box_left">粉丝数量</div>
                     <em>
-                        <a onclick="selectFour(this,type=5,'')" class="link {$fsnum==''?'u':''}">全部</a>
-                        <a onclick="selectFour(this,type=5,1)" class="link {$fsnum==1?'u':''}">5000以下</a>
-                        <a onclick="selectFour(this,type=5,2)" class="link {$fsnum==2?'u':''}">5001-1万</a>
-                        <a onclick="selectFour(this,type=5,3)" class="link {$fsnum==3?'u':''}">1万-2万</a>
-                        <a onclick="selectFour(this,type=5,4)" class="link {$fsnum==4?'u':''}">5-10万</a>
-                        <a onclick="selectFour(this,type=5,5)" class="link {$fsnum==5?'u':''}">10-15万</a>
-                        <a onclick="selectFour(this,type=5,6)" class="link {$fsnum==6?'u':''}">15-20万</a>
-                        <a onclick="selectFour(this,type=5,7)" class="link {$fsnum==7?'u':''}">20-25万</a>
-                        <a onclick="selectFour(this,type=5,8)" class="link {$fsnum==8?'u':''}">25-30万</a>
-                        <a onclick="selectFour(this,type=5,9)" class="link {$fsnum==9?'u':''}">30万以上</a>
+                        <a onclick="selectFour(this,type=4,'')" class="link {$fsnum==''?'u':''}">全部</a>
+                        <a onclick="selectFour(this,type=4,1)" class="link {$fsnum==1?'u':''}">5000以下</a>
+                        <a onclick="selectFour(this,type=4,2)" class="link {$fsnum==2?'u':''}">5001-1万</a>
+                        <a onclick="selectFour(this,type=4,3)" class="link {$fsnum==3?'u':''}">1万-2万</a>
+                        <a onclick="selectFour(this,type=4,4)" class="link {$fsnum==4?'u':''}">2-10万</a>
+                        <a onclick="selectFour(this,type=4,5)" class="link {$fsnum==5?'u':''}">10-15万</a>
+                        <a onclick="selectFour(this,type=4,6)" class="link {$fsnum==6?'u':''}">15-20万</a>
+                        <a onclick="selectFour(this,type=4,7)" class="link {$fsnum==7?'u':''}">20-25万</a>
+                        <a onclick="selectFour(this,type=4,8)" class="link {$fsnum==8?'u':''}">25-30万</a>
+                        <a onclick="selectFour(this,type=4,9)" class="link {$fsnum==9?'u':''}">30万以上</a>
                     </em>
 
                 </li>
@@ -444,12 +455,12 @@
                 <li>
                     <div class="box_left">头条UV</div>
                     <em>
-                        <a onclick="selectFour(this,type=5,'')" class="link {$uv==''?'u':''}">不限</a>
-                        <a onclick="selectFour(this,type=5,1)" class="link {$uv==1?'u':''}">3%以下</a>
-                        <a onclick="selectFour(this,type=5,2)" class="link {$uv==2?'u':''}">3%-5%</a>
-                        <a onclick="selectFour(this,type=5,3)" class="link {$uv==3?'u':''}">5%-8%</a>
-                        <a onclick="selectFour(this,type=5,4)" class="link {$uv==4?'u':''}">8%-10%</a>
-                        <a onclick="selectFour(this,type=5,5)" class="link {$uv==4?'u':''}">10%以上</a>
+                        <a onclick="selectFour(this,type=6,'')" class="link {$uv==''?'u':''}">不限</a>
+                        <a onclick="selectFour(this,type=6,1)" class="link {$uv==1?'u':''}">3%以下</a>
+                        <a onclick="selectFour(this,type=6,2)" class="link {$uv==2?'u':''}">3%-5%</a>
+                        <a onclick="selectFour(this,type=6,3)" class="link {$uv==3?'u':''}">5%-8%</a>
+                        <a onclick="selectFour(this,type=6,4)" class="link {$uv==4?'u':''}">8%-10%</a>
+                        <a onclick="selectFour(this,type=6,5)" class="link {$uv==5?'u':''}">10%以上</a>
                     </em>
 
                 </li>
@@ -488,12 +499,13 @@
         <div class="ul_footer">
             <aside class="selectre">您选择的结果
                 <ul>
-                    <li><s class="mh-tj"><a href="#">游戏 ×</a></s></li>
-                    <li><s class="mh-tj"><a href="#">游戏 ×</a></s></li>
-                    <li><s class="mh-tj"><a href="#">游戏 ×</a></s></li>
+                    {volist name="tag" id="vo"}
+                    <!--<li><s class="mh-tj"><a href="#">{$vo} ×</a></s></li>-->
+                    <li><s class="mh-tj"><a href="#">{$vo}</a></s></li>
+                    {/volist}
                 </ul>
             </aside>
-            <aside class="cleanselet"><a href="#" class="cleanall" >清空筛选条件</a></aside>
+            <aside class="cleanselet"><a href="{:url('index/deal/index')}" class="cleanall" >清空筛选条件</a></aside>
         </div>
 
         <input name="fsnum" type="hidden" value="">

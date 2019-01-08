@@ -34,7 +34,7 @@
                 <div>
                     <em>
                         <input class="hc-input" hc-title name="title" placeholder="输入您需求的关键词，如“订阅号”">
-                        <input type="submit" value="搜索" class="hc-sub" style="color: #fff;padding-left: 3px;"/>
+                        <input type="text" value="搜索" id="dokeyword" class="hc-sub" style="color: #fff;padding-left: 30px;"/>
                     </em>
                     <ul>
                         {volist name="typetop" id="vo"}
@@ -50,10 +50,20 @@
 <script>
     $(".hc-sub").click(function () {
         var _title = $("[hc-title]").val();
-        alert(_title);
-        var _href = "?title=" + _title;
-        window.location.href = _href;
+        var url="{:url('index/deal/index',['types'=>1,'keywords'=>'keys'])}";
+        newurl=url.replace('keys',_title);
+        window.location.href = newurl;
+
     })
+    function loginout() {
+        layer.load(0, {shade: false});
+        $.post("{:url('index/index/loginout')}",{},function (e) {
+            layer.msg('已退出');
+            setTimeout(function () {
+                window.location.reload();
+            },1000)
+        })
+    }
 </script>
 <style>
     #header2 > div:first-child {
@@ -182,26 +192,22 @@
                 <li>
                     <s>价格区间：</s>
                     <em>
-                        <a onclick="selectFour(this,type=3)" class="link u">不限</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">0-1万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">1-5万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">5-10万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">10-15万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">15-20万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">20-25万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">25-30万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">30万以上</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">30-50万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">50-80万</a>
-                        <a onclick="selectFour(this,type=3)" class="link ">80万以上</a>
+                        <a onclick="selectFour(this,type=3,'')" class="link">全部</a>
+                        <a onclick="selectFour(this,type=3,1)" class="link">1万以内</a>
+                        <a onclick="selectFour(this,type=3,2)" class="link">1-3万</a>
+                        <a onclick="selectFour(this,type=3,3)" class="link">3-5万</a>
+                        <a onclick="selectFour(this,type=3,4)" class="link">5-7万</a>
+                        <a onclick="selectFour(this,type=3,5)" class="link">7-10万</a>
+                        <a onclick="selectFour(this,type=3,6)" class="link">10-20万</a>
+                        <a onclick="selectFour(this,type=3,7)" class="link">20万以上</a>
                     </em>
                 </li>
                 <li>
                     <s>认证类型：</s>
                     <em>
-                        <a onclick="selectFour(this,type=4)" class="link u">不限</a>
-                        <a onclick="selectFour(this,type=4)" class="link ">未认证</a>
-                        <a onclick="selectFour(this,type=4)" class="link ">已认证</a>
+                        <a onclick="selectFour(this,type=4,3)" class="link u">不限</a>
+                        <a onclick="selectFour(this,type=4,0)" class="link ">未认证</a>
+                        <a onclick="selectFour(this,type=4,1)" class="link ">已认证</a>
                     </em>
                 </li>
             </ul>
@@ -241,22 +247,23 @@
         var string = $(object).html();
         console.log('string==' + string);
         var haotype = "";
-        var types = "";
-        var author = "";
-        var exp = "";
-        var email = "";
-        var branch = "";
+        var fortype = "";
+        var price = "";
+        var isrz = "";
 
         if (type == 1) {
             haotype = id;
+            url = url + '?type=' + haotype
         } else if (type == 2) {
-            types = id;
+            fortype = id;
+            url = url + '?fortype=' + fortype
         } else if (type == 3) {
-            email = id;
+            price = id;
+            url = url + '?price=' + price
         } else if (type == 4) {
-            branch = id;
+            isrz = id;
+            url = url + '?isrz=' + isrz
         }
-        url = url + '?haotype=' + haotype + '&types=' + types + '&author=' + author + '&exp=' + exp + '&email=' + email + '&branch=' + branch;
         window.location.href = url;
     }
 </script>

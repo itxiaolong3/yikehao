@@ -58,6 +58,11 @@ class Usercenter extends Base
                 //会员
                 $viporder=Db::table('viporder')->where(array('uid'=>$userid,'isdel'=>0))->select();
                 $this->assign('viplist',$viporder);
+                $basainfo=Db::table('configs')->field('cpaddress,phone,icp,wxcode,kfqq')->where('id',1)->find();
+                $this->assign('baseinfo',$basainfo);
+                $userid=Session::get('userid');
+                $uinfo=Db::table('userinfo')->where('uid',$userid)->find();
+                $this->assign('uinfo',$uinfo);
                 return $this->fetch();
             }
 

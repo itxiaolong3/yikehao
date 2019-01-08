@@ -15,36 +15,17 @@
     }
 
 </style>
-<div style="display: none" id="header">
-    <div>
-        <div>您好，欢迎来到云乐互联！
-            <p><s><a class="link">联系客服</a></s><s><a>服务热线：</a><i>173-5987-2786</i></s></p>
-        </div>
-    </div>
-    <form  method="get" >
-        <div>
-            <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}"  alt="公众号出售-公众号价格-公众号买卖-万易云公众号交易平台" src="__PUBLIC__static/index/picture/1522210272_68400000.jpg">
-                <div>
-                    <em>
-                        <input class="hc-input" hc-title name="title" placeholder="输入您需求的关键词，如“订阅号”">
-                        <input type="submit" value="搜索" class="hc-sub" style="color: #fff;padding-left: 3px;"/>
-                    </em>
-                    <ul>
-                        {volist name="typetop" id="vo"}
-                        <li><a style="color:#787878" href="{:url('index/deal/index',['tid'=>$vo.tid])}" class="link">{$vo.name}</a></li>
-                        {/volist}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+
 <div id="header2">
     <div>
-        <div style="margin: 0 auto;width: 1200px;position: relative">您好，欢迎来到云乐互联！
+        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到云乐互联！
+            {notempty name="uinfo"}
+            <span onclick="loginout();" style="cursor: pointer;">【退出】</span>
+            {/notempty}
+
             <p>
-                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2852815254&site=qq&menu=yes">联系客服</a></span>
-                <span><a>服务热线：</a><i>173-5987-2786</i></span>
+                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$baseinfo.kfqq}&site=qq&menu=yes">联系客服</a></span>
+                <span><a>服务热线：</a><i>{$baseinfo.phone}</i></span>
             </p>
         </div>
     </div>
@@ -56,7 +37,7 @@
                 <div>
                     <em>
                         <input class="hc-input" hc-title name="title" placeholder="输入您需求的关键词，如“订阅号”">
-                        <input type="submit" value="搜索" class="hc-sub" style="color: #fff;padding-left: 3px;"/>
+                        <input type="text" value="搜索" id="dokeyword" class="hc-sub" style="color: #fff;padding-left: 30px;"/>
                     </em>
                     <ul>
                         {volist name="typetop" id="vo"}
@@ -70,11 +51,22 @@
     </form>
 </div>
 <script>
-    $("[hc-sub]").click(function(){
-        var _title=$("[hc-title]").val();
-        var _href="{:url('index/deal/index')}?title="+_title;
-        window.location.href=_href;
+    $(".hc-sub").click(function () {
+        var _title = $("[hc-title]").val();
+        var url="{:url('index/deal/index',['types'=>1,'keywords'=>'keys'])}";
+        newurl=url.replace('keys',_title);
+        window.location.href = newurl;
+
     })
+    function loginout() {
+        layer.load(0, {shade: false});
+        $.post("{:url('index/index/loginout')}",{},function (e) {
+            layer.msg('已退出');
+            setTimeout(function () {
+                window.location.reload();
+            },1000)
+        })
+    }
 </script>
 <style>
     #header2>div:first-child{
@@ -610,7 +602,7 @@
                     <a>注册时间</a><i style="width: 100px;">{$detail.regtime}</i>
                 </li>
                 <li>
-                    <a>所属类目</a><i>{$detail.fortypetext}</i>
+                    <a>所属类目</a><i style="width: 120px;">{$detail.fortypetext}</i>
                     <a>阅读UV</a><i>{$detail.UV}</i>
                     <a>粉丝数量</a><i>{$detail.fansnum}</i>
                 </li>

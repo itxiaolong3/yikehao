@@ -25,10 +25,14 @@ class Deal extends Base
         $uinfo=Db::table('userinfo')->where('uid',$userid)->find();
         $this->assign('uinfo',$uinfo);
         $pageparam=['query'=>[]];//查询条件
+        $bzarr=array();
         //最新参数
         $gethaotype=input('type');
         if ($gethaotype){
             $pageparam['query']['type']=$gethaotype;
+            //账号类型
+            $htypes=Db::table('haotype')->where('htid',$gethaotype)->find();
+            array_push($bzarr,$htypes['name']);
         }
         $gettypes=input('fortype');
 
@@ -36,24 +40,31 @@ class Deal extends Base
         if ($price){
             switch ($price){
                 case 1:
+                    array_push($bzarr,'一万以内');
                     $pageparam['query']['price']=array('<',10000);
                     break;
                 case 2:
+                    array_push($bzarr,'1-3万');
                     $pageparam['query']['price']=array('between','10000,30000');
                     break;
                 case 3:
+                    array_push($bzarr,'3-5万');
                     $pageparam['query']['price']=array('between','30000,50000');
                     break;
                 case 4:
+                    array_push($bzarr,'5-7万');
                     $pageparam['query']['price']=array('between','50000,70000');
                     break;
                 case 5:
+                    array_push($bzarr,'7-10万');
                     $pageparam['query']['price']=array('between','70000,100000');
                     break;
                 case 6:
+                    array_push($bzarr,'10-20万');
                     $pageparam['query']['price']=array('between','100000,200000');
                     break;
                 case 7:
+                    array_push($bzarr,'20万以上');
                     $pageparam['query']['price']=array('>',200000);
                     break;
             }
@@ -62,30 +73,39 @@ class Deal extends Base
         if ($fsnum){
             switch ($fsnum){
                 case 1:
+                    array_push($bzarr,'5000以下');
                     $pageparam['query']['fansnum']=array('<',5000);
                     break;
                 case 2:
+                    array_push($bzarr,'5001-1万');
                     $pageparam['query']['fansnum']=array('between', '5001,10000');
                     break;
                 case 3:
+                    array_push($bzarr,'1万-2万');
                     $pageparam['query']['fansnum']=array('between', '10000,20000');
                     break;
                 case 4:
-                    $pageparam['query']['fansnum']=array('between', '50000,100000');
+                    array_push($bzarr,'2万-10万');
+                    $pageparam['query']['fansnum']=array('between', '20000,100000');
                     break;
                 case 5:
+                    array_push($bzarr,'10万-15万');
                     $pageparam['query']['fansnum']=array('between', '100000,150000');
                     break;
                 case 6:
+                    array_push($bzarr,'15万-20万');
                     $pageparam['query']['fansnum']=array('between', '150000,200000');
                     break;
                 case 7:
+                    array_push($bzarr,'20万-25万');
                     $pageparam['query']['fansnum']=array('between', '200000,250000');
                     break;
                 case 8:
+                    array_push($bzarr,'25万-30万');
                     $pageparam['query']['fansnum']=array('between', '250000,300000');
                     break;
                 case 9:
+                    array_push($bzarr,'30万以上');
                     $pageparam['query']['fansnum']=array('<',300000);
                     break;
             }
@@ -96,23 +116,29 @@ class Deal extends Base
         if ($uv){
             switch ($uv){
                 case 1:
+                    array_push($bzarr,'3%以下');
                     $pageparam['query']['UV']=array('<',3);
                     break;
                 case 2:
+                    array_push($bzarr,'3%-5%以下');
                     $pageparam['query']['UV']=array('between','3,5');
                     break;
                 case 3:
+                    array_push($bzarr,'5%-8%以下');
                     $pageparam['query']['UV']=array('between','5,8');
                     break;
                 case 4:
+                    array_push($bzarr,'8%-10%以下');
                     $pageparam['query']['UV']=array('between','8,10');
                     break;
                 case 5:
+                    array_push($bzarr,'10%以上');
                     $pageparam['query']['UV']=array('>',10);
                     break;
             }
         }
-        $bzarr=array();
+
+
         $isrz=input('isrz',3);//认证类型
         $getfsbili=input('fsbili',3);//粉丝比例
         $getliu=input('liu');//流量主
@@ -171,15 +197,18 @@ class Deal extends Base
         $pageparam['query']['zhname']=['like',"%".$getkeyword."%"];
         $pageparam['query']['state']=2;
         $this->assign('keyword',$getkeyword);
-
+        $min=input('min');
+        $max=input('max');
         if($gettypes){
+            //查找需要查找的分类
+            $types=Db::table('type')->where('tid',$gettypes)->find();
+            array_push($bzarr,$types['name']);
             $selllist=Db::table('sellinfo')
                 ->where($pageparam['query'])
                 ->where('FIND_IN_SET(:types,fortype)',['types' => $gettypes])//查询数据库某字段的值是否存在该值
                 ->paginate(2,false,['query' => Request::instance()->param()]);
         }else{
-            $min=input('min');
-            $max=input('max');
+
             if ($max>0&&$min>0){
                 if ($max>$min){
                     $selllist=Db::table('sellinfo')
@@ -215,7 +244,7 @@ class Deal extends Base
 //                ->paginate(2,false,['query' => Request::instance()->param()]);
 //            dump($data);
 //        }
-
+        $this->assign('tag',$bzarr);
         $this->assign('list',$newlist);
         $this->assign('page',$selllist->render());
         return $this->fetch();
