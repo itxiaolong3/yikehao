@@ -11,6 +11,7 @@
         opacity: 0;
         display: none;
     }
+    *{margin:0;padding:0;}
 
 </style>
 <div id="header2">
@@ -383,7 +384,7 @@
         </script>
     </div>
 </div>
-<div class="mh-index-l" style="z-index:3;position: absolute;top: 194px;right: 20%;">
+<div class="mh-index-l" style="z-index:3;position: absolute;top: 194px;right: 2%;">
     <p class="mh-index-l-p">hi，欢迎来到云乐互联</p>
     {empty name="uinfo"}
     <a class="mh-index-l-a"  href="{:url('/login')}">立即登录/注册</a>
@@ -795,7 +796,7 @@
                         <div style="height: 20%;display: flex;padding-left: 10px;">
                             <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
                                 <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">公众号类型</span>
-                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">{$vo.type}</span>
+                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">{$vo.name}</span>
                             </div>
                             <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
                                 <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝数量</span>
@@ -805,7 +806,13 @@
                         <div style="height: 20%;display: flex;padding-left: 10px;">
                             <div style="border-top: 1px #F0F0F2 solid;border-right: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content: flex-start;justify-content: center;">
                                 <span style="color: #B1B1B1;font-size: 10px;padding: 4px 10px;">男女比例</span>
-                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">{$vo.sexbli}</span>
+                                <span style="color: #505155;font-size: 15px;font-weight:bold;padding: 4px 10px;">
+                                    {switch name="$vo.sexbli" }
+                                        {case value="1"}男居多{/case}
+                                        {case value="2"}女居多{/case}
+                                        {default /}男女平衡
+                                    {/switch}
+                                    </span>
                             </div>
                             <div style="border-top: 1px #F0F0F2 solid;width:50%;display: flex;flex-direction: column;align-content:center;justify-content: center;">
                                 <span style="color: #B1B1B1;font-size: 10px;padding: 4px 18px;">粉丝单价</span>

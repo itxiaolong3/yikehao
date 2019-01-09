@@ -11,7 +11,7 @@
         opacity: 0;
         display: none;
     }
-
+    *{margin:0;padding:0;margin: 0}
 </style>
 <div id="header2">
     <div>
@@ -118,24 +118,26 @@
         font-weight: bold;
     }
     .right_li{
-        border-bottom: 3px #F5D1D2 solid;font-size: 20px!important;font-weight: bold;color: #4D4D4D;padding-bottom: 5px;
+        font-weight: bold;!important;color: black;padding-bottom: 5px;
     }
     .left_li{
-        border-bottom: 3px #F5D1D2 solid;font-size: 20px!important;font-weight: bold;color: #4D4D4D;padding-bottom: 5px;
+        font-weight: bold;!important;color: black;padding-bottom: 5px;
     }
     .cont_bt_right{
         position: absolute;
-        top: 73%;
-        right: 26%;
+        top: 75%;
+        right: 25%;
         padding: 15px;
+        margin-right: 5px;
         background: #0c94eb;
         color: white;
     }
     .cont_bt_left{
         position: absolute;
-        top: 80%;
-        right: 26%;
+        right: 25%;
+        top: 81%;
         padding: 15px;
+        margin-right: 5px;
         background: #5C72F6;
         color: white;
     }
@@ -281,7 +283,7 @@
 
                         <p style="margin-top: 65px; clear: both; overflow: hidden;">
                             <span class="eva-div2-span1">公众号估价</span>
-                            <span class="eva-div2-span2" id="allCount">累计有<label style="color:#4FB1CC;font-size: 17px;font-weight: bold;">4668</label>位号主进行了公众号估价</span>
+                            <span class="eva-div2-span2" id="allCount">累计有<label style="color:#4FB1CC;font-size: 17px;font-weight: bold;" id="donum">4668</label>位号主进行了公众号估价</span>
                         </p>
                         <p class="eva-div2-p1" style="margin-top:30px;">
                             <span class="eva-div2-span3">公众号名称:</span>
@@ -354,7 +356,7 @@
                             <li id="yuanc">已开通</li>
                             <li id="changzt">主体可通过认证来变更</li>
                         </ul>
-                        <div style="position: absolute;top: 90%;right: 48%;">
+                        <div style="position: absolute;margin-top: 50px;right: 48%;">
                             <div>
                                 <span style="font-size: 23px;height: 20px;line-height: 32px;">
                                 市场价值：<label style="font-size: 35px;color: red;margin-bottom: 10px;" id="guzhiprice">5000.00</label>
@@ -367,12 +369,15 @@
 
                     </div>
                 </div>
-                <div class="cont_bt_right">
-                    <a id="down1" href="" download="downImg" style="color:white;cursor: pointer" >下载到本地</a>
+                <div style="height: 100%;width: 30%;">
+                    <div class="cont_bt_right">
+                        <a id="down1" href="" download="downImg" style="color:white;cursor: pointer" >下载到本地</a>
+                    </div>
+                    <div class="cont_bt_left">
+                        <a href="{:url('index/sell/index')}" style="color:white;cursor: pointer">返回购买页</a>
+                    </div>
                 </div>
-                <div class="cont_bt_left">
-                    <a href="{:url('index/sell/index')}" style="color:white;cursor: pointer">返回购买页</a>
-                </div>
+
             </div>
 
         </div>
@@ -417,6 +422,7 @@
     var maxMoney = 1;//最大估值
     var isyuanc;
     var zhuti;
+    $("#donum").text(rnd(1000,9999));
     $(function() {
         $(".cur1").removeClass("cur1");
         $("#evaluatePage").addClass("cur1");
@@ -551,6 +557,7 @@
             $("#yuanc").text(isyuanc);
             $("#changzt").text(zhuti);
             $("#wordorder").text(rnd(9999,99999));
+
             $(".eva-div2-div2").hide();
             showdown();
             $(".conts").show();

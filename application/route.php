@@ -57,9 +57,10 @@ return [
     'payforcode'=>'index/Login/payforcode',
 
     'admin/user'=>'admin/Userlist/index',
-    'admin/orderlist'=>'admin/Orderlist/index',
+    'orderlist'=>'admin/Orderlist/index',
     'admin/viporder'=>'admin/Orderlist/viporder',
     'admin/myorder'=>'admin/Orderlist/myorder',
+    'admin/details'=>'admin/Orderlist/details',
     'admin/index'=>'admin/Index/index',
     'configs'=>'admin/Index/index',
     'uploadimg'=>'admin/Index/upImg',

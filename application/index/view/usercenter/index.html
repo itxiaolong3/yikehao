@@ -254,7 +254,6 @@
     .m_right{
         width: 78%;
         background-color: white;
-        height: 800px;
     }
     .m_right .title {
         display: flex;
@@ -627,12 +626,11 @@
                         {else /}
                         <thead>
                         <tr>
-                            <th>发布时间</th>
+                            <th>注册时间</th>
                             <th>发布名称</th>
                             <th>分类</th>
                             <th>价格</th>
                             <th>联系方式</th>
-                            <th>销售员QQ</th>
                             <th>发布状态</th>
                             <th>操作</th>
                         </tr>
@@ -647,15 +645,15 @@
                                 <td>{$vo.fortypetext}</td>
                                 <td>{$vo.price}</td>
                                 <td>{$vo.phone}</td>
-                                <td>{$vo.kfqq}</td>
                                 <td>{switch name="vo.state"}
                                     {case value="1"}已发布{/case}
                                     {case value="2"}被拒绝{/case}
                                     {default /}待审核
                                     {/switch}
                                 </td>
-                                <td>
-                                    <button class="layui-btn layui-btn-normal" onclick="del('{$vo.id}',this,1)">删除</button>
+                                <td style="display: flex">
+                                    <button class="layui-btn layui-btn-danger" onclick="del('{$vo.id}',this,1)">删除</button>
+                                    <a class="layui-btn layui-btn-normal" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$vo.kfqq}&site=qq&menu=yes">销售专员</a>
                                     {if condition="$vo.state eq 2"}<button class="layui-btn layui-btn-warm" id="nopassdesc">查看原因</button>{/if}
 
                                 </td>

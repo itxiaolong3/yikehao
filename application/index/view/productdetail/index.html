@@ -735,7 +735,7 @@
                                     <div class="wemedia-xq-three-a-a">
                                         <div class="wemedia-xq-three-a-a-01">
                                             <img src="__PUBLIC__static/index/images/jy01.png"width="100" height="100">
-                                            <img src="__PUBLIC__static/index/images/lcr.png"width="80" height="30" style="padding-left: 20px;">
+                                            <img src="__PUBLIC__static/index/images/lcr.png"width="80" height="20" style="padding-left: 20px;">
                                         </div>
                                         <div class="wemedia-xq-three-a-ab">交易达成一致</div>
                                     </div>
@@ -745,7 +745,7 @@
                                     <div class="wemedia-xq-three-a-a">
                                         <div class="wemedia-xq-three-a-a-02" >
                                             <img src="__PUBLIC__static/index/images/jy02.png"width="100" height="100">
-                                            <img src="__PUBLIC__static/index/images/lcr.png"width="80" height="30" style="padding-left: 20px;">
+                                            <img src="__PUBLIC__static/index/images/lcr.png" height="20" style="margin-left: 20px;">
                                         </div>
                                         <div class="wemedia-xq-three-a-ab">下单买方支付款项</div>
                                     </div>
@@ -755,7 +755,7 @@
                                     <div class="wemedia-xq-three-a-a">
                                         <div class="wemedia-xq-three-a-a-03">
                                             <img src="__PUBLIC__static/index/images/jy03.png"width="100" height="100">
-                                            <img src="__PUBLIC__static/index/images/lcr.png"width="80" height="30" style="padding-left: 20px;">
+                                            <img src="__PUBLIC__static/index/images/lcr.png" height="20" style="margin-left: 20px;">
                                         </div>
                                         <div class="wemedia-xq-three-a-ab">卖方给买方发货</div>
                                     </div>
@@ -765,7 +765,7 @@
                                     <div class="wemedia-xq-three-a-a">
                                         <div class="wemedia-xq-three-a-a-04">
                                             <img src="__PUBLIC__static/index/images/jy04.png"width="100" height="100">
-                                            <img src="__PUBLIC__static/index/images/lcr.png"width="80" height="30" style="padding-left: 20px;">
+                                            <img src="__PUBLIC__static/index/images/lcr.png" height="20" style="margin-left: 20px;">
                                         </div>
                                         <div class="wemedia-xq-three-a-ab">买方确认物品</div>
                                     </div>
@@ -943,7 +943,7 @@
         $('.main').removeClass('dohidden');
     }
     function showphone() {
-        layer.confirm('普通会员最多免费看3个商家，是否继续',function(index){
+        layer.confirm('<label style="color: red;">重点提示</label>  一定要经过云乐互联担保交易，保证资金100%安全。普通会员最多免费看3个商家，是否继续',function(index){
             var lod=layer.load(0, {shade: false});
             $.post('',{id:"{$detail.id}"},function (e) {
                 var datas=JSON.parse(e);

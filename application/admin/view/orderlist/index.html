@@ -18,25 +18,23 @@
 						<th scope="col" colspan="7">订单管理</th>
 					</tr>
 					<tr class="text-c">
-						<th width="40">ID</th>
-						<th width="70">用户名</th>
-						<th width="100">密码</th>
-						<th width="110">微信</th>
-						<th width="100">手机号</th>
-						<th width="100">QQ</th>
-						<th width="70">注册时间</th>
+						<th width="80">订单号</th>
+						<th width="120">名称</th>
+						<th width="100">下单手机</th>
+						<th width="110">支付金额</th>
+						<th width="70">支付时间</th>
+						<th width="70">操作</th>
 					</tr>
 				</thead>
 				<tbody>
 				{volist name="list" id="vo"}
 					<tr class="text-c">
-						<td>{$vo.uid}</td>
-						<td>{$vo.username}</td>
-						<td>{$vo.psw}</td>
-						<td>{$vo.wx}</td>
+						<td>{$vo.ordernum}</td>
+						<td>{$vo.name}</td>
 						<td>{$vo.phone}</td>
-						<td>{$vo.qq}</td>
-						<td>{$vo.addtime}</td>
+						<td>{$vo.payprice}</td>
+						<td>{$vo.paytime}</td>
+						<td><a onclick="showdetail('订单详细','{:url(\'admin/Orderlist/details\',[\'id\'=>$vo.id])}','1','1500','900')" style="background-color: #0da3f9;color: white;padding: 1px 8px;">订单详细</a></td>
 						<!--<td class="f-14">-->
 							<!--<a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>-->
 						<!--</td>-->
@@ -61,6 +59,9 @@
         // })
 
     })
+    function showdetail(title,url,id,w,h) {
+        layer_show(title,url,w,h);
+    }
 /*管理员-角色-删除*/
 function admin_role_del(obj,id){
 	layer.confirm('角色删除须谨慎，确认要删除吗？',function(index){

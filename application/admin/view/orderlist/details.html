@@ -1,0 +1,115 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="Bookmark" href="favicon.ico" >
+	<link rel="Shortcut Icon" href="favicon.ico" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="__PUBLIC__static/h-admin/lib/html5.js"></script>
+	<script type="text/javascript" src="__PUBLIC__static/h-admin/lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__static/h-admin/static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__static/h-admin/static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__static/h-admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__static/h-admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__static/h-admin/static/h-ui.admin/css/style.css" />
+	<!--layer-->
+	<link href="__PUBLIC__static/layer/css/layui.css" rel="stylesheet">
+	<script src="__PUBLIC__static/layer/layui.js" charset="utf-8"></script>
+	<!--layer结束-->
+	<!--[if IE 6]>
+    <!--编辑器-->
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__static/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__static/ueditor/ueditor.all.min.js"> </script>
+	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__static/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+	<!--编辑器-->
+	<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+	<title>后台管理系统</title>
+	<meta name="keywords" content="后台管理系统">
+	<meta name="description" content="后台管理系统">
+</head>
+<body>
+<table class="table table-border table-bordered table-hover" style="padding: 20px;">
+	<tr>
+		<th class="col1">订单号</th>
+		<td class="col2">{$order.zhname}</td>
+		<td class="col3">支付金额</td>
+		<td class="col4">{$order.payprice}</td>
+	</tr>
+	<tr>
+		<th class="col1">账号标价</th>
+		<td class="col2">{$order.price}</td>
+		<td class="col3">卖家手机</td>
+		<td class="col4">{$order.phone}</td>
+	</tr>
+	<tr>
+		<th class="col1">用户手机</th>
+		<td class="col2">{$order.ophone}</td>
+		<td class="col3">账号名称</td>
+		<td class="col4">{$order.zhname}</td>
+	</tr>
+	<tr>
+		<th class="col1">所属分类</th>
+		<td class="col2">{$order.fortypetext}</td>
+		<td class="col3">是否认证</td>
+		<td class="col4">{$order.isrz?'已认证':'未认证'}</td>
+	</tr>
+	<tr>
+		<th class="col1">商家描述</th>
+		<td class="col2"  rowspan="3">{$order.desc}</td>
+
+	</tr>
+</table>
+<div style="display:flex;justify-content:center;font-size: 20px;margin-bottom: 20px;">账号附图</div>
+{volist name="imgarr" id="vo"}
+<div><img src="{$vo}" style="width: 100%;height: 100%;padding-top: 10px;"/></div>
+{/volist}
+{include file="common:footer" /}
+<script>
+    layui.use(['form','layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,upload = layui.upload
+            ,laydate = layui.laydate;
+        //监听提交
+        form.on('select()', function(data){
+
+        });
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            layer.msg('点击返回')
+            return false;
+        });
+        function getcheckbox() {
+            getres = $("input:checkbox[name='hyftype']:checked").map(function(index,elem) {
+                return $(elem).val();
+            }).get().join(',');
+            if (getres==''){
+                return ''
+            }else{
+                return getres
+            }
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(function(){
+        $("#form-admin-add").click(function () {
+
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

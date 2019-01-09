@@ -156,10 +156,10 @@ class Selllist extends Base {
             $id=input('id');
             $infos=Db::table('sellinfo')->where('id',$id)->find();
             $imgsarr=explode("|",$infos['imgs']);
+            $this->assign('imgarr',$imgsarr);
             $this->assign('info',$infos);
             $alltype=$this->getalltype();
             $this->assign('alltype',$alltype);
-            $this->assign('imgarr',$imgsarr);
 
             $haotype=$this->haotype();
             $this->assign('haotype',$haotype);

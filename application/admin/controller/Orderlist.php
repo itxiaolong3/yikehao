@@ -29,6 +29,8 @@ class Orderlist extends Base {
             $loginname=Session::get('loginname');
             $this->assign('rootname',$rootname);
             $this->assign('loginname',$loginname);
+            $order=Db::table('payorder')->select();
+            $this->assign('list',$order);
             return $this->fetch();
         }else{
             echo "无权访问";
@@ -115,5 +117,35 @@ class Orderlist extends Base {
 
         }
     }
-
+    public function details(){
+        $getrootids=session('rootids');
+        $idsarr=explode(',',$getrootids);
+        $this->assign('ids',$getrootids);
+        $id=input('id');//订单id
+        $order=Db::table('payorder')
+            ->alias('p')
+            ->join('sellinfo s','p.gid=s.id')
+            ->field('p.ordernum,p.phone as ophone,p.payprice,s.*')
+            ->where(array('p.id'=>$id))
+            ->find();
+        $imgsarr=explode("|",$order['imgs']);
+        $this->assign('imgarr',$imgsarr);
+        $this->assign('order',$order);
+        return $this->fetch();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
