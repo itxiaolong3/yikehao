@@ -51,7 +51,7 @@ class Myapi extends \think\Controller{
     //微信登录入口
     public function wxlogin(){
         $wxConfig=Db::table('configs')->where('id',1)->find();
-        $url = urlencode(request()->domain().'/tp5/index/myapi/dealwxlogin');
+        $url = urlencode(request()->domain().'/yikehao/index/myapi/dealwxlogin');
         $apiUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$wxConfig['appid']}&redirect_uri={$url}&response_type=code&scope=snsapi_userinfo#wechat_redirect";
         header('Location:'.$apiUrl);
     }
@@ -267,4 +267,74 @@ class Myapi extends \think\Controller{
             return $encrypted;
         }
     }
+    //轮播图
+    public function getbanner(){
+        $bannerlist=Db::table('banner')->select();
+        foreach ($bannerlist as $k=>$v){
+            $bannerlist[$k]['imgs']=request()->domain().$v['imgs'];
+        }
+        if ($bannerlist){
+            $res['code']=1;
+            $res['msg']='获取轮播图';
+            $res['data']=$bannerlist;
+            echo json_encode($res);
+        }else{
+            $res['code']=0;
+            $res['msg']='无数据';
+            $res['data']=$bannerlist;
+            echo json_encode($res);
+        }
+    }
+    //头部分类
+    public function gettoptype(){
+        $typelist=Db::table('type')->limit(10)->select();
+        if ($typelist){
+            echo $this->resultToJson(1,'头部分类获取成功',$typelist);
+        }else{
+            echo $this->resultToJson('0','获取头部分类失败','');
+        }
+    }
+    //获取全部分类
+    public function gettype(){
+        $typelist=Db::table('type')->select();
+        if ($typelist){
+            echo $this->resultToJson(1,'分类获取成功',$typelist);
+        }else{
+            echo $this->resultToJson('0','获取分类失败','');
+        }
+    }
+    //搜索账号
+    public function findhao(){
+        $getkeyword=input('keyword');
+        $pages=input('page',1);
+        $pageparam=['query'=>[]];//查询条件
+        $pageparam['query']['zhname']=['like',"%".$getkeyword."%"];
+        $pageparam['query']['state']=2;
+        $userlist=Db::table('sellinfo')->where($pageparam['query'])->page($pages,10)->select();
+        if ($userlist){
+            echo $this->resultToJson(1,'搜索返回成功',$userlist);
+        }else{
+            echo $this->resultToJson('0','搜索返回失败','');
+        }
+    }
+    //账号列表，条件待设
+    public function haolist(){
+        $pages=input('page',1);
+        $pageparam=['query'=>[]];//查询条件
+        $pageparam['query']['state']=2;
+        $userlist=Db::table('sellinfo')->where($pageparam['query'])->page($pages,10)->select();
+        if ($userlist){
+            echo $this->resultToJson(1,'返回号列表成功',$userlist);
+        }else{
+            echo $this->resultToJson('0','返回号列表失败','');
+        }
+    }
+    //返回结果的封装
+    function resultToJson($code,$msg,$data){
+        $re['code']=$code;
+        $re['msg']=$msg;
+        $re['data']=$data;
+        return json_encode($re);
+    }
+
 }

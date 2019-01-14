@@ -213,6 +213,10 @@
         var liu = GetQueryString("liu")?GetQueryString("liu"):'';
         var wg = GetQueryString("wg")?GetQueryString("wg"):'';
         var isrz = GetQueryString("isrz")?GetQueryString("isrz"):3;
+        //排序
+        var allsort=GetQueryString("allsort")?GetQueryString("allsort"):'';
+        var pricesort=GetQueryString("pricesort")?GetQueryString("pricesort"):'';
+        var sfnumsort=GetQueryString("sfnumsort")?GetQueryString("sfnumsort"):'';
         if (type == 1) {
             console.log('类型1')
             haotype = id;
@@ -228,12 +232,34 @@
             //粉丝区间
         }else if(type==6){
             uv = id;
+        }else if(type==7){
+            if(allsort==0||allsort==''){
+                allsort=1;
+            }else{
+                allsort=0;
+            }
+
+        }else if(type==8){
+            if(pricesort==0||pricesort==''||pricesort==2){
+                pricesort=1;
+            }else{
+                pricesort=0;
+            }
+            sfnumsort=2
+        }else if(type==9){
+            if(sfnumsort==0||sfnumsort==2||sfnumsort==''){
+                sfnumsort=1;
+            }else{
+                sfnumsort=0;
+            }
+            pricesort=2
         }
 
         url = url + '?type=' + haotype + '&fortype=' + fortype
             + '&fansnum=' + fsnum + '&price=' + price
             + '&uv=' + uv + '&wg=' + wg+ '&liu=' + liu
-             + '&isrz=' + isrz+ '&fsbili=' + fsbili;
+             + '&isrz=' + isrz+ '&fsbili=' + fsbili
+            + '&allsort=' + allsort+ '&pricesort=' + pricesort+ '&sfnumsort=' + sfnumsort;
         window.location.href = url;
     }
 </script>
@@ -556,9 +582,9 @@
     }
 </style>
 <div id="lists_sort">
-    <s class="{$onefssort==0?'u':'d cur'}" id="allorders"><a href="javascript:void(0);" onclick="sorts(1);" class="link" >综合排序</a></s>
-    <s class="{$pricesort==0?'u':'d cur'}" id="personorders"><a href="javascript:void(0);" onclick="sorts(2);" class="link" >人气排行</a></s>
-    <s class="{$sfnumsort==0?'u':'d cur'}" id="priceorders"><a href="javascript:void(0);" onclick="sorts(3);" class="link" >价格排序</a></s>
+    <s class="{$allsort==0?'u':'d cur'}" id="allorders"><a href="javascript:void(0);" onclick="selectFour(this,type=7,0);" class="link" >综合排序</a></s>
+    <s class="{$pricesort==0?'u':'d cur'}" id="personorders"><a href="javascript:void(0);" onclick="selectFour(this,type=8,0);" class="link" >价格排序</a></s>
+    <s class="{$sfnumsort==0?'u':'d cur'}" id="priceorders"><a href="javascript:void(0);" onclick="selectFour(this,type=9,0);" class="link" >粉丝排序</a></s>
 </div>
 
 <style>

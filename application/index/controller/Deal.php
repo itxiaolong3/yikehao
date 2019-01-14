@@ -170,10 +170,17 @@ class Deal extends Base
 
         //排序情况
         $type=input('tid');
+        $allsort=input('allsort',0);
         $pricesort=input('pricesort',0);
         $sfnumsort=input('sfnumsort',0);
+        $ordersql='';
+        if ($sfnumsort==2){
+            $ordersql=$pricesort?'price desc':'price asc';
+        }else if($pricesort==2){
+            $ordersql=$sfnumsort?'fansnum desc':'fansnum asc';
+        }
         $headersort=input('headersort',0);
-        $onefssort=input('onefssort',0);
+
 
         $this->assign('gethaotype',$gethaotype);
         $this->assign('fortype',$gettypes);
@@ -187,7 +194,7 @@ class Deal extends Base
 
 
 
-        $this->assign('onefssort',$onefssort);
+        $this->assign('allsort',$allsort);
         $this->assign('pricesort',$pricesort);
         $this->assign('sfnumsort',$sfnumsort);
         $this->assign('headersort',$headersort);
@@ -205,6 +212,7 @@ class Deal extends Base
             array_push($bzarr,$types['name']);
             $selllist=Db::table('sellinfo')
                 ->where($pageparam['query'])
+                ->order($ordersql)
                 ->where('FIND_IN_SET(:types,fortype)',['types' => $gettypes])//查询数据库某字段的值是否存在该值
                 ->paginate(2,false,['query' => Request::instance()->param()]);
         }else{
@@ -215,12 +223,14 @@ class Deal extends Base
                         ->where($pageparam['query'])
                         ->where('oneprice','>',$min)
                         ->where('oneprice','<',$max)
-                        ->paginate(2,false,['query' => Request::instance()->param()]);
+                        ->order($ordersql)
+                        ->paginate(5,false,['query' => Request::instance()->param()]);
                 }
             }else{
                 $selllist=Db::table('sellinfo')
                     ->where($pageparam['query'])
-                    ->paginate(2,false,['query' => Request::instance()->param()]);
+                    ->order($ordersql)
+                    ->paginate(5,false,['query' => Request::instance()->param()]);
             }
 
 
@@ -236,14 +246,13 @@ class Deal extends Base
             $kfqq=Db::table('admin')->where('id',$v['kefuid'])->field('qq')->find();
             $newlist[$k]['qq']=$kfqq['qq'];
         }
-//        //打印sql查询过程
-//        if ($price){
-//            $data=Db::table('sellinfo')
+        //打印sql查询过程
+//        $data=Db::table('sellinfo')
 //                ->where($pageparam['query'])
+//                ->order($ordersql)
 //                ->fetchSql(true)
-//                ->paginate(2,false,['query' => Request::instance()->param()]);
+//                ->paginate(5,false,['query' => Request::instance()->param()]);
 //            dump($data);
-//        }
         $this->assign('tag',$bzarr);
         $this->assign('list',$newlist);
         $this->assign('page',$selllist->render());
