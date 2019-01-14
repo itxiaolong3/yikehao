@@ -1,19 +1,62 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mydemo
-Source Server Version : 50547
-Source Host           : localhost:3306
+Source Server         : 云乐互联
+Source Server Version : 50557
+Source Host           : 47.106.203.209:3306
 Source Database       : hao
 
 Target Server Type    : MYSQL
-Target Server Version : 50547
+Target Server Version : 50557
 File Encoding         : 65001
 
-Date: 2018-12-15 19:37:28
+Date: 2019-01-14 19:50:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for aboutme
+-- ----------------------------
+DROP TABLE IF EXISTS `aboutme`;
+CREATE TABLE `aboutme` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) DEFAULT NULL COMMENT '标题',
+  `addtime` varchar(50) DEFAULT NULL COMMENT '添加时间',
+  `contents` text COMMENT '内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='关于我表';
+
+-- ----------------------------
+-- Table structure for addserorder
+-- ----------------------------
+DROP TABLE IF EXISTS `addserorder`;
+CREATE TABLE `addserorder` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(100) DEFAULT NULL,
+  `payprice` varchar(100) DEFAULT NULL,
+  `paytime` varchar(50) DEFAULT NULL COMMENT '支付时间',
+  `types` varchar(50) DEFAULT NULL COMMENT '购买类型',
+  `uid` varchar(50) DEFAULT NULL,
+  `ordernum` varchar(200) DEFAULT NULL,
+  `isdel` int(2) DEFAULT '0' COMMENT '1-删除',
+  `sid` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='购买增值服务表';
+
+-- ----------------------------
+-- Table structure for addserver
+-- ----------------------------
+DROP TABLE IF EXISTS `addserver`;
+CREATE TABLE `addserver` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) DEFAULT NULL COMMENT '标题',
+  `addtime` varchar(50) DEFAULT NULL COMMENT '添加时间',
+  `contents` text COMMENT '服务内容',
+  `titleimg` varchar(200) DEFAULT NULL COMMENT '首图',
+  `price` decimal(50,2) DEFAULT NULL COMMENT '价格',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='增值服务表';
 
 -- ----------------------------
 -- Table structure for admin
@@ -27,16 +70,12 @@ CREATE TABLE `admin` (
   `rootnum` varchar(50) DEFAULT NULL COMMENT '所分配的权限标志',
   `rootname` varchar(200) DEFAULT NULL COMMENT '权限名称',
   `state` int(2) DEFAULT '0' COMMENT '是否停用 0-停用 1正常',
+  `num` int(2) DEFAULT '0' COMMENT '受理数目',
+  `iskf` int(2) DEFAULT '1' COMMENT '是否客服',
+  `phone` varchar(12) DEFAULT NULL,
+  `qq` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of admin
--- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', 'admin', '超级管理员', '1,2,3,4,5', '管理员管理--配置管理--轮播图管理--用户管理--类型管理', '1');
-INSERT INTO `admin` VALUES ('4', '小龙', '123456', '管理员', '2,3', '配置管理--轮播图管理', '0');
-INSERT INTO `admin` VALUES ('5', '小龙哥', '111111', '客服', '3,4', '轮播图管理--用户管理', '0');
-INSERT INTO `admin` VALUES ('6', 'login', '111111', '测试角色', '1,3,4', '管理员管理--轮播图管理--用户管理', '0');
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for banner
@@ -48,13 +87,7 @@ CREATE TABLE `banner` (
   `tourl` text COMMENT '跳转地址',
   `comment` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of banner
--- ----------------------------
-INSERT INTO `banner` VALUES ('8', '/yikehao/public/static/upLoder/20181215/201812151530122d2a145c2fabf60b.png', 'http://cao.itxiaolong.cn', '');
-INSERT INTO `banner` VALUES ('10', '/yikehao/public/static/upLoder/20181215/2018121515312713ee695a2e779584.jpeg', 'http://www.baidu.com', '');
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for baseinfo
@@ -75,10 +108,6 @@ CREATE TABLE `baseinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网站基础信息表';
 
 -- ----------------------------
--- Records of baseinfo
--- ----------------------------
-
--- ----------------------------
 -- Table structure for buyinfo
 -- ----------------------------
 DROP TABLE IF EXISTS `buyinfo`;
@@ -96,10 +125,6 @@ CREATE TABLE `buyinfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of buyinfo
--- ----------------------------
-
--- ----------------------------
 -- Table structure for configs
 -- ----------------------------
 DROP TABLE IF EXISTS `configs`;
@@ -114,12 +139,16 @@ CREATE TABLE `configs` (
   `accesskeyid` varchar(100) DEFAULT NULL,
   `accesskeyseret` varchar(100) DEFAULT NULL,
   `addtime` int(50) DEFAULT NULL,
+  `cpaddress` varchar(200) DEFAULT NULL COMMENT '公司地址',
+  `phone` varchar(20) DEFAULT NULL COMMENT '网站客服电话',
+  `icp` varchar(200) DEFAULT NULL COMMENT 'icp备案信息',
+  `wxcode` varchar(200) DEFAULT NULL COMMENT '网站客服微信二维码',
+  `kfqq` varchar(20) DEFAULT NULL COMMENT '网站客服qq',
+  `mothprice` decimal(5,2) DEFAULT NULL,
+  `jiprice` decimal(5,2) DEFAULT NULL,
+  `yearprice` decimal(5,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of configs
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for guzhi
@@ -140,10 +169,6 @@ CREATE TABLE `guzhi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of guzhi
--- ----------------------------
-
--- ----------------------------
 -- Table structure for haotype
 -- ----------------------------
 DROP TABLE IF EXISTS `haotype`;
@@ -151,11 +176,7 @@ CREATE TABLE `haotype` (
   `htid` int(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`htid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='卖号类型';
-
--- ----------------------------
--- Records of haotype
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='卖号类型';
 
 -- ----------------------------
 -- Table structure for newslist
@@ -166,12 +187,29 @@ CREATE TABLE `newslist` (
   `title` varchar(200) DEFAULT NULL COMMENT '标题',
   `addtime` varchar(50) DEFAULT NULL COMMENT '添加时间',
   `contents` text COMMENT '新闻内容',
+  `titleimg` varchar(200) DEFAULT NULL COMMENT '首图',
+  `desc` varchar(200) DEFAULT NULL COMMENT '简要',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行业新闻表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='行业新闻表';
 
 -- ----------------------------
--- Records of newslist
+-- Table structure for payorder
 -- ----------------------------
+DROP TABLE IF EXISTS `payorder`;
+CREATE TABLE `payorder` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
+  `payprice` varchar(100) DEFAULT NULL,
+  `paytime` varchar(50) DEFAULT NULL COMMENT '支付时间',
+  `types` varchar(50) DEFAULT NULL COMMENT '购买类型',
+  `uid` varchar(50) DEFAULT NULL,
+  `gid` varchar(50) DEFAULT NULL,
+  `state` int(2) DEFAULT '0' COMMENT '0-待支付 1已支付',
+  `ordernum` varchar(200) DEFAULT NULL,
+  `isdel` int(2) DEFAULT '0' COMMENT '1-删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='买号表';
 
 -- ----------------------------
 -- Table structure for problist
@@ -182,12 +220,10 @@ CREATE TABLE `problist` (
   `title` varchar(200) DEFAULT NULL COMMENT '标题',
   `addtime` varchar(50) DEFAULT NULL COMMENT '添加时间',
   `contents` text COMMENT '问题内容',
+  `titleimg` varchar(200) DEFAULT NULL COMMENT '问题logo',
+  `desc` varchar(200) DEFAULT NULL COMMENT '简要',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='疑难解答表';
-
--- ----------------------------
--- Records of problist
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='疑难解答表';
 
 -- ----------------------------
 -- Table structure for roots
@@ -198,16 +234,7 @@ CREATE TABLE `roots` (
   `name` varchar(50) DEFAULT NULL,
   `num` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of roots
--- ----------------------------
-INSERT INTO `roots` VALUES ('1', '管理员管理', '1');
-INSERT INTO `roots` VALUES ('2', '配置管理', '2');
-INSERT INTO `roots` VALUES ('3', '轮播图管理', '3');
-INSERT INTO `roots` VALUES ('4', '用户管理', '4');
-INSERT INTO `roots` VALUES ('5', '类型管理', null);
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sellinfo
@@ -215,28 +242,45 @@ INSERT INTO `roots` VALUES ('5', '类型管理', null);
 DROP TABLE IF EXISTS `sellinfo`;
 CREATE TABLE `sellinfo` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `fansnum` varchar(50) DEFAULT NULL COMMENT '粉丝数量',
-  `type` varchar(20) DEFAULT NULL COMMENT '账号类型',
-  `sexbli` varchar(12) DEFAULT NULL COMMENT '男女比例',
-  `istrue` varchar(5) DEFAULT NULL COMMENT '是否认证',
+  `zhname` varchar(100) DEFAULT NULL COMMENT '公众号名称',
+  `price` decimal(20,2) DEFAULT NULL COMMENT '价格',
+  `fansnum` int(50) DEFAULT NULL COMMENT '粉丝数量',
   `regtime` varchar(50) DEFAULT NULL COMMENT '注册时间',
-  `isliu` varchar(20) DEFAULT NULL COMMENT '是否开启流量主',
-  `getmonth` varchar(12) DEFAULT NULL COMMENT '流量主月收入',
-  `weiguinum` varchar(12) DEFAULT NULL COMMENT '违规数量',
-  `body` varchar(12) DEFAULT NULL COMMENT '主体类型',
-  `yuanorzan` varchar(50) DEFAULT NULL COMMENT '原创还是赞赏',
+  `type` int(2) DEFAULT '1' COMMENT '账号类型 1-订阅号 2-服务号',
   `fortype` varchar(50) DEFAULT NULL COMMENT '所属类目',
+  `fortypetext` varchar(100) DEFAULT NULL COMMENT '行业文字描述',
+  `isrz` int(5) DEFAULT '0' COMMENT '0-未认证 -1个人认证 2-企业认证',
+  `yuanorzan` varchar(50) DEFAULT '0' COMMENT '0-未开通原创 1-原创 2-赞赏 3-原创赞赏',
+  `sexbli` varchar(12) DEFAULT '0' COMMENT '男女比例 0-平衡 1-男居多 2-女居多',
+  `isliu` int(20) DEFAULT '0' COMMENT '0-未开通 1-已开通',
+  `getmonth` varchar(12) DEFAULT NULL COMMENT '流量主月收入',
+  `phone` varchar(12) DEFAULT NULL COMMENT '手机号',
+  `UV` varchar(20) DEFAULT NULL COMMENT 'uv值',
   `headernum` int(20) DEFAULT NULL COMMENT '头条阅读',
-  `price` varchar(20) DEFAULT NULL COMMENT '价格',
+  `weiguinum` varchar(12) DEFAULT NULL COMMENT '违规数量',
   `desc` text COMMENT '卖家说',
   `imgs` text COMMENT '账号截图',
   `kefuid` int(10) DEFAULT NULL COMMENT '所属客服id',
+  `uid` int(20) DEFAULT NULL COMMENT '用户id',
+  `state` int(2) DEFAULT '1' COMMENT '1-待审核 2-已通过 3-被拒绝',
+  `nopassdesc` varchar(200) DEFAULT NULL COMMENT '拒绝理由',
+  `istj` int(2) DEFAULT '0' COMMENT '1推荐号',
+  `addtime` varchar(50) DEFAULT NULL COMMENT '发布时间',
+  `oneprice` varchar(50) DEFAULT NULL COMMENT '单粉价格',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='卖号详细表，没完';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='卖号详细表，没完';
 
 -- ----------------------------
--- Records of sellinfo
+-- Table structure for smscode
 -- ----------------------------
+DROP TABLE IF EXISTS `smscode`;
+CREATE TABLE `smscode` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) DEFAULT NULL,
+  `phone` varchar(12) DEFAULT NULL,
+  `addtime` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for type
@@ -249,28 +293,6 @@ CREATE TABLE `type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='类目类型';
 
 -- ----------------------------
--- Records of type
--- ----------------------------
-INSERT INTO `type` VALUES ('1', '搞笑');
-INSERT INTO `type` VALUES ('2', '娱乐');
-INSERT INTO `type` VALUES ('3', '汽车');
-INSERT INTO `type` VALUES ('4', '财经');
-INSERT INTO `type` VALUES ('5', '母婴');
-INSERT INTO `type` VALUES ('6', '电商');
-INSERT INTO `type` VALUES ('7', '本地');
-INSERT INTO `type` VALUES ('8', '两性');
-INSERT INTO `type` VALUES ('9', '电影');
-INSERT INTO `type` VALUES ('10', '视频');
-INSERT INTO `type` VALUES ('11', '教育');
-INSERT INTO `type` VALUES ('12', '美食');
-INSERT INTO `type` VALUES ('13', '旅游');
-INSERT INTO `type` VALUES ('14', '情感');
-INSERT INTO `type` VALUES ('15', '健身');
-INSERT INTO `type` VALUES ('16', '养生');
-INSERT INTO `type` VALUES ('17', '金融');
-INSERT INTO `type` VALUES ('18', '游戏');
-
--- ----------------------------
 -- Table structure for userinfo
 -- ----------------------------
 DROP TABLE IF EXISTS `userinfo`;
@@ -281,9 +303,44 @@ CREATE TABLE `userinfo` (
   `phone` varchar(12) DEFAULT NULL,
   `wx` varchar(50) DEFAULT NULL,
   `qq` varchar(50) DEFAULT NULL,
+  `addtime` varchar(30) DEFAULT NULL,
+  `paytime` varchar(50) DEFAULT NULL COMMENT '开通会员时间',
+  `vipstate` int(3) DEFAULT '0' COMMENT '会员状态 0-普通会员 1-月卡会员 2-季卡会员 3-终身会员 ',
+  `logintime` varchar(50) DEFAULT NULL,
+  `loginip` varchar(50) DEFAULT NULL,
+  `qqemail` varchar(50) DEFAULT NULL,
+  `looknum` int(2) DEFAULT '0' COMMENT '查看商家联系方式的次数',
+  `lookid` int(2) DEFAULT NULL COMMENT '当前查看的账号id',
+  `openid` varchar(200) DEFAULT NULL,
+  `headimg` varchar(200) DEFAULT NULL,
+  `nickname` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 
 -- ----------------------------
--- Records of userinfo
+-- Table structure for viporder
 -- ----------------------------
+DROP TABLE IF EXISTS `viporder`;
+CREATE TABLE `viporder` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(100) DEFAULT NULL,
+  `payprice` varchar(100) DEFAULT NULL,
+  `paytime` varchar(50) DEFAULT NULL COMMENT '支付时间',
+  `types` varchar(50) DEFAULT NULL COMMENT '购买类型',
+  `uid` varchar(50) DEFAULT NULL,
+  `ordernum` varchar(200) DEFAULT NULL,
+  `isdel` int(2) DEFAULT '0' COMMENT '1-删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='会员购买表';
+
+-- ----------------------------
+-- Table structure for xieyi
+-- ----------------------------
+DROP TABLE IF EXISTS `xieyi`;
+CREATE TABLE `xieyi` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) DEFAULT NULL COMMENT '标题',
+  `addtime` varchar(50) DEFAULT NULL COMMENT '添加时间',
+  `contents` text COMMENT '协议内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='协议表';
