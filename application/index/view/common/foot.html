@@ -1,0 +1,154 @@
+<!--尾部-->
+<div class="clear footer_wrap">
+    <div class="box footer" style="width: 1200px;margin: 0 auto">
+        <div class="clear footer_service">
+            <ul>
+                <li>
+                    <div class="tit">我们</div>
+                    <div class="links">
+                        <a href="{:url('index/aboutme/index')}" target="_blank">加入我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">联系我们</a>
+                        <a href="{:url('index/aboutme/index')}" target="_blank">关于我们</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="tit">安全保障</div>
+                    <div class="links">
+                        <a>极速退款</a>
+                        <a>一对一服务</a>
+                        <a>担保转让</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="tit">帮助中心</div>
+                    <div class="links">
+                        <a href="{:url('index/prodetail/index')}?id=4">交易流程</a>
+                        <a href="{:url('index/serves/index')}">常见问题</a>
+                        <a href="{:url('index/serves/index')}">服务中心</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="footer_ewm">
+                        <img src="{$baseinfo.wxcode}"
+                             style="width:110px;height:110px;margin-right: 10px">
+                        <span style="margin-right: 10px;margin-top: 5px;">扫码关注微信</span>
+                    </div>
+                </li>
+                <li style="width: 210px;">
+                    <div style="display: flex;margin-top: 20px;">
+                        <img src="__PUBLIC__static/index/images/phones.png"
+                             style="width:30px;height:30px;margin-right: 10px">
+                        <span style="color:white;font-size: 25px;">{$baseinfo.phone}</span>
+                    </div>
+                    <span style="color: #7C7C7C;display: flex;padding: 10px 5px;">周一至周五 9:00-17:30</span>
+                </li>
+            </ul>
+        </div>
+        <div style="width: 100%;height: 60px;display: flex;">
+            <ul style="display: flex;-left: 50px;">
+                <li style="margin-left: 50px;"><a href="#" target="_blank"><img src="__PUBLIC__static/index/images/footlogo1.png"></a></li>
+                <li style="margin-left: 50px;"><a href="#" target="_blank"><img src="__PUBLIC__static/index/images/footlogo1.png"></a></li>
+                <li style="margin-left: 50px;"><a href="#" target="_blank"><img src="__PUBLIC__static/index/images/footlogo1.png"></a></li>
+                <li style="margin-left: 50px;"><a href="#" target="_blank"><img src="__PUBLIC__static/index/images/footlogo1.png"></a></li>
+                <li style="margin-left: 50px;"><a href="#" target="_blank"><img src="__PUBLIC__static/index/images/footlogo1.png"></a></li>
+            </ul>
+        </div>
+        <div class="clear footer_copyright">
+            公司地址:{$baseinfo.cpaddress}
+            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">{$baseinfo.icp}</a></p>
+
+        </div>
+    </div>
+</div>
+<style>
+    .footer_ewm span {
+        display: inline-block;
+        width: 110px;
+        height: 50px;
+        color: #a5a5a5;
+    }
+</style>
+<style>
+    #footer > p {
+        margin-top: 0;
+    }
+
+    #footer a {
+        color: #666;
+    }
+</style>
+<style>
+    .mh-fixed-img img {
+        width: 100%;
+        height: 100%;
+    }
+    .mh-fixed-link p, .mh-fixed-wx p {
+        height: 35px;
+        line-height: 35px;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .mh-fixed-wx p {
+        text-align: center;
+        margin-top: 3px;
+    }
+
+    .mh-fixed-link a {
+        display: block;
+        background: #f00;
+        width: 65%;
+        height: 35px;
+        font-size: 18px;
+        text-align: center;
+        line-height: 35px;
+        color: #fff;
+    }
+
+    .mh-fixed-wx img {
+        display: block;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+    }
+    .mh-fixed-close img {
+        width: 40px;
+        height: 40px;
+    }
+</style>
+<style>
+    .mh-hd {
+        width: 143px;
+        height: 135px;
+        position: fixed;
+        opacity: 0.9;
+        left: -143px;
+        bottom: 0;
+        box-sizing: border-box;
+        border-left: 8px solid #ffda44;
+        z-index: 8;
+        background: url(__PUBLIC__static/index/images/mh-fix-se.png) center center no-repeat;
+        background-color: #000;
+        cursor: pointer;
+    }
+</style>
+<div class="mh-hd"><img src=""/></div>
+<script>
+    $(".mh-fixed").animate({left: "0"}, 1000);
+    $("[mh-close]").click(function () {
+        $(".mh-fixed").animate({left: "-100%"}, 1000, showmhfix);
+    })
+    function showmhfix() {
+        $(".mh-hd").show();
+        $(".mh-hd").animate({left: "0"}, 300);
+    }
+
+    $(".mh-hd").click(function () {
+        $(".mh-hd").hide();
+        $(".mh-hd").animate({left: "-143px"}, 100);
+        $(".mh-fixed").animate({left: "0"}, 1000);
+
+    })
+</script>
+</body>
+</html>

@@ -96,7 +96,7 @@
 
 </style>
 <div id="header_nav2">
-    <div class="mj-hv-total" style="position: relative;height: 70px">
+    <div class="mj-hv-total" style="position: relative;height: 70px;display: flex;">
         <ul>
             <li><a mj-hv-sh-none href="{:url('index/index/index')}" class="link">首页</a></li>
             <li style="margin:0;color: #fff;">|</li>
@@ -115,8 +115,11 @@
             <li>
                 <a mj-hv-sh-none href="{:url('index/aboutme/index')}" class="link">关于我们</a>
             </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li>
+                <a mj-hv-sh-none href="{:url('index/addserver/index')}" class="link">增值服务</a>
+            </li>
         </ul>
-        <img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">
         <!--账号选择条件悬浮框-->
         <div mj-cd id="select_box" class="mj-cd"
              style="display:none;position: absolute;left: 0;top:69px;z-index:10;width: auto;border: 4px solid #1F9EBF;border-top: 0">
@@ -544,11 +547,11 @@
                             <col width="140">
                             <col>
                         </colgroup>
-                        {empty name="viplist"}
-                            <div id="empty1" class="c9">
-                                <img src="__PUBLIC__static/index/images/p5.png" />
-                                <p>暂无订单</p>
-                            </div>
+                        {if condition="($viplist == '') AND ($viplist == '') "}
+                        <div id="empty1" class="c9">
+                            <img src="__PUBLIC__static/index/images/p5.png" />
+                            <p>暂无订单</p>
+                        </div>
                         {else /}
                             <thead>
                             <tr style="">
@@ -562,7 +565,7 @@
                                 <th>操作</th>
                             </tr>
                             </thead>
-                        {/empty}
+                        {/if}
 
                         <tbody>
                         {volist name="viplist" id="vo"}
@@ -582,6 +585,23 @@
                             <td>{$vo.paytime}</td>
                             <td>
                                 <button class="layui-btn layui-btn-danger" onclick="del('{$vo.id}',this,0)">删除</button>
+                            </td>
+                        </tr>
+                        {/volist}
+                        {volist name="serorder" id="vo"}
+                        <tr>
+                            <td>{$vo.ordernum}</td>
+                            <td>
+                                {$vo.types}
+                            </td>
+                            <td>增值服务</td>
+                            <td>增值服务</td>
+                            <td>{$vo.payprice}</td>
+                            <td>已支付</td>
+                            <td>{$vo.paytime}</td>
+                            <td style="display:flex;">
+                                <button class="layui-btn layui-btn-danger" onclick="del('{$vo.id}',this,3)">删除</button>
+                                <!--<a class="layui-btn layui-btn-normal" style="margin-left: 5px;" href="{:url('index/productdetail/index')}?id={$vo.id}">查看</a>-->
                             </td>
                         </tr>
                         {/volist}
@@ -675,7 +695,7 @@
                     <div class="item"><img src="__PUBLIC__static/index/images/wxpay.png" /></div>
                 </div>
                 <div class="c5">
-                    <div class="left">应付：<span id="price">99</span>&nbsp;元</div>
+                    <div class="left">应付：<span id="price">{$vipprice.mothprice}</span>&nbsp;元</div>
                     <input type="hidden" value="" id="paytype">
                     <div id="pay" class="right">立即支付</div>
                 </div>
@@ -692,278 +712,7 @@
 <script>
 </script>
 <!--尾部-->
-<div class="clear footer_wrap">
-    <div class="box footer" style="width: 1200px;margin: 0 auto">
-        <div class="clear footer_service">
-            <ul>
-                <li>
-                    <div class="tit">我们</div>
-                    <div class="links">
-                        <a href="about_3_2.html" target="_blank">加入我们</a>
-                        <a href="about_4_3.html" target="_blank">联系我们</a>
-                        <a href="about_2_1.html" target="_blank">关于我们</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="tit">安全保障</div>
-                    <div class="links">
-                        <a>极速退款</a>
-                        <a>一对一服务</a>
-                        <a>担保转让</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="tit">帮助中心</div>
-                    <div class="links">
-                        <a href="{:url('index/prodetail/index')}">交易流程</a>
-                        <a href="news_5_1.html">常见问题</a>
-                        <a href="product_8_2.html">服务中心</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="footer_ewm">
-                        <img src="__PUBLIC__static/index/picture/1515422153_51200000.jpg"
-                             style="width:110px;height:110px;margin-right: 10px">
-                        <span style="margin-right: 10px;margin-top: 5px;">扫码关注微信</span>
-                    </div>
-                </li>
-                <li style="width: 210px;">
-                    <div style="display: flex;margin-top: 20px;">
-                        <img src="__PUBLIC__static/index/images/phones.png"
-                             style="width:30px;height:30px;margin-right: 10px">
-                        <span style="color:white;font-size: 25px;">1008610086</span>
-                    </div>
-                    <span style="color: #7C7C7C;display: flex;padding: 10px 5px;">周一至周五 9:00-17:30</span>
-                </li>
-            </ul>
-        </div>
-        <div class="clear footer_copyright">
-            公司地址:地质队顶顶顶顶订单的
-            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">闽ICP备0000号-1</a></p>
-
-        </div>
-    </div>
-</div>
-<style>
-    .footer_ewm span {
-        display: inline-block;
-        width: 110px;
-        height: 50px;
-        color: #a5a5a5;
-    }
-</style>
-<style>
-    #footer > p {
-        margin-top: 0;
-    }
-
-    #footer a {
-        color: #666;
-    }
-</style>
-<style>
-    .mh-fixed {
-        width: 100%;
-        height: 135px;
-        background: #000;
-        position: fixed;
-        opacity: 0.9;
-        left: -100%;
-        bottom: 0;
-        box-sizing: border-box;
-        border-left: 8px solid #ffda44;
-        z-index: 8;
-    }
-
-    .mh-fixed-in {
-        width: 1200px;
-        margin: 0 auto;
-    }
-
-    .mx-fixed-l {
-        width: 300px;
-        height: 100%;
-        float: left;
-    }
-
-    .mh-fixed-logo {
-        display: block;
-        width: 170px;
-
-        margin: 0 auto;
-        margin-top: 10px;
-        margin-bottom: 2px;
-    }
-
-    .mh-fixed-tip {
-        font-size: 28px;
-        color: #fff100;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .mh-fixed-se {
-        width: 77px;
-        height: 135px;
-        float: left;
-        background: url("__PUBLIC__static/index/images/mh-fix-se.png") center center no-repeat;
-    }
-
-    .mh-fixed-input-out {
-        width: 260px;
-        height: 100%;
-        float: left;
-    }
-
-    .mh-fixed-input-select {
-        width: 80%;
-        height: 36px;
-        border: 2px #dedede solid;
-
-        font-size: 18px;
-        color: #666;
-        text-align: center;
-        line-height: 36px;
-        margin: 0 auto;
-        margin-left: 10%;
-        margin-top: 26px;
-        text-indent: 5px;
-        background: url("__PUBLIC__static/index/images/xia.png") 90% center no-repeat;
-        background-size: 8%;
-        background-color: #fff;
-        cursor: pointer;
-
-    }
-
-    .mh-fixed-input-total {
-        width: 80%;
-        margin: 0 auto;
-        margin-top: 10px;
-        height: 36px;
-    }
-
-    .mh-fixed-input-total-input {
-        width: 60%;
-        height: 100%;
-        box-sizing: border-box;
-        border: 1px solid #dedede;
-        font-size: 15px;
-        color: #999;
-        float: left;
-    }
-
-    .mh-fixed-input-total-sub {
-        width: 35%;
-        height: 100%;
-        border: 0;
-        float: right;
-        font-size: 18px;
-        background: #fff100;
-    }
-
-    .mh-fixed-bg {
-        width: 1.5px;
-        height: 95px;
-        margin: 20px 0 0 0;
-        float: left;
-        background: #fff;
-    }
-
-    .mh-fixed-img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        float: left;
-        margin-top: 10px;
-        margin-left: 28px;
-        overflow: hidden;
-    }
-
-    .mh-fixed-img img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .mh-fixed-link {
-        width: 170px;
-        height: 100px;
-        box-sizing: border-box;
-        float: left;
-        margin-left: 28px;
-        padding-top: 20px;
-    }
-
-    .mh-fixed-link p, .mh-fixed-wx p {
-        height: 35px;
-        line-height: 35px;
-        color: #fff;
-        font-size: 18px;
-    }
-
-    .mh-fixed-wx p {
-        text-align: center;
-        margin-top: 3px;
-    }
-
-    .mh-fixed-link a {
-        display: block;
-        background: #f00;
-        width: 65%;
-        height: 35px;
-        font-size: 18px;
-        text-align: center;
-        line-height: 35px;
-        color: #fff;
-    }
-
-    .mh-fixed-wx {
-        width: 160px;
-        height: 100%;
-        float: left;
-        margin-left: 28px;
-        padding-top: 10px;
-        box-sizing: border-box;
-    }
-
-    .mh-fixed-wx img {
-        display: block;
-        width: 80px;
-        height: 80px;
-        margin: 0 auto;
-    }
-
-    .mh-fixed-close {
-        margin-left: 5px;
-        margin-right: 20px;
-        float: right;
-        margin-top: 50px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-    }
-
-    .mh-fixed-close img {
-        width: 40px;
-        height: 40px;
-    }
-</style>
-<style>
-    .mh-hd {
-        width: 143px;
-        height: 135px;
-        position: fixed;
-        opacity: 0.9;
-        left: -143px;
-        bottom: 0;
-        box-sizing: border-box;
-        border-left: 8px solid #ffda44;
-        z-index: 8;
-        background: url(__PUBLIC__static/index/images/mh-fix-se.png) center center no-repeat;
-        background-color: #000;
-        cursor: pointer;
-    }
-</style>
-<div class="mh-hd"><img src=""/></div>
+{include file="common:foot" /}
 <script>
     layui.use(['form','layer'], function(){
         var form = layui.form;
@@ -1020,21 +769,6 @@
     $('.c1 .con').eq(0).show().siblings().hide();
     $('.c2 .item').eq(0).children().show().parent().siblings().children().hide();
     $('.myfb').hide();
-    $(".mh-fixed").animate({left: "0"}, 1000);
-    $("[mh-close]").click(function () {
-        $(".mh-fixed").animate({left: "-100%"}, 1000, showmhfix);
-    })
-    function showmhfix() {
-        $(".mh-hd").show();
-        $(".mh-hd").animate({left: "0"}, 300);
-    }
-
-    $(".mh-hd").click(function () {
-        $(".mh-hd").hide();
-        $(".mh-hd").animate({left: "-143px"}, 100);
-        $(".mh-fixed").animate({left: "0"}, 1000);
-
-    })
     $('.tab li').click(function() {
         var i = $(this).index();
         $(this).addClass('active').siblings().removeClass('active');
@@ -1056,15 +790,15 @@
         switch (i) {
             case 0:
                 $("#paytype").val(1);
-                $('#price').text('99');
+                $('#price').text('{$vipprice.mothprice}');
                 break;
             case 1:
                 $("#paytype").val(2);
-                $('#price').text('199');
+                $('#price').text('{$vipprice.jiprice}');
                 break;
             case 2:
                 $("#paytype").val(3);
-                $('#price').text('999');
+                $('#price').text('{$vipprice.yearprice}');
                 break;
         }
         console.log(i);
@@ -1083,19 +817,19 @@
         paytype=$("#paytype").val();
          if (paytype==''){
              paytype=1;
-             payprice=99
+             payprice="{$vipprice.mothprice}"
          }
          if(paytype==1){
              console.log('得到的'+paytype)
-             payprice=99
+             payprice='{$vipprice.mothprice}'
              types="月卡会员"
          }else if(paytype==2){
              console.log('得到的'+paytype)
-             payprice=199
+             payprice='{$vipprice.jiprice}'
              types="季卡会员"
          }else if(paytype==3){
              console.log('得到的'+paytype)
-             payprice=999
+             payprice='{$vipprice.yearprice}'
              types="永久会员"
          }
          var curstate="{$uinfo.vipstate}";

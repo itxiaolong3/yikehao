@@ -39,6 +39,8 @@ class Login extends Base
 
         $haotype=$this->haotype();
         $this->assign('haotype',$haotype);
+        $payxieyi=Db::table('xieyi')->where('id',1)->find();
+        $this->assign('xieyi',$payxieyi);
         //基本信息
         $basainfo=Db::table('configs')->field('cpaddress,phone,icp,wxcode,kfqq')->where('id',1)->find();
         $this->assign('baseinfo',$basainfo);

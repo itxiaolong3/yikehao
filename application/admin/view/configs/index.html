@@ -57,6 +57,24 @@
                 </div>
             </div>
                 <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">如下是会员价格设置</label>
+                    <div class="formControls col-xs-6 col-sm-7"><hr/></div>
+                </div>
+                <div class="layui-form-item" style="padding-left: 15%;margin-top: 20px;">
+                    <label class="layui-form-label" style="width: 50px;">月卡:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mothprice" placeholder="" value="{$configs.mothprice}" class="input-text">
+                    </div>
+                    <label class="layui-form-label" style="width: 50px;">季卡</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="jiprice" placeholder="" value="{$configs.jiprice}" class="input-text">
+                    </div>
+                    <label class="layui-form-label" style="width: 50px;">永久卡</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="yearprice" placeholder="" value="{$configs.yearprice}" class="input-text">
+                    </div>
+                </div>
+                <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">如下是站点基本信息</label>
                     <div class="formControls col-xs-6 col-sm-7"><hr/></div>
                 </div>
@@ -248,6 +266,9 @@
         var icp=$("input[name='icp']").val();
         var wxcode=$("input[name='wxcode']").val();
         var kfqq=$("input[name='kfqq']").val();
+        var mothprice=$("input[name='mothprice']").val();
+        var jiprice=$("input[name='jiprice']").val();
+        var yearprice=$("input[name='yearprice']").val();
         $.post('',{
             appid:appid,
             appSecret:appSecret,
@@ -262,6 +283,9 @@
             icp:icp,
             wxcode:wxcode,
             kfqq:kfqq,
+            mothprice:mothprice,
+            jiprice:jiprice,
+            yearprice:yearprice,
             id:1,
             },function (e) {
             layer.msg('已保存',{icon:1,time:800});

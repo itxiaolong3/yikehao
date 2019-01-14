@@ -13,7 +13,7 @@ class WxApi{
 	//统一下单
 	public function UnifiedOrder($body,$sn,$attach,$price,$openid,$tz_url = false){
 		if(!$tz_url){
-			$tz_url = 'http://yunle.qiaowuqing.com/tp5/TZ';
+            $tz_url = request()->domain().'/yikehao/TZwx';
 		}
 
 		$inputObj = new \WxPayUnifiedOrder();

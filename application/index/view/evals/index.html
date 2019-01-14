@@ -125,19 +125,19 @@
     }
     .cont_bt_right{
         position: absolute;
-        top: 75%;
-        right: 25%;
+        top: 78%;
+        right: 21%;
         padding: 15px;
-        margin-right: 5px;
+        margin-left: 5px;
         background: #0c94eb;
         color: white;
     }
     .cont_bt_left{
         position: absolute;
-        right: 25%;
-        top: 81%;
+        right: 21%;
+        top: 84%;
         padding: 15px;
-        margin-right: 5px;
+        margin-left: 5px;
         background: #5C72F6;
         color: white;
     }
@@ -163,6 +163,10 @@
             <li style="margin:0;color: #fff;">|</li>
             <li>
                 <a mj-hv-sh-none href="{:url('index/aboutme/index')}" class="link">关于我们</a>
+            </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li>
+                <a mj-hv-sh-none href="{:url('index/addserver/index')}" class="link">增值服务</a>
             </li>
         </ul>
         <img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">
@@ -326,10 +330,13 @@
                     <img  mj-img src="__PUBLIC__static/index/picture/eva-bg1.png" class="eva-div2-img1" id="images"/>
                     <div class="eva-div2-div5">
                         <div class="eva-div2-div6">
-                            <div class="eva-div2-div7 evaBg" onclick="addEvaluate()">
-                                <p class="eva-div2-p3">
-                                    <span class="eva-div2-span4">开始</span>
-                                    <span class="eva-div2-span4">估价</span>
+                            <div class="eva-div2-div7 evaBg" >
+                                <p class="eva-div2-p3" style="cursor: pointer">
+                                    <a onclick="addEvaluate();" href="javascript:void(0)" style="color: white;">
+                                        <span class="eva-div2-span4">开始</span>
+                                        <span class="eva-div2-span4">估价</span>
+                                    </a>
+
                                 </p>
                             </div>
                         </div>
@@ -487,9 +494,9 @@
         isyuanc=$("#isCreate :selected").text()+","+$("#isAdmire :selected").text();
         mcData = $("#mainChange :selected").val();
         zhuti = $("#mainChange :selected").text();
-
         //微信号
-        var wxmpNumFlag = ValidateUtils.checkWeixin(wxData);
+        var wxmpNumFlag =checkwx(wxData);
+
         if (wxmpNumFlag != "ok") {
             layer.open({
                 content: '微信号不正确',
@@ -507,7 +514,7 @@
             });
             flag=false;
         }
-        var fansFlag = ValidateUtils.checkFansNumber(fansData);
+        var fansFlag = checkfs(fansData);
         if (fansFlag != "ok") {
             layer.open({
                 content: '粉丝数不正确',
@@ -517,7 +524,7 @@
             flag=false;
         }
         // readNum
-        var readNumFlag = ValidateUtils.checkReadNum(readData);
+        var readNumFlag = checktt(readData);
         if (readNumFlag != "ok") {
             layer.open({
                 content: '头条阅读数',
@@ -565,6 +572,43 @@
             $("#allCount font").text(_total+1);
 
         }
+    }
+    //检查微信
+    function checkwx(wx) {
+        if(wx==''|| $.trim(wx).length<1){
+            return "微信号不可以为空";
+        }
+        return "ok";
+    }
+    //检查粉丝量
+    function checkfs(code) {
+        if(code==''|| $.trim(code).length==0){
+            $("input[name='fans']").val("");
+            $("input[name='fans']").focus();
+            return "粉丝量不正确";
+        }
+        //[1-9][0-9]{4,12}
+        if(!code.match(/^[1-9][0-9]{0,8}$/)){
+            $("input[name='fans']").val("");
+            $("input[name='fans']").focus();
+            return 	"粉丝量不正确";
+        }
+        return "ok";
+    }
+    //检查头条
+    function checktt(code) {
+        if(code==''|| $.trim(code).length==0){
+            $("input[name='readNum']").val("");
+            $("input[name='readNum']").focus();
+            return "璇锋偍杈撳叆鍏紬鍙峰钩鍧囨湀闃呰鏁伴噺";
+        }
+        //[1-9][0-9]{4,12}
+        if(!code.match(/^[1-9][0-9]{0,7}$/)){
+            $("input[name='readNum']").val("");
+            $("input[name='readNum']").focus();
+            return 	"鎮ㄨ緭鍏ョ殑闃呰鏁伴噺鏍煎紡鏈夎锛岃閲嶆柊杈撳叆";
+        }
+        return "ok";
     }
     //随机数
     function rnd(n, m){
@@ -640,637 +684,8 @@
 
 </script>
 <script>
-    var ValidateUtils = {
-        checkMobile:function(umobile){
-            if(umobile==''|| $.trim(umobile).length==0){
-                return "璇疯緭鍏ユ墜鏈哄彿 ";
-            }
-            if($.trim(umobile).length!=11){
-                $("input[name='mobile']").val("");
-                $("input[name='mobile']").focus();
-                return "鎵嬫満鍙风爜闀垮害涓�11浣�";
-            }
-            //return umobile.match(/^1\d{10}$/);
-            if(!umobile.match(/^1\d{10}$/)){
-                $("input[name='mobile']").val("");
-                $("input[name='mobile']").focus();
-                return "鎮ㄨ緭鍏ョ殑鎵嬫満鍙风爜鏍煎紡鏈夎锛�";
-            }
-            return "ok";
-        },
-        checkPhone:function(umobile){
-            if(umobile==''|| $.trim(umobile).length==0){
-                return "璇疯緭鍏ユ墜鏈哄彿 ";
-            }
-            //return umobile.match(/^1\d{10}$/);
-            if(!umobile.match(/^1\d{10}$/)){
-                $("input[name='telephone']").val("");
-                $("input[name='telephone']").focus();
-                return "鎮ㄨ緭鍏ョ殑鎵嬫満鍙风爜鏍煎紡鏈夎锛�";
-            }
-            return "ok";
-        },
-        checkPassword : function(password){
-            if(password==''|| $.trim(password).length==0){
-                $("input[name='pwd']").val("");
-                $("input[name='pwd']").focus();
-                return "璇疯緭鍏ュ瘑鐮�";
-            }
-            if(!password.match(/^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)[^\u4e00-\u9fa5]\S{5,17}$/)){
-                $("input[name='pwd']").val("");
-                $("input[name='pwd']").focus();
-                return 	"瀵嗙爜鐢卞ぇ鍐欏瓧姣嶃€佸皬鍐欏瓧姣嶃€佹暟瀛楀拰瀛楃锛屼袱绉嶆垨涓ょ浠ヤ笂6-16浣嶇粍鎴�";
-            }
-            return "ok";
-        },
-        checkCode : function(code){
-            if(code==''|| $.trim(code).length==0){
-                $("input[name='smsCode']").val("");
-                $("input[name='smsCode']").focus();
-                return "璇锋偍杈撳叆楠岃瘉鐮�";
-            }
-            if(!code.match(/[0-9]{6}$/)){
-                $("input[name='smsCode']").val("");
-                $("input[name='smsCode']").focus();
-                return 	"鎮ㄨ緭鍏ョ殑楠岃瘉鐮佹牸寮忔湁璇紝璇烽噸鏂拌緭鍏�";
-            }
-            return "ok";
-        },
-        checkPicCode : function(code){
-            if(code==''|| $.trim(code).length==0){
-                $("input[name='variCode']").val("");
-                $("input[name='variCode']").focus();
-                return "璇锋偍杈撳叆楠岃瘉鐮�";
-            }
-            if(!code.match(/\w{4}$/)){
-                $("input[name='variCode']").val("");
-                $("input[name='variCode']").focus();
-                return 	"鎮ㄨ緭鍏ョ殑楠岃瘉鐮佹牸寮忔湁璇紝璇烽噸鏂拌緭鍏�";
-            }
-            return "ok";
-        },
-        checkFansNumber : function(code){
-            if(code==''|| $.trim(code).length==0){
-                $("input[name='fans']").val("");
-                $("input[name='fans']").focus();
-                return "璇锋偍杈撳叆绮変笣鏁伴噺";
-            }
-            //[1-9][0-9]{4,12}
-            if(!code.match(/^[1-9][0-9]{0,8}$/)){
-                $("input[name='fans']").val("");
-                $("input[name='fans']").focus();
-                return 	"鎮ㄨ緭鍏ョ殑绮変笣鏁伴噺鏍煎紡鏈夎锛岃閲嶆柊杈撳叆";
-            }
-            return "ok";
-        },
-        checkWprice : function(code){
-            if(code==''|| $.trim(code).length==0){
-                return "璇锋偍杈撳叆浠锋牸";
-            }
-            //[1-9][0-9]{4,12}
-            if(!code.match(/^[1-9][0-9]{0,8}$/)){
-                return 	"鎮ㄨ緭鍏ョ殑浠锋牸鏍煎紡鏈夎锛岃閲嶆柊杈撳叆";
-            }
-            return "ok";
-        },
-        checkReadNum : function(code){
-            if(code==''|| $.trim(code).length==0){
-                $("input[name='readNum']").val("");
-                $("input[name='readNum']").focus();
-                return "璇锋偍杈撳叆鍏紬鍙峰钩鍧囨湀闃呰鏁伴噺";
-            }
-            //[1-9][0-9]{4,12}
-            if(!code.match(/^[1-9][0-9]{0,7}$/)){
-                $("input[name='readNum']").val("");
-                $("input[name='readNum']").focus();
-                return 	"鎮ㄨ緭鍏ョ殑闃呰鏁伴噺鏍煎紡鏈夎锛岃閲嶆柊杈撳叆";
-            }
-            return "ok";
-        },
-        checkPicCode : function(code){
-            if(code==''|| $.trim(code).length==0){
-                $("input[name='variCode']").val("");
-                $("input[name='variCode']").focus();
-                return "璇锋偍杈撳叆鍥剧墖楠岃瘉鐮�";
-            }
-            if(!code.match(/\w{4}$/)){
-                $("input[name='variCode']").val("");
-                $("input[name='variCode']").focus();
-                return 	"鎮ㄨ緭鍏ョ殑鍥剧墖楠岃瘉鐮佹牸寮忔湁璇紝璇烽噸鏂拌緭鍏�";
-            }
-            return "ok";
-        },
-        checkUserName :function(username){
-            if(username==''|| $.trim(username).length==0){
-                return "濮撳悕涓嶈兘涓虹┖锛岃閲嶆柊濉啓";
-            }
-            if(!username.match(/^(?!_)(?!.*?_$)[,锛孿.銆俓-銆侊紱;\锛�:\"鈥淺'锛�!_a-zA-Z0-9_\u4e00-\u9fa5]{2,25}$/)){
-                $("input[name='userName']").val("");
-                $("input[name='userName']").focus();
-                return "鎮ㄨ緭鍏ョ殑鍚嶇О鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-            }
-            return "ok";
-        },
-        checkCardID:function(cardID){
-            if(cardID==''|| $.trim(cardID).length==0){
-                return "璇疯緭鍏ヨ韩浠借瘉鍙� ";
-            }
-            if($.trim(cardID).length!=18 && $.trim(cardID).length!=15){
-                $("input[name='inputCardID']").val("");
-                $("input[name='inputCardID']").focus();
-                return "鎮ㄨ緭鍏ョ殑韬唤璇佸彿鏈夎锛岃閲嶆柊杈撳叆";
-            }
-            ///^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/
-            if(!cardID.match(/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/)){
-                $("input[name='inputCardID']").val("");
-                $("input[name='inputCardID']").focus();
-                return "鎮ㄨ緭鍏ョ殑韬唤璇佸彿鏈夎锛岃閲嶆柊杈撳叆";
-            }
-            return "ok";
-        },
-        checkBankCode:function(bankcode){
-            if(bankcode==''|| $.trim(bankcode).length==0){
-                return "璇疯緭鍏ラ摱琛屽崱鍙� ";
-            }
-            if($.trim(bankcode).length!=19 && $.trim(bankcode).length!=16){
-                $("#bankcode").val("");
-                $("#bankcode").focus();
-                return "鎮ㄨ緭鍏ョ殑閾惰鍗″彿鏈夎";
-            }
-            if(!bankcode.match(/(([1-9])[\d]{18})|([1-9])[\d]{15}/)){
-                $("#bankcode").val("");
-                $("#bankcode").focus();
-                return "鎮ㄨ緭鍏ョ殑閾惰鍗″彿鏈夎";
-            }
-            return "ok";
-        },
-        checkInputName:function(inputName){
-            if(inputName==''|| $.trim(inputName).length<=0){
-                return "璇疯緭鍏ョ湡瀹炲鍚� ";
-            }
-            ///^[\u4e00-\u9fa5]+$/
-            if(!inputName.match(/^[\u4e00-\u9fa5]+$/)){
-                $("input[name='inputName']").val("");
-                $("input[name='inputName']").focus();
-                return "鎮ㄨ緭鍏ョ殑濮撳悕鏈夎锛岃閲嶆柊杈撳叆";
-            }
-            return "ok";
-        },
-        checkQQ:function(iqq){
-            if(iqq==''|| $.trim(iqq).length==0){
-                return "璇疯緭鍏Q淇℃伅 ";
-            }
-            if(!iqq.match(/^[1-9][0-9]{4,12}/)){
-                $("input[name='iqq']").val("");
-                $("input[name='iqq']").focus();
-                return "鎮ㄨ緭鍏ョ殑QQ鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-            }
-            return "ok";
-        },
-        checkEmail:function(email){
-            if(email==''|| $.trim(email).length==0){
-                return "璇疯緭鍏ラ偖绠� ";
-            }
-            ///^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/
-            //return !email.match(/^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$/);
-            if(!email.match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/)){
-                $("input[name='email']").val("");
-                $("input[name='email']").focus();
-                return "鎮ㄨ緭鍏ョ殑閭鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-            }
-            return "ok";
-        },
-        checkWxmpName:function(wxmpName){
-            if(wxmpName==''|| $.trim(wxmpName).length==0){
-                return "璇锋偍杈撳叆寰俊鍏紬鍙峰悕绉� ";
-            }
-            //// \s  鍖归厤浠讳綍绌虹櫧瀛楃锛屽寘鎷┖鏍笺€佸埗琛ㄧ銆佹崲椤电绛夌瓑銆傜瓑浠蜂簬 [ \f\n\r\t\v]銆�
-            //杈撳叆\s+ 浠ｈ〃鍖归厤1-n涓┖鏍�,鍙鐢ㄦ埛鍚嶄腑鏈変竴涓垨澶氫釜绌烘牸閮芥棤娉曢€氳繃楠岃瘉.
-            //alert(userName.match(/^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]{2,25}$/));
-            if(!wxmpName.match(/^(?!_)(?!.*?_$)[,锛孿銆俓-.銆侊紱;\\锛�:\"鈥淺'锛�!_a-zA-Z0-9_\u4e00-\u9fa5]{2,25}$/)){
-                $("input[name='wxmpName']").val("");
-                $("input[name='wxmpName']").focus();
-                return "鎮ㄨ緭鍏ョ殑寰俊鍏紬鍙峰悕绉版牸寮忔湁璇紝璇烽噸鏂拌緭鍏ワ紒";
-            }
-            return "ok";
-        },
-        checkSareaName:function(sareaName){
-            if(sareaName==''|| $.trim(sareaName).length==0){
-                return "璇锋偍杈撳叆鍦板尯鍚嶇О ";
-            }
-            //// \s  鍖归厤浠讳綍绌虹櫧瀛楃锛屽寘鎷┖鏍笺€佸埗琛ㄧ銆佹崲椤电绛夌瓑銆傜瓑浠蜂簬 [ \f\n\r\t\v]銆�
-            //杈撳叆\s+ 浠ｈ〃鍖归厤1-n涓┖鏍�,鍙鐢ㄦ埛鍚嶄腑鏈変竴涓垨澶氫釜绌烘牸閮芥棤娉曢€氳繃楠岃瘉.
-            //alert(userName.match(/^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]{2,25}$/));
-            if(!sareaName.match(/^(?!_)(?!.*?_$)[,锛孿銆俓-.銆侊紱;\\锛�:\"鈥淺'锛�!_a-zA-Z0-9_\u4e00-\u9fa5]{2,25}$/)){
-                $("input[name='fsareaId']").val("");
-                $("input[name='fsareaId']").focus();
-                return "鎮ㄨ緭鍏ョ殑鍦板尯鍚嶇О鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-            }
-            return "ok";
-        },
-        checkWeixin:function(weixin){
-            if(weixin==''|| $.trim(weixin).length<1){
-                return "微信号不可以为空";
-            }
-            return "ok";
-        },
-        checkDescript:function(reqDesc){
-            if(!reqDesc.match(/^(?!_)(?!.*?_$)[,锛孿銆俓-.銆侊紱;\锛�:\"鈥淺'锛�!\%+?锛焅s_a-zA-Z0-9_\u4e00-\u9fa5]{1,300}$/)){
-                $("input[name='descript']").val("");
-                $("input[name='descript']").focus();
-                return "鎮ㄦ渶澶氬彲浠ヨ緭鍏�300瀛楋紝璇风簿绠€鍚庡啀娆℃彁浜わ紒";
-            }
-            return "ok";
-        },
-        //杈撳叆閲戦姝ｅ垯鏍￠獙  -- ^((/^([1-9]\d*|0)(\.\d{1,2})?$/))$ 姝ｆ暣鏁般€佸皬鏁扮偣鍚庝袱浣�
-        checkMoney:function(money){
-            if(money==''|| $.trim(money).length==0){
-                return "璇疯緭鍏ュ井淇″叕浼楀彿浠锋牸 ";
-            }
-            if(!money.match(/^([1-9]\d*|0{1,10})(\.\d{1,2})?$/)){
-                $("input[name='wprice']").val("");
-                $("input[name='wprice']").focus();
-                return "鎮ㄨ緭鍏ョ殑浠锋牸鏈夎锛岃閲嶆柊杈撳叆锛�";
-            }
-            return "ok";
-        },
-        checkWmoney:function(money){
-            if(money==''|| $.trim(money).length==0){
-                return "璇疯緭鍏ユ祦閲忎富鏀跺叆 ";
-            }
-            if(!money.match(/^([1-9]\d*|0{1,10})(\.\d{1,2})?$/)){
-                $("input[name='wprice']").val("");
-                $("input[name='wprice']").focus();
-                return "鎮ㄨ緭鍏ョ殑鏀跺叆鏈夎锛岃閲嶆柊杈撳叆锛�";
-            }
-            return "ok";
-        },
-        //浣庝簬100鐨勬鏁存暟鍜屾灏忔暟 ^100$|^(\d|[1-9]\d)(\.\d{1,2})*$ 姝ｆ暣鏁般€佸皬鏁扮偣鍚庝袱浣�
-        checkGirlFans:function(girlFans){
-            if(girlFans==''|| $.trim(girlFans).length==0){
-                return "璇疯緭鍏ュ井淇″叕浼楀彿濂崇矇鍗犳瘮 ";
-            }
-            //^([1-9]\\d?|0)(\\.\\d{1,2})?$|100 js鏁存暟浣嶆牎楠屾湁璇�
-            if(!girlFans.match(/^100$|^(\d|[1-9]\d)(\.\d{1,2})*$/)){
-                $("input[name='girlFans']").val("");
-                $("input[name='girlFans']").focus();
-                return "鎮ㄨ緭鍏ョ殑濂崇矇鍗犳瘮鏈夎锛岃閲嶆柊杈撳叆锛�";
-            }
-            return "ok";
-        },
-        //杈撳叆鏁版嵁姝ｅ垯鏍￠獙  -- ^((/^([1-9]\d*|0)(\.\d{1,2})?$/))$ 姝ｆ暣鏁般€佸皬鏁扮偣鍚庝袱浣�
-        checkAgentTc:function(money){
-            if(money!=''&& $.trim(money).length!=0){
-                if(!money.match(/^100$|^(\d|[1-9]\d)(\.\d{1,2})*$/)){
-                    return "鎮ㄨ緭鍏ョ殑鎻愭垚姣斾緥鏈夎锛岃閲嶆柊杈撳叆锛�";
-                }
-            }
-            return "ok";
-        },
-        /**
-         * 鏍￠獙鎼滅储鍙傛暟
-         */
-        checkSearchParam:function(mobile,iqq,wwName,userName,examineName){
-            //鎵嬫満鍙蜂笉涓簄ull  鏍￠獙
-            if(mobile!=null && mobile!=''){
-                /*if($.trim(mobile).length!=11){
-                 $("input[name='mobile']").val("");
-                 $("input[name='mobile']").focus();
-                 return "鎵嬫満鍙风爜闀垮害涓�11浣嶏紝璇烽噸鏂拌緭鍏�";
-                 }*/
-                if(!mobile.match(/^1\d{1,10}$/)){
-                    $("input[name='mobile']").val("");
-                    $("input[name='mobile']").focus();
-                    return "鎮ㄨ緭鍏ョ殑鎵嬫満鍙风爜鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-                }
-            }
-            //QQ鍙蜂笉涓簄ull  鏍￠獙
-            if(iqq!=null && iqq!=''){
-                if(!iqq.match(/^[1-9][0-9]{2,12}/)){
-                    $("input[name='iqq']").val("");
-                    $("input[name='iqq']").focus();
-                    return "鎮ㄨ緭鍏ョ殑QQ鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-                }
-            }
-            //鏃烘椇鍙蜂笉涓簄ull  鏍￠獙
-            if(wwName!=null && wwName!=''){
-                if(!wwName.match(/^(?!_)(?!.*?_$)[,锛�.\銆俓-銆侊紱;\锛�:\"鈥淺'锛�!_a-zA-Z0-9_\u4e00-\u9fa5]{1,25}$/)){
-                    $("input[name='wwName']").val("");
-                    $("input[name='wwName']").focus();
-                    return "鎮ㄨ緭鍏ョ殑鏃烘椇鍚嶇О鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-                }
-            }
-            //褰曞叆鑰呬笉涓簄ull  鏍￠獙
-            if(userName!=null && userName!=''){
-                //蹇呴』涓轰腑鏂�
-                if(!userName.match(/^(?!_)(?!.*?_$)[,锛孿.銆俓-銆侊紱;\锛�:\"鈥淺'锛�!_a-zA-Z0-9_\u4e00-\u9fa5]{1,25}$/)){
-                    $("input[name='userName']").val("");
-                    $("input[name='userName']").focus();
-                    return "鎮ㄨ緭鍏ョ殑褰曞叆鑰呮牸寮忔湁璇紝璇烽噸鏂拌緭鍏ワ紒";
-                }
-            }
-            //澶勭悊浜� 蹇呴』涓轰腑鏂� 鏍￠獙
-            if(examineName!=null && examineName!=''){
-                if(!examineName.match(/^(?!_)(?!.*?_$)[,锛孿.銆俓-銆侊紱;\锛�:\"鈥淺'锛�!_a-zA-Z0-9_\u4e00-\u9fa5]{1,25}$/)){
-                    $("input[name='examineName']").val("");
-                    $("input[name='examineName']").focus();
-                    return "鎮ㄨ緭鍏ョ殑鐢ㄦ埛鍚嶇О鏍煎紡鏈夎锛岃閲嶆柊杈撳叆锛�";
-                }
-            }
-            return "success";
-        }
-    }
+
 </script>
 <!--尾部-->
-<div class="clear footer_wrap">
-    <div class="box footer" style="width: 1200px;margin: 0 auto">
-        <div class="clear footer_service">
-            <ul>
-                <li>
-                    <div class="tit">我们</div>
-                    <div class="links">
-                        <a href="{:url('index/aboutme/index')}" target="_blank">加入我们</a>
-                        <a href="{:url('index/aboutme/index')}" target="_blank">联系我们</a>
-                        <a href="{:url('index/aboutme/index')}" target="_blank">关于我们</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="tit">安全保障</div>
-                    <div class="links">
-                        <a>极速退款</a>
-                        <a>一对一服务</a>
-                        <a>担保转让</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="tit">帮助中心</div>
-                    <div class="links">
-                        <a href="{:url('index/prodetail/index')}?id=4">交易流程</a>
-                        <a href="{:url('index/serves/index')}">常见问题</a>
-                        <a href="{:url('index/serves/index')}">服务中心</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="footer_ewm">
-                        <img src="{$baseinfo.wxcode}"
-                             style="width:110px;height:110px;margin-right: 10px">
-                        <span style="margin-right: 10px;margin-top: 5px;">扫码关注微信</span>
-                    </div>
-                </li>
-                <li style="width: 210px;">
-                    <div style="display: flex;margin-top: 20px;">
-                        <img src="__PUBLIC__static/index/images/phones.png"
-                             style="width:30px;height:30px;margin-right: 10px">
-                        <span style="color:white;font-size: 25px;">{$baseinfo.phone}</span>
-                    </div>
-                    <span style="color: #7C7C7C;display: flex;padding: 10px 5px;">周一至周五 9:00-17:30</span>
-                </li>
-            </ul>
-        </div>
-        <div class="clear footer_copyright">
-            公司地址:{$baseinfo.cpaddress}
-            <p> <a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: white;margin-top:5px;afont-size: 15px;">{$baseinfo.icp}</a></p>
-
-        </div>
-    </div>
-</div>
-<style>
-    .footer_ewm span {
-        display: inline-block;
-        width: 110px;
-        height: 50px;
-        color: #a5a5a5;
-    }
-</style>
-<style>
-    #footer > p {
-        margin-top: 0;
-    }
-
-    #footer a {
-        color: #666;
-    }
-</style>
-<style>
-    .mh-fixed {
-        width: 100%;
-        height: 135px;
-        background: #000;
-        position: fixed;
-        opacity: 0.9;
-        left: -100%;
-        bottom: 0;
-        box-sizing: border-box;
-        border-left: 8px solid #ffda44;
-        z-index: 8;
-    }
-
-    .mh-fixed-in {
-        width: 1200px;
-        margin: 0 auto;
-    }
-
-    .mx-fixed-l {
-        width: 300px;
-        height: 100%;
-        float: left;
-    }
-
-    .mh-fixed-logo {
-        display: block;
-        width: 170px;
-
-        margin: 0 auto;
-        margin-top: 10px;
-        margin-bottom: 2px;
-    }
-
-    .mh-fixed-tip {
-        font-size: 28px;
-        color: #fff100;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .mh-fixed-se {
-        width: 77px;
-        height: 135px;
-        float: left;
-        background: url("__PUBLIC__static/index/images/mh-fix-se.png") center center no-repeat;
-    }
-
-    .mh-fixed-input-out {
-        width: 260px;
-        height: 100%;
-        float: left;
-    }
-
-    .mh-fixed-input-select {
-        width: 80%;
-        height: 36px;
-        border: 2px #dedede solid;
-
-        font-size: 18px;
-        color: #666;
-        text-align: center;
-        line-height: 36px;
-        margin: 0 auto;
-        margin-left: 10%;
-        margin-top: 26px;
-        text-indent: 5px;
-        background: url("__PUBLIC__static/index/images/xia.png") 90% center no-repeat;
-        background-size: 8%;
-        background-color: #fff;
-        cursor: pointer;
-
-    }
-
-    .mh-fixed-input-total {
-        width: 80%;
-        margin: 0 auto;
-        margin-top: 10px;
-        height: 36px;
-    }
-
-    .mh-fixed-input-total-input {
-        width: 60%;
-        height: 100%;
-        box-sizing: border-box;
-        border: 1px solid #dedede;
-        font-size: 15px;
-        color: #999;
-        float: left;
-    }
-
-    .mh-fixed-input-total-sub {
-        width: 35%;
-        height: 100%;
-        border: 0;
-        float: right;
-        font-size: 18px;
-        background: #fff100;
-    }
-
-    .mh-fixed-bg {
-        width: 1.5px;
-        height: 95px;
-        margin: 20px 0 0 0;
-        float: left;
-        background: #fff;
-    }
-
-    .mh-fixed-img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        float: left;
-        margin-top: 10px;
-        margin-left: 28px;
-        overflow: hidden;
-    }
-
-    .mh-fixed-img img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .mh-fixed-link {
-        width: 170px;
-        height: 100px;
-        box-sizing: border-box;
-        float: left;
-        margin-left: 28px;
-        padding-top: 20px;
-    }
-
-    .mh-fixed-link p, .mh-fixed-wx p {
-        height: 35px;
-        line-height: 35px;
-        color: #fff;
-        font-size: 18px;
-    }
-
-    .mh-fixed-wx p {
-        text-align: center;
-        margin-top: 3px;
-    }
-
-    .mh-fixed-link a {
-        display: block;
-        background: #f00;
-        width: 65%;
-        height: 35px;
-        font-size: 18px;
-        text-align: center;
-        line-height: 35px;
-        color: #fff;
-    }
-
-    .mh-fixed-wx {
-        width: 160px;
-        height: 100%;
-        float: left;
-        margin-left: 28px;
-        padding-top: 10px;
-        box-sizing: border-box;
-    }
-
-    .mh-fixed-wx img {
-        display: block;
-        width: 80px;
-        height: 80px;
-        margin: 0 auto;
-    }
-
-    .mh-fixed-close {
-        margin-left: 5px;
-        margin-right: 20px;
-        float: right;
-        margin-top: 50px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-    }
-
-    .mh-fixed-close img {
-        width: 40px;
-        height: 40px;
-    }
-</style>
-<style>
-    .mh-hd {
-        width: 143px;
-        height: 135px;
-        position: fixed;
-        opacity: 0.9;
-        left: -143px;
-        bottom: 0;
-        box-sizing: border-box;
-        border-left: 8px solid #ffda44;
-        z-index: 8;
-        background: url(__PUBLIC__static/index/images/mh-fix-se.png) center center no-repeat;
-        background-color: #000;
-        cursor: pointer;
-    }
-</style>
-<div class="mh-hd"><img src=""/></div>
-<script>
-    $(".mh-fixed").animate({left: "0"}, 1000);
-    $("[mh-close]").click(function () {
-        $(".mh-fixed").animate({left: "-100%"}, 1000, showmhfix);
-    })
-    function showmhfix() {
-        $(".mh-hd").show();
-        $(".mh-hd").animate({left: "0"}, 300);
-    }
-
-    $(".mh-hd").click(function () {
-        $(".mh-hd").hide();
-        $(".mh-hd").animate({left: "-143px"}, 100);
-        $(".mh-fixed").animate({left: "0"}, 1000);
-
-    })
-</script>
-</body>
-</html>
+{include file="common:foot" /}
           

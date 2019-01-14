@@ -1,0 +1,353 @@
+﻿{include file="common:header" /}
+<script type="text/javascript" src="__PUBLIC__static/index/js/servicedetail.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__static/index/css/servicedetail.css">
+</head>
+<body>
+<style>
+    #online > div > s {
+        background: url("__PUBLIC__static/index/images/kefu.png") center center no-repeat;
+        background-color: #666;
+    }
+
+    body > iframe {
+        opacity: 0;
+        display: none;
+    }
+
+</style>
+<div id="header2">
+    <div>
+        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到云乐互联！
+            {notempty name="uinfo"}
+            <span onclick="loginout();" style="cursor: pointer;">【退出】</span>
+            {/notempty}
+
+            <p>
+                <span><a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$baseinfo.kfqq}&site=qq&menu=yes">联系客服</a></span>
+                <span><a>服务热线：</a><i>{$baseinfo.phone}</i></span>
+            </p>
+        </div>
+    </div>
+
+    <form method="get">
+        <div>
+            <div><img onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+                      src="__PUBLIC__static/index/picture/logo.jpg" width="230" height="90">
+                <div>
+                    <em>
+                        <input class="hc-input" hc-title name="title" placeholder="输入您需求的关键词，如“订阅号”">
+                        <input type="text" value="搜索" id="dokeyword" class="hc-sub" style="color: #fff;padding-left: 30px;"/>
+                    </em>
+                    <ul>
+                        {volist name="typetop" id="vo"}
+                        <li><a style="color:#787878" href="{:url('index/deal/index',['tid'=>$vo.tid])}" class="link">{$vo.name}</a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(".hc-sub").click(function () {
+        var _title = $("[hc-title]").val();
+        var url="{:url('index/deal/index',['types'=>1,'keywords'=>'keys'])}";
+        newurl=url.replace('keys',_title);
+        window.location.href = newurl;
+
+    })
+    function loginout() {
+        layer.load(0, {shade: false});
+        $.post("{:url('index/index/loginout')}",{},function (e) {
+            layer.msg('已退出');
+            setTimeout(function () {
+                window.location.reload();
+            },1000)
+        })
+    }
+</script>
+<style>
+    #header2 > div:first-child {
+        z-index: 10;
+    }
+
+    @keyframes hot {
+        0% {
+            transform: translate(0, 0);
+        }
+        50% {
+            transform: translate(0, -3px);
+        }
+        100% {
+            transform: translate(0, 0);
+        }
+    }
+
+    @-webkit-keyframes hot {
+        0% {
+            -webkit-transform: translate(0, 0);
+        }
+        50% {
+            -webkit-transform: translate(0, -5px);
+        }
+        100% {
+            -webkit-transform: translate(0, 0);
+        }
+    }
+
+</style>
+<div id="header_nav2">
+    <div class="mj-hv-total" style="position: relative;height: 70px">
+        <ul>
+            <li><a mj-hv-sh-none href="{:url('index/index/index')}" class="link">首页</a></li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li><a mj-hv-sh href="{:url('index/deal/index')}" class="link">公众号转让</a></li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li style="position: relative">
+                <a mj-hv-sh-none href="{:url('index/sell/index')}" class="link">卖公众号</a>
+            </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li><a mj-hv-sh-none href="{:url('index/deal/index')}">买公众号</a></li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li style="position: relative">
+                <a mj-hv-sh-none href="{:url('index/evals/index')}" class="link">帐号估值</a>
+            </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li>
+                <a mj-hv-sh-none href="{:url('index/aboutme/index')}" class="link">关于我们</a>
+            </li>
+            <li style="margin:0;color: #fff;">|</li>
+            <li>
+                <a mj-hv-sh-none href="{:url('index/usercenter/index')}" class="link">个人中心</a>
+            </li>
+        </ul>
+        <!--<img src="__PUBLIC__static/index/picture/font1.png" style="margin-top: 9px;margin-left: 120px;">-->
+        <!--账号选择条件悬浮框-->
+        <div mj-cd id="select_box" class="mj-cd"
+             style="display:none;position: absolute;left: 0;top:69px;z-index:10;width: auto;border: 4px solid #1F9EBF;border-top: 0">
+            <!--    <div></div>-->
+            <ul style="background: #fff">
+                <li>
+                    <s>公众号类型：</s>
+                    <em>
+                        <a class="link u" onclick="selectFour(this,type=1)">全部</a>
+                        {volist name="haotype" id="vo"}
+                        <a onclick="selectFour(this,type=1,'{$vo.htid}')" class="link ">{$vo.name}</a>
+                        {/volist}
+                    </em>
+                </li>
+                <li>
+                    <s>公众号类目：</s>
+                    <em>
+                        <a onclick="selectFour(this,type=2)" class="link u">全部</a>
+                        {volist name="alltype" id="vo"}
+                        <a onclick="selectFour(this,type=2,'{$vo.tid}')" class="link ">{$vo.name}</a>
+                        {/volist}
+
+                    </em>
+                </li>
+                <li>
+                    <s>价格区间：</s>
+                    <em>
+                        <a onclick="selectFour(this,type=3,'')" class="link">全部</a>
+                        <a onclick="selectFour(this,type=3,1)" class="link">1万以内</a>
+                        <a onclick="selectFour(this,type=3,2)" class="link">1-3万</a>
+                        <a onclick="selectFour(this,type=3,3)" class="link">3-5万</a>
+                        <a onclick="selectFour(this,type=3,4)" class="link">5-7万</a>
+                        <a onclick="selectFour(this,type=3,5)" class="link">7-10万</a>
+                        <a onclick="selectFour(this,type=3,6)" class="link">10-20万</a>
+                        <a onclick="selectFour(this,type=3,7)" class="link">20万以上</a>
+                    </em>
+                </li>
+                <li>
+                    <s>认证类型：</s>
+                    <em>
+                        <a onclick="selectFour(this,type=4,3)" class="link u">不限</a>
+                        <a onclick="selectFour(this,type=4,0)" class="link ">未认证</a>
+                        <a onclick="selectFour(this,type=4,1)" class="link ">已认证</a>
+                    </em>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    function gethref(obj) {
+        var is_open = $(obj).attr("is-open");
+        var href = $(obj).attr("hc-href");
+        // console.log(href);
+        if (is_open == 1) {
+            window.open(href);
+        } else {
+            window.location.href = href;
+        }
+    }
+
+    $("[mj-hv-sh]").mouseover(function () {
+        $("[mj-cd]").show();
+        console.log($("[mj-cd]").height());
+    })
+    $("[mj-hv-sh-none],#header2").mouseover(function () {
+
+        $("[mj-cd]").hide();
+    })
+    $(".mj-cd ul").mouseleave(function (event) {
+        $("#header_nav2").hover(function () {
+            event.preventDefault();
+        })
+        $("[mj-cd]").hide();
+
+    })
+
+    function selectFour(object, type, id) {
+        var url = "{:url('index/deal/index')}";
+        var string = $(object).html();
+        console.log('string==' + string);
+        var haotype = "";
+        var fortype = "";
+        var price = "";
+        var isrz = "";
+
+        if (type == 1) {
+            haotype = id;
+            url = url + '?type=' + haotype
+        } else if (type == 2) {
+            fortype = id;
+            url = url + '?fortype=' + fortype
+        } else if (type == 3) {
+            price = id;
+            url = url + '?price=' + price
+        } else if (type == 4) {
+            isrz = id;
+            url = url + '?isrz=' + isrz
+        }
+        window.location.href = url;
+    }
+</script>
+<!--主体-->
+<style>
+    .topimg img{
+        border-radius: 10px;
+        box-shadow:0px 3px 3px #9DA0A0;
+        padding:5px;
+    }
+    #detail{
+        display: flex;
+        justify-content: center;
+    }
+    #detail ul{
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        width: 1140px;
+    }
+    #detail ul li{
+       width: 360px;
+        height: 350px;
+        margin: 20px 10px;
+        padding:5px;
+    }
+    .info{
+        padding-top: 15px;
+        padding-left: 5px;
+    }
+    .title{
+        margin-top: 8px;
+    }
+    .price{
+        margin-top: 25px;
+    }
+    .bt{
+        display: flex;
+        margin-top: 10px;
+        padding-left: 5px;
+    }
+    .bt a{
+        padding: 3px 15px;
+        border: 1px #1F9EBF solid;
+        color: #1F9EBF;
+        font-size: 16px;
+        border-radius: 8px;
+
+    }
+
+</style>
+<div id="location">当前位置：增值服务</div>
+    <div id="detail">
+        <ul>
+            {volist name="list" id="vo"}
+            <li>
+                <div class="topimg">
+                    <img src="{$vo.titleimg}" width="360" height="auto">
+                </div>
+                <div class="info">
+                    <aside class="title">
+                        <span>名称：</span>
+                        <span class="titlename">{$vo.title}</span>
+                    </aside>
+                    <aside class="price">
+                        <span>价格：</span>
+                        <span style="color: red;font-size: 20px;font-weight: bold">{$vo.price}</span>
+                    </aside>
+                </div>
+                <div class="bt">
+                    <a onclick="dopay('{$vo.id}','{$vo.price}','{$vo.title}');" href="javascript:void(0)">立即支付</a>
+                    <a onclick='gdetail("{$vo.contents}");' href="javascript:void(0)" style="margin-left: 15px;">查看详细</a>
+                </div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+    })
+    function dopay(id,price,name) {
+        $.post('',{},function (e) {
+            var d=JSON.parse(e);
+            if (d.code){
+                //可以支付
+                layer.msg(id);
+                layer.open({
+                    title: '微信扫一扫支付',
+                    btn:[],
+                    content: "<span style='display: flex;justify-content: center;align-content: center;'>"
+                    + "<label style='color: red;font-size: 20px;font-weight: bold;'>"
+                    + price
+                    +"</label>元&nbsp;"
+                    +name
+                    +"</span><br/><img alt='扫码支付' width='100%' height='100%' src='{:url('index/addserver/serpay')}?sid="+id+"'/>",
+                    end:function () {
+                        clearInterval(setin1);
+                    }
+                });
+                var setin1=setInterval(function () {
+                    console.log('关闭');
+                    $.post("{:url('index/usercenter/getstate')}",{sid:id,isser:1},function (e) {
+                        if(e){
+                            window.location.href="{:url('index/usercenter/index')}"
+                            clearInterval(setin1);
+                        }
+                    })
+                },1000)
+            }else{
+                window.location.href="{:url('index/login/index')}";
+            }
+        })
+
+    }
+    function gdetail(cont) {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['700px', '850px'], //宽高
+            content: '<div style="padding: 20px;">'+cont+'</div>'
+        });
+    }
+</script>
+{include file="common:foot" /}
+          

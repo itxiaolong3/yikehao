@@ -59,6 +59,24 @@ class Orderlist extends Base {
             echo "无权访问";
         }
     }
+    public function serorder(){
+        $getkeyword=input('keyword');
+        $pageparam=['query'=>[]];//查询条件
+        //$pageparam['query']['phone']=['like',"%".$getkeyword."%"];
+        $pageparam['query']['ordernum']=['like',"%".$getkeyword."%"];
+        $userlist=Db::table('addserorder')->where($pageparam['query'])->paginate(15,false,$pageparam);
+        $this->assign('keyword',$getkeyword);
+        $this->assign('list',$userlist);
+        //权限判断
+        $getrootids=session('rootids');
+        $idsarr=explode(',',$getrootids);
+        $this->assign('ids',$getrootids);
+        $rootname=Session::get('rootname');
+        $loginname=Session::get('loginname');
+        $this->assign('rootname',$rootname);
+        $this->assign('loginname',$loginname);
+        return $this->fetch();
+    }
     public function myorder(){
         if (request()->isPost()){
             $getid=input('id');

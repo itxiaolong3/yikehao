@@ -17,9 +17,9 @@ return [
     // 数据库名
     'database'        => 'hao',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'yunlehl',
     // 密码
-    'password'        => '123',
+    'password'        => 'yunlehl123456',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

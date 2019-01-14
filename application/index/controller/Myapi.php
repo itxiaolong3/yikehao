@@ -11,6 +11,7 @@ use app\index\WxApi;
 use service\ToolsService;
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Myapi extends \think\Controller{
     public function __construct(Request $request = null)
@@ -22,11 +23,14 @@ class Myapi extends \think\Controller{
         $pay=new WxApi();
         //$body,$sn,$price,$openid,$tz_url = false
         $configs=Db::table('configs')->where('id',1)->find();
-        $body='众筹金服';
-        $sn=time();
+        $body='云乐互联支付';
+        $sn=time().$this->getcode(8);
         $price=$configs['price'];
         $openid=input('openid');
-        $attach=input('message');
+        $uid=input('uid');
+        $gid=input('gid');
+        $paytype=input('paytype');//0会员支付 1-买号 2-增值服务
+        $attach=$uid.'|'.$gid.'|'.$paytype;
         $res=$pay->UnifiedOrder($body,$sn,$attach,$price*100,$openid);
         $re = json_decode($res,true);
         if ($re){
@@ -57,19 +61,19 @@ class Myapi extends \think\Controller{
         $psw=input('psw');
         $openid=input('openid');
         $type=input('type');
-        if ($type==1){
-            //认证码
+        if ($type==1){//验证码登录
             $code=input('code');
             if (empty($code)){
                 $redata['code']=0;
-                $redata['msg']='登录失败。认证码不可为空';
+                $redata['msg']='登录失败。验证码不可为空';
                 echo json_encode($redata);
             }else{
-                //先判断认证码
-                $istrue=Db::table('smscode')->where(array('openid'=>$openid,'code'=>$code))->find();
+                //先判断验证码
+                $istrue=Db::table('smscode')->where(array('phone'=>$phone,'code'=>$code))->find();
                 if ($istrue){
-                    $loginre=Db::table('user')->where(array('openid'=>$openid,'phone'=>$phone))->find();
+                    $loginre=Db::table('userinfo')->where('phone',$phone)->find();
                     if ($loginre){
+                        Db::table('smscode')->where('phone',$phone)->delete();
                         $redata['code']=1;
                         $redata['state']=$loginre['state'];
                         $redata['msg']='登录成功';
@@ -81,14 +85,14 @@ class Myapi extends \think\Controller{
                     }
                 }else{
                     $redata['code']=0;
-                    $redata['msg']='登录失败。认证码错误';
+                    $redata['msg']='登录失败。验证码错误';
                     echo json_encode($redata);
                 }
             }
 
         }else{
             //账号密码登录
-            $re=Db::table('user')->where(array('phone'=>$phone,'psw'=>$psw,'openid'=>$openid))->find();
+            $re=Db::table('userinfo')->where(array('phone'=>$phone,'psw'=>$psw,'openid'=>$openid))->find();
             if ($re){
                 $redata['code']=1;
                 $redata['msg']='登录成功';
@@ -105,7 +109,7 @@ class Myapi extends \think\Controller{
     //获取用户信息
     public function getuseropenid(){
         $id=input('uid');
-        $re=Db::table('user')->where('id',$id)->find();
+        $re=Db::table('userinfo')->where('id',$id)->find();
         echo json_encode($re);
     }
     //发送短信认证码
@@ -119,22 +123,22 @@ class Myapi extends \think\Controller{
         $tmpcode=$configinfo['smscode'];
         $getphone=input('phone');
         $openid=input('openid');
-        $code=$this->getcode();
+        $code=$this->getcode(4);
         $mysms=new Mysms();
         $returninfo=$mysms->sendSms($keyid,$keysecret,$signname,$tmpcode,$getphone,$code);
         $re=json_encode($returninfo);
         $dealre=json_decode($re,true);
         if ($dealre['Message']=='OK'){
             //保存认证码
-            $issave=Db::table('smscode')->where('openid',$openid)->find();
+            $issave=Db::table('smscode')->where('phone',$getphone)->find();
             if ($issave){
-                Db::table('smscode')->where('openid',$openid)->update(array('code'=>$code));
+                Db::table('smscode')->where('phone',$getphone)->update(array('code'=>$code));
             }else{
-                Db::table('smscode')->insert(array('openid'=>$openid,'code'=>$code));
+                Db::table('smscode')->insert(array('phone'=>$getphone,'code'=>$code));
             }
             $arr['status']=1;
             $arr['msg']='发送成功';
-            $arr['code']=md5('xiaolong'.$code);
+            //$arr['code']=md5('xiaolong'.$code);
             echo json_encode($arr);
         }else{
             $arr['status']=0;
@@ -154,23 +158,25 @@ class Myapi extends \think\Controller{
             echo json_encode($redata);
         }else if(empty($code)){
             $redata['code']=0;
-            $redata['msg']='注册失败。请输入认证码';
+            $redata['msg']='注册失败。请输入验证码';
             echo json_encode($redata);
         }else{
             //先判断认证码
-            $istrue=Db::table('smscode')->where(array('openid'=>$openid,'code'=>$code))->find();
+            $istrue=Db::table('smscode')->where(array('phone'=>$phone,'code'=>$code))->find();
             if ($istrue){
                 $data['phone']=$phone;
                 $data['psw']=$psw;
+                $data['openid']=$openid;
                 //查找用户是否存在
-                $ishave=Db::table('user')->where('phone',$phone)->find();
+                $ishave=Db::table('userinfo')->where('phone',$phone)->find();
                 if ($ishave){
                     $redata['code']=0;
                     $redata['msg']='已注册过，无法再次注册';
                     echo json_encode($redata);
                 }else{
-                    $upre=Db::table('user')->where('openid',$openid)->update($data);
+                    $upre=Db::table('userinfo')->insert($data);
                     if ($upre){
+                        Db::table('smscode')->where('phone',$phone)->delete();
                         $redata['code']=1;
                         $redata['msg']='注册成功';
                         echo json_encode($redata);
@@ -184,7 +190,7 @@ class Myapi extends \think\Controller{
 
             }else{
                 $redata['code']=0;
-                $redata['msg']='注册失败。认证码错误';
+                $redata['msg']='注册失败。验证码';
                 echo json_encode($redata);
             }
 
@@ -196,57 +202,44 @@ class Myapi extends \think\Controller{
         $wxConfig=Db::table('configs')->where('id',1)->find();
         $tokenandappid=$this->get_access_token_and_openid($wxConfig['appid'],$wxConfig['appSecret'],$getcode);
         $openid=$tokenandappid['openid'];
-        $access_token=$tokenandappid['access_token'];
+        //$access_token=$tokenandappid['access_token'];
 
         //获取用户信息
-        $userresult = file_get_contents("https://api.weixin.qq.com/sns/userinfo?access_token=" . $access_token . "&openid=" . $openid . '&lang=zh_CN');
-        $userinfo = json_decode($userresult, true);
-
-        $getusername = $userinfo['nickname'];
-        $getheaderimg = $userinfo['headimgurl'];
+//        $userresult = file_get_contents("https://api.weixin.qq.com/sns/userinfo?access_token=" . $access_token . "&openid=" . $openid . '&lang=zh_CN');
+//        $userinfo = json_decode($userresult, true);
+//
+//        $getusername = $userinfo['nickname'];
+//        $getheaderimg = $userinfo['headimgurl'];
         //保存openid到用户表中
         //先检查表中是否已经存在该用户，如果存在直接跳转
-        $checkres=Db::table('user')->where('openid',$openid)->find();
+        //$checkres=Db::table('userinfo')->where('openid',$openid)->find();
         //exit($openid);
-        if ($checkres){
-            session("session_openid", $openid);
-            $this->redirect(request()->domain().'/#/pages/login?uid='.$checkres['id']);
-//            if ($checkres['state']){
-//                $redata['code']=3;
-//                $redata['openid']=$openid;
-//                $redata['msg']='已支付过';
-//            }else{
-//                $redata['code']=2;
-//                $redata['openid']=$openid;
-//                $redata['msg']='已登录过，未支付';
-//            }
-//            echo json_encode($redata);
-        }else{
-            $data['openid']=$openid;
-            $data['headimg']=$getheaderimg;
-            $data['nickname']=$getusername;
-            $data['addtime']=date('Y-m-d H:i:s',time());
-            $addre=Db::table('user')->insert($data);
-            $newid=Db::table('user')->getLastInsID();
-            if ($addre){
+//        if ($checkres){
+//            session("session_openid", $openid);
+//            $this->redirect(request()->domain().'/#/pages/login?uid='.$checkres['id']);
+//        }else{
+//            $data['openid']=$openid;
+//            $data['headimg']=$getheaderimg;
+//            $data['nickname']=$getusername;
+//            $data['addtime']=date('Y-m-d H:i:s',time());
+//            $addre=Db::table('userinfo')->insert($data);
+//            $newid=Db::table('userinfo')->getLastInsID();
+            //if ($addre){
                 session("session_openid", $openid);
-                $this->redirect(request()->domain().'/#/pages/login?uid='.$newid);
-//                $redata['code']=1;
-//                $redata['msg']='首次登录';
-//                $redata['openid']=$openid;
+                $dealopenid=$this->encodeanduecode('itxiaolong',$openid,0);
+                $this->redirect(request()->domain().'/#/pages/login?openid='.$dealopenid);
+           // }else{
+//                $redata['code']=0;
+//                $redata['msg']='登录失败。请重试';
 //                echo json_encode($redata);
-            }else{
-                $redata['code']=0;
-                $redata['msg']='登录失败。请重试';
-                echo json_encode($redata);
-            }
-        }
+           // }
+       // }
 
     }
-    //随机生成认证码
-    public function getcode(){
+    //随机生成验证码
+    public function getcode($n){
         $num="";
-        for($i=0;$i<4;$i++){
+        for($i=0;$i<$n;$i++){
             $num .= rand(0,9);
         }
         return $num;
@@ -257,5 +250,21 @@ class Myapi extends \think\Controller{
         $getaccess = file_get_contents("https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $appid . "&secret=" . $secret . "&code=" . $code . '&grant_type=authorization_code');
         $getacctoken = json_decode($getaccess, true);
         return $getacctoken;
+    }
+
+    /**
+     * @param $key  解密密钥
+     * @param $string 需要加密的文字
+     * @param $decrypt 0加密 1解密
+     * @return string 返回结果
+     */
+    function encodeanduecode($key, $string, $decrypt){
+        if($decrypt){
+            $decrypted = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($string), MCRYPT_MODE_CBC, md5(md5($key))), "12");
+            return $decrypted;
+        }else{
+            $encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))));
+            return $encrypted;
+        }
     }
 }

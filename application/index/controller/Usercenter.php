@@ -45,6 +45,8 @@ class Usercenter extends Base
                     $fblist[$k]['kfqq']=$getqq['qq'];
                 }
                 $this->assign('fblist',$fblist);
+                $configs=Db::table('configs')->where('id',1)->field('mothprice,jiprice,yearprice')->find();
+                $this->assign('vipprice',$configs);
                 //个人购买订单
                 //买号
                 $payorder=Db::table('sellinfo')
@@ -58,6 +60,9 @@ class Usercenter extends Base
                 //会员
                 $viporder=Db::table('viporder')->where(array('uid'=>$userid,'isdel'=>0))->select();
                 $this->assign('viplist',$viporder);
+                //增值服务
+                $serorder=Db::table('addserorder')->select();
+                $this->assign('serorder',$serorder);
                 $basainfo=Db::table('configs')->field('cpaddress,phone,icp,wxcode,kfqq')->where('id',1)->find();
                 $this->assign('baseinfo',$basainfo);
                 $userid=Session::get('userid');
@@ -75,12 +80,15 @@ class Usercenter extends Base
         $id=input('id');
         //删除类型
         $types=input('types');
+
         if ($types==0){
             $delr=Db::table('viporder')->where('id',$id)->update(array('isdel'=>1));
         }else if($types==2){
             $delr=Db::table('payorder')->where('id',$id)->update(array('isdel'=>1));
         }else if($types==1){
             $delr=Db::table('sellinfo')->where('id',$id)->delete();
+        }else if($types=3){
+            $delr=Db::table('addserorder')->where('id',$id)->update(array('isdel'=>1));
         }
         if ($delr){
             $res['code']=1;
@@ -97,17 +105,18 @@ class Usercenter extends Base
         vendor('phpqrcode.phpqrcode');//引入插件类
         $pay=new WxApiSM();
         $typenum=input('typenum');
+        $configs=Db::table('configs')->where('id',1)->find();
            switch ($typenum){
                case 1:
-                   $price=0.01;
+                   $price=$configs['mothprice'];
                    $body="月卡会员支付";
                    break;
                case 2:
-                   $price=0.02;
+                   $price=$configs['jiprice'];
                    $body="季卡会员支付";
                    break;
                case 3:
-                   $price=0.03;
+                   $price=$configs['yearprice'];
                    $body="永久会员支付";
                    break;
                default:
@@ -117,7 +126,7 @@ class Usercenter extends Base
         $ordernum=time().$this->getcode();
         $uid=Session::get('userid');
         $uidandtype=$uid.'|'.$typenum;
-        $payurl=$pay->UnifiedOrder($body,$uidandtype,$price*100,$ordernum,true);
+        $payurl=$pay->UnifiedOrder($body,$uidandtype,$price*100,$ordernum,1);
         //$payurl=$pay->UnifiedOrder($body,$uid,$price,$ordernum);
         $QRcode=new \QRcode();
         $level = 'L';
@@ -133,17 +142,27 @@ class Usercenter extends Base
         $types=input('typenum');
         //买号的
         $ishaopay=input('ishao');
+        //买新增服务的
+        $isaddser=input('isser');
         $haoid=input('gid');
-        if (empty($ishaopay)){
-            $re=Db::table('userinfo')->where('uid',$uid)->find();
-            if ( $re['vipstate']==$types){
+        if($isaddser){
+            $sid=input('sid');
+            $res=Db::table('addserorder')->where(array('uid'=>$uid,'sid'=>$sid))->find();
+            if ($res){
+                return true;
+            }else{
+                return false;
+            }
+        }else if($ishaopay){
+            $res=Db::table('payorder')->where(array('uid'=>$uid,'gid'=>$haoid))->find();
+            if ($res){
                 return true;
             }else{
                 return false;
             }
         }else{
-            $res=Db::table('payorder')->where(array('uid'=>$uid,'gid'=>$haoid))->find();
-            if ( $res){
+            $re=Db::table('userinfo')->where('uid',$uid)->find();
+            if ( $re['vipstate']==$types){
                 return true;
             }else{
                 return false;

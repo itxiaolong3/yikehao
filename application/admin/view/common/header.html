@@ -154,6 +154,7 @@
             <dt ><i class="Hui-iconfont">&#xe616;</i> 服务中心<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
+                    <li id="addserver"><a href="{:url('admin/addserver/index')}" title="增值服务">增值服务</a></li>
                     <li id="news"><a href="{:url('admin/sernewlist/index')}" title="新闻列表">新闻列表</a></li>
                     <li id="prob"><a href="{:url('admin/serproblist/index')}" title="问题列表">问题列表</a></li>
                 </ul>
@@ -170,6 +171,7 @@
                     {in name="8" value="$ids"}
                     <li id="order"><a href="{:url('admin/Orderlist/index')}" title="买号订单">买号订单</a></li>
                     {else/}{/in}
+                    <li id="addser"><a href="{:url('admin/Orderlist/serorder')}" title="增服务订单">增服务订单</a></li>
                     <li id="myorder"><a href="{:url('admin/Orderlist/myorder')}" title="受理订单">受理订单</a></li>
                 </ul>
             </dd>

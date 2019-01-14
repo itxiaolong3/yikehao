@@ -14,7 +14,9 @@ class WxApiSM{
 	public function UnifiedOrder($body,$attach,$price,$productid,$tz_url){
 		if(!$tz_url){
 			$tz_url = request()->domain().'/yikehao/TZ';
-		}else{
+		}else if($tz_url==2){
+            $tz_url = request()->domain().'/yikehao/TZser';
+        }else{
             $tz_url = request()->domain().'/yikehao/TZSm';
         }
 

@@ -74,6 +74,10 @@ class Sell extends Base
 
     //上传图片
     public function upImg(){
+        header('Access-Control-Allow-Origin:*');
+//        header('Access-Control-Allow-Methods:*');
+//        header('Access-Control-Allow-Headers:*');
+//        header('Access-Control-Allow-Credentials:false');
         if(request()->isPost()){
             $getFile = $_FILES['file'];
             $rooturl='/yikehao/public/static/upLoder/' ;
