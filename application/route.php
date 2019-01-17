@@ -66,6 +66,7 @@ return [
     'gettoptype'=>'index/Myapi/gettoptype',
     'findhao'=>'index/Myapi/findhao',
     'haolist'=>'index/Myapi/haolist',
+    'sellnotifi'=>'index/Myapi/sellnotifi',
     //后端
     'admin/user'=>'admin/Userlist/index',
     'orderlist'=>'admin/Orderlist/index',
