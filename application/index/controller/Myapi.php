@@ -321,19 +321,7 @@ class Myapi extends \think\Controller{
         if ($userlist){
             echo $this->resultToJson(1,'返回号列表成功',$userlist);
         }else{
-            echo $this->resultToJson(0,'返回号列表失败','');
-        }
-    }
-    //动态交易
-    public function sellnotifi(){
-        $ordernews=Db::table('payorder')->select();
-        foreach ($ordernews as $k=>$v){
-            $ordernews[$k]['totime']=$this->formatTime($v['paytime']);
-        }
-        if ($ordernews){
-            echo $this->resultToJson(1,'返回交易动态成功',$ordernews);
-        }else{
-            echo $this->resultToJson(0,'返回交易动态失败','');
+            echo $this->resultToJson('0','返回号列表失败','');
         }
     }
     //返回结果的封装
@@ -342,43 +330,6 @@ class Myapi extends \think\Controller{
         $re['msg']=$msg;
         $re['data']=$data;
         return json_encode($re);
-    }
-    //时间计算格式
-    function formatTime($date) {
-        $str = '';
-        $timer = strtotime($date);
-        $diff = $_SERVER['REQUEST_TIME'] - $timer;
-        $day = floor($diff / 86400);
-        $free = $diff % 86400;
-        if($day > 0) {
-            return $day."天前";
-        }else{
-            if($free>0){
-                $hour = floor($free / 3600);
-                $free = $free % 3600;
-                if($hour>0){
-                    return $hour."小时前";
-                }else{
-                    if($free>0){
-                        $min = floor($free / 60);
-                        $free = $free % 60;
-                        if($min>0){
-                            return $min."分钟前";
-                        }else{
-                            if($free>0){
-                                return $free."秒前";
-                            }else{
-                                return '刚刚';
-                            }
-                        }
-                    }else{
-                        return '刚刚';
-                    }
-                }
-            }else{
-                return '刚刚';
-            }
-        }
     }
 
 }
