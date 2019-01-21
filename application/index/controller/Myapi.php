@@ -64,9 +64,7 @@ class Myapi extends \think\Controller{
         if ($type==1){//验证码登录
             $code=input('code');
             if (empty($code)){
-                $redata['code']=0;
-                $redata['msg']='登录失败。验证码不可为空';
-                echo json_encode($redata);
+                echo $this->resultToJson(0,'登录失败。验证码不可为空','');
             }else{
                 //先判断验证码
                 $istrue=Db::table('smscode')->where(array('phone'=>$phone,'code'=>$code))->find();
@@ -74,34 +72,22 @@ class Myapi extends \think\Controller{
                     $loginre=Db::table('userinfo')->where('phone',$phone)->find();
                     if ($loginre){
                         Db::table('smscode')->where('phone',$phone)->delete();
-                        $redata['code']=1;
-                        $redata['state']=$loginre['state'];
-                        $redata['msg']='登录成功';
-                        echo json_encode($redata);
+                        echo $this->resultToJson(1,'登录成功',$loginre);
                     }else{
-                        $redata['code']=0;
-                        $redata['msg']='登录失败';
-                        echo json_encode($redata);
+                        echo $this->resultToJson(0,'登录失败','');
                     }
                 }else{
-                    $redata['code']=0;
-                    $redata['msg']='登录失败。验证码错误';
-                    echo json_encode($redata);
+                    echo $this->resultToJson(0,'登录失败。验证码错误','');
                 }
             }
 
         }else{
             //账号密码登录
-            $re=Db::table('userinfo')->where(array('phone'=>$phone,'psw'=>$psw,'openid'=>$openid))->find();
+            $re=Db::table('userinfo')->where(array('phone'=>$phone,'psw'=>$psw))->find();
             if ($re){
-                $redata['code']=1;
-                $redata['msg']='登录成功';
-                $redata['state']=$re['state'];
-                echo json_encode($redata);
+                echo $this->resultToJson(1,'登录成功',$re);
             }else{
-                $redata['code']=0;
-                $redata['msg']='登录失败。检查用户名、密码、openid';
-                echo json_encode($redata);
+                echo $this->resultToJson(0,'登录失败。检查用户名、密码','');
             }
         }
 
@@ -147,46 +133,34 @@ class Myapi extends \think\Controller{
         $psw=input('psw');
         $openid=input('openid');
         $code=input('code');
-        if (empty($phone)||empty($psw)||empty($openid)){
-            $redata['code']=0;
-            $redata['msg']='注册失败。手机号或者密码或者openid不可为空';
-            echo json_encode($redata);
+        if (empty($phone)||empty($psw)){
+            echo $this->resultToJson(0,'注册失败。手机号或者密码不可为空','');
         }else if(empty($code)){
-            $redata['code']=0;
-            $redata['msg']='注册失败。请输入验证码';
-            echo json_encode($redata);
+            echo $this->resultToJson(0,'注册失败。请输入验证码','');
         }else{
             //先判断认证码
             $istrue=Db::table('smscode')->where(array('phone'=>$phone,'code'=>$code))->find();
             if ($istrue){
                 $data['phone']=$phone;
                 $data['psw']=$psw;
-                $data['openid']=$openid;
+                $data['addtime']=date('Y-m-d H:i:s',time());
                 //查找用户是否存在
                 $ishave=Db::table('userinfo')->where('phone',$phone)->find();
                 if ($ishave){
-                    $redata['code']=0;
-                    $redata['msg']='已注册过，无法再次注册';
-                    echo json_encode($redata);
+                    echo $this->resultToJson(0,'已注册过，无法再次注册','');
                 }else{
                     $upre=Db::table('userinfo')->insert($data);
                     if ($upre){
                         Db::table('smscode')->where('phone',$phone)->delete();
-                        $redata['code']=1;
-                        $redata['msg']='注册成功';
-                        echo json_encode($redata);
+                        echo $this->resultToJson(1,'注册成功','');
 
                     }else{
-                        $redata['code']=0;
-                        $redata['msg']='注册失败。无法保存数据';
-                        echo json_encode($redata);
+                        echo $this->resultToJson(0,'注册失败。无法保存数据','');
                     }
                 }
 
             }else{
-                $redata['code']=0;
-                $redata['msg']='注册失败。验证码';
-                echo json_encode($redata);
+                echo $this->resultToJson(0,'注册失败。验证码错误','');
             }
 
         }
