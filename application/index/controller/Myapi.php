@@ -136,14 +136,9 @@ class Myapi extends \think\Controller{
             }else{
                 Db::table('smscode')->insert(array('phone'=>$getphone,'code'=>$code));
             }
-            $arr['status']=1;
-            $arr['msg']='发送成功';
-            //$arr['code']=md5('xiaolong'.$code);
-            echo json_encode($arr);
+            echo $this->resultToJson(1,'发送成功',60);
         }else{
-            $arr['status']=0;
-            $arr['msg']='发送失败';
-            echo json_encode($arr);
+            echo $this->resultToJson(0,'发送失败',0);
         }
     }
     //用户注册
