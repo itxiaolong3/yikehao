@@ -125,9 +125,9 @@ class Myapi extends Base {
             }else{
                 Db::table('smscode')->insert(array('phone'=>$getphone,'code'=>$code));
             }
-            $this->resultToJson(1,'发送成功','');
+            echo $this->resultToJson(1,'发送成功',60);
         }else{
-            $this->resultToJson(0,'发送失败','');
+            echo $this->resultToJson(0,'发送失败',0);
         }
     }
     //用户注册
@@ -137,7 +137,7 @@ class Myapi extends Base {
         $openid=input('openid');
         $code=input('code');
         if (empty($phone)||empty($psw)){
-            echo $this->resultToJson(0,'注册失败。手机号或者密码或者openid不可为空','');
+            echo $this->resultToJson(0,'注册失败。手机号或者密码不可为空','');
         }else if(empty($code)){
             echo $this->resultToJson(0,'注册失败。请输入验证码','');
         }else{
@@ -146,8 +146,7 @@ class Myapi extends Base {
             if ($istrue){
                 $data['phone']=$phone;
                 $data['psw']=$psw;
-                $data['openid']=$openid;
-                $data['addtime']=date('Y-m-d H:i:s');
+                $data['addtime']=date('Y-m-d H:i:s',time());
                 //查找用户是否存在
                 $ishave=Db::table('userinfo')->where('phone',$phone)->find();
                 if ($ishave){
@@ -155,14 +154,16 @@ class Myapi extends Base {
                 }else{
                     $upre=Db::table('userinfo')->insert($data);
                     if ($upre){
-                        echo  $this->resultToJson(1,'注册成功','');
+
+                        Db::table('smscode')->where('phone',$phone)->delete();
+                        echo $this->resultToJson(1,'注册成功','');
                     }else{
                         echo $this->resultToJson(0,'注册失败。无法保存数据','');
                     }
                 }
 
             }else{
-                echo $this->resultToJson(0,'注册失败。验证码','');
+                echo $this->resultToJson(0,'注册失败。验证码错误','');
             }
 
         }
