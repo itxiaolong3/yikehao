@@ -10,10 +10,11 @@ use Aliyun\DySDKLite\Sms\mysms;
 use app\index\WxApi;
 use service\ToolsService;
 use think\Db;
+use think\File;
 use think\Request;
 use think\Session;
 
-class Myapi extends \think\Controller{
+class Myapi extends Base {
     public function __construct(Request $request = null)
     {
         ToolsService::corsOptionsHandler();
@@ -51,7 +52,8 @@ class Myapi extends \think\Controller{
     //微信登录入口
     public function wxlogin(){
         $wxConfig=Db::table('configs')->where('id',1)->find();
-        $url = urlencode(request()->domain().'/yikehao/index/myapi/dealwxlogin');
+        $uid=input('uid',1);
+        $url = urlencode(request()->domain().'/yikehao/dealwxlogin?uid='.$uid);
         $apiUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$wxConfig['appid']}&redirect_uri={$url}&response_type=code&scope=snsapi_userinfo#wechat_redirect";
         header('Location:'.$apiUrl);
     }
@@ -64,44 +66,31 @@ class Myapi extends \think\Controller{
         if ($type==1){//验证码登录
             $code=input('code');
             if (empty($code)){
-                $redata['code']=0;
-                $redata['msg']='登录失败。验证码不可为空';
-                echo json_encode($redata);
+                echo $this->resultToJson(0,'登录失败。验证码不可为空','');
             }else{
+
                 //先判断验证码
                 $istrue=Db::table('smscode')->where(array('phone'=>$phone,'code'=>$code))->find();
                 if ($istrue){
                     $loginre=Db::table('userinfo')->where('phone',$phone)->find();
                     if ($loginre){
                         Db::table('smscode')->where('phone',$phone)->delete();
-                        $redata['code']=1;
-                        $redata['state']=$loginre['state'];
-                        $redata['msg']='登录成功';
-                        echo json_encode($redata);
+                        echo $this->resultToJson(1,'登录成功',$loginre);
                     }else{
-                        $redata['code']=0;
-                        $redata['msg']='登录失败';
-                        echo json_encode($redata);
+                        echo $this->resultToJson(0,'登录失败','');
                     }
                 }else{
-                    $redata['code']=0;
-                    $redata['msg']='登录失败。验证码错误';
-                    echo json_encode($redata);
+                    echo $this->resultToJson(0,'登录失败。验证码错误','');
                 }
             }
 
         }else{
             //账号密码登录
-            $re=Db::table('userinfo')->where(array('phone'=>$phone,'psw'=>$psw,'openid'=>$openid))->find();
+            $re=Db::table('userinfo')->where(array('phone'=>$phone,'psw'=>$psw))->find();
             if ($re){
-                $redata['code']=1;
-                $redata['msg']='登录成功';
-                $redata['state']=$re['state'];
-                echo json_encode($redata);
+                echo $this->resultToJson(1,'登录成功',$re);
             }else{
-                $redata['code']=0;
-                $redata['msg']='登录失败。检查用户名、密码、openid';
-                echo json_encode($redata);
+                echo $this->resultToJson(0,'登录失败。检查用户名、密码','');
             }
         }
 
@@ -136,14 +125,9 @@ class Myapi extends \think\Controller{
             }else{
                 Db::table('smscode')->insert(array('phone'=>$getphone,'code'=>$code));
             }
-            $arr['status']=1;
-            $arr['msg']='发送成功';
-            //$arr['code']=md5('xiaolong'.$code);
-            echo json_encode($arr);
+            $this->resultToJson(1,'发送成功','');
         }else{
-            $arr['status']=0;
-            $arr['msg']='发送失败';
-            echo json_encode($arr);
+            $this->resultToJson(0,'发送失败','');
         }
     }
     //用户注册
@@ -152,14 +136,10 @@ class Myapi extends \think\Controller{
         $psw=input('psw');
         $openid=input('openid');
         $code=input('code');
-        if (empty($phone)||empty($psw)||empty($openid)){
-            $redata['code']=0;
-            $redata['msg']='注册失败。手机号或者密码或者openid不可为空';
-            echo json_encode($redata);
+        if (empty($phone)||empty($psw)){
+            echo $this->resultToJson(0,'注册失败。手机号或者密码或者openid不可为空','');
         }else if(empty($code)){
-            $redata['code']=0;
-            $redata['msg']='注册失败。请输入验证码';
-            echo json_encode($redata);
+            echo $this->resultToJson(0,'注册失败。请输入验证码','');
         }else{
             //先判断认证码
             $istrue=Db::table('smscode')->where(array('phone'=>$phone,'code'=>$code))->find();
@@ -167,31 +147,22 @@ class Myapi extends \think\Controller{
                 $data['phone']=$phone;
                 $data['psw']=$psw;
                 $data['openid']=$openid;
+                $data['addtime']=date('Y-m-d H:i:s');
                 //查找用户是否存在
                 $ishave=Db::table('userinfo')->where('phone',$phone)->find();
                 if ($ishave){
-                    $redata['code']=0;
-                    $redata['msg']='已注册过，无法再次注册';
-                    echo json_encode($redata);
+                    echo $this->resultToJson(0,'已注册过，无法再次注册','');
                 }else{
                     $upre=Db::table('userinfo')->insert($data);
                     if ($upre){
-                        Db::table('smscode')->where('phone',$phone)->delete();
-                        $redata['code']=1;
-                        $redata['msg']='注册成功';
-                        echo json_encode($redata);
-
+                        echo  $this->resultToJson(1,'注册成功','');
                     }else{
-                        $redata['code']=0;
-                        $redata['msg']='注册失败。无法保存数据';
-                        echo json_encode($redata);
+                        echo $this->resultToJson(0,'注册失败。无法保存数据','');
                     }
                 }
 
             }else{
-                $redata['code']=0;
-                $redata['msg']='注册失败。验证码';
-                echo json_encode($redata);
+                echo $this->resultToJson(0,'注册失败。验证码','');
             }
 
         }
@@ -199,6 +170,7 @@ class Myapi extends \think\Controller{
     //处理微信登录信息
     public function  dealwxlogin(){
         $getcode = input('code');
+        $getuid = input('uid');
         $wxConfig=Db::table('configs')->where('id',1)->find();
         $tokenandappid=$this->get_access_token_and_openid($wxConfig['appid'],$wxConfig['appSecret'],$getcode);
         $openid=$tokenandappid['openid'];
@@ -227,7 +199,7 @@ class Myapi extends \think\Controller{
             //if ($addre){
                 session("session_openid", $openid);
                 $dealopenid=$this->encodeanduecode('itxiaolong',$openid,0);
-                $this->redirect(request()->domain().'/#/pages/login?openid='.$dealopenid);
+                $this->redirect(request()->domain().'/yunle?openid='.$dealopenid);
            // }else{
 //                $redata['code']=0;
 //                $redata['msg']='登录失败。请重试';
@@ -303,14 +275,73 @@ class Myapi extends \think\Controller{
             echo $this->resultToJson('0','获取分类失败','');
         }
     }
+    //获取账号类型
+    public function gethaotype(){
+        $list=Db::table('haotype')->select();
+        if ($list){
+            echo $this->resultToJson(1,'号类型数据',$list);
+        }else{
+            echo $this->resultToJson(0,'返回号类型数据失败','');
+        }
+    }
     //搜索账号
     public function findhao(){
         $getkeyword=input('keyword');
         $pages=input('page',1);
         $pageparam=['query'=>[]];//查询条件
+        //筛选条件
+        $htypeid=input('htypeid');
+        $typeid=input('typeid');
+        $priceid=input('priceid');
+        $rzid=input('rzid');
+        if ($htypeid){
+            $pageparam['query']['type']=$htypeid;
+        }else if($priceid){
+            switch ($priceid){
+                case 1:
+                    array_push($bzarr,'一万以内');
+                    $pageparam['query']['price']=array('<',10000);
+                    break;
+                case 2:
+                    array_push($bzarr,'1-3万');
+                    $pageparam['query']['price']=array('between','10000,30000');
+                    break;
+                case 3:
+                    array_push($bzarr,'3-5万');
+                    $pageparam['query']['price']=array('between','30000,50000');
+                    break;
+                case 4:
+                    array_push($bzarr,'5-7万');
+                    $pageparam['query']['price']=array('between','50000,70000');
+                    break;
+                case 5:
+                    array_push($bzarr,'7-10万');
+                    $pageparam['query']['price']=array('between','70000,100000');
+                    break;
+                case 6:
+                    array_push($bzarr,'10-20万');
+                    $pageparam['query']['price']=array('between','100000,200000');
+                    break;
+                case 7:
+                    array_push($bzarr,'20万以上');
+                    $pageparam['query']['price']=array('>',200000);
+                    break;
+            }
+        }else if($rzid!=3){
+            $pageparam['query']['isrz']=$rzid;
+        }
         $pageparam['query']['zhname']=['like',"%".$getkeyword."%"];
         $pageparam['query']['state']=2;
-        $userlist=Db::table('sellinfo')->where($pageparam['query'])->page($pages,10)->select();
+        if($typeid){
+            $userlist=Db::table('sellinfo')
+                ->where($pageparam['query'])
+                ->where('FIND_IN_SET(:types,fortype)',['types' => $typeid])
+                ->page($pages,10)->select();
+        }else{
+            $userlist=Db::table('sellinfo')
+                ->where($pageparam['query'])
+                ->page($pages,10)->select();
+        }
         if ($userlist){
             echo $this->resultToJson(1,'搜索返回成功',$userlist);
         }else{
@@ -340,6 +371,46 @@ class Myapi extends \think\Controller{
         }else{
             echo $this->resultToJson(0,'返回交易动态失败','');
         }
+    }
+    //获取单一账号详细
+    public function getdetail(){
+        $id=input('id');
+        $detail=Db::table('sellinfo')
+            ->alias('s')
+            ->join('haotype h','s.type = h.htid')
+            ->join('admin a','s.kefuid = a.id')
+            ->field('s.*,h.*,a.qq as kfqq,a.phone as kfphone')
+            ->where('s.id',$id)->find();
+        $imgarr=explode("|",$detail['imgs']);
+        foreach ($imgarr as $k=>$v){
+            $imgarr[$k]=request()->domain().$v;
+        }
+        $detail['imgarr']=$imgarr;
+        if ($detail){
+            echo $this->resultToJson(1,'商品详细',$detail);
+        }else{
+            echo $this->resultToJson(0,'返回数据失败','');
+        }
+    }
+    //图片上传
+    public function apiLoadimg(){
+        header('Access-Control-Allow-Origin:*');
+        header('Access-Control-Allow-Headers:*');
+        $files = $_FILES['image'];
+        $imgpath=$this->apiuploader($files);
+        if ($imgpath){
+            echo $this->resultToJson(1,'上传成功',$imgpath);
+        }else{
+            echo $this->resultToJson(0,'上传失败','');
+        }
+    }
+    public function apiuploader($file){
+        $upDir = $this->createUpDir();
+        if(!$upDir) return false;
+        $filetype = explode('/',$file['type'])[1];
+        $fileName = date('YmdHis') . substr(md5($file['name']),8,16) . '.' . $filetype;
+        move_uploaded_file($file['tmp_name'],$upDir . '/' . $fileName);
+        return '/yikehao/public/static/upLoder/'.date('Ymd') . '/' . $fileName;
     }
     //返回结果的封装
     function resultToJson($code,$msg,$data){
