@@ -413,6 +413,20 @@ class Myapi extends Base {
         move_uploaded_file($file['tmp_name'],$upDir . '/' . $fileName);
         return '/yikehao/public/static/upLoder/'.date('Ymd') . '/' . $fileName;
     }
+    //返回协议
+    public function getxieyi(){
+        //协议类型
+        $state=input('state');
+        if ($state==1){
+            //登录协议
+            $res=Db::table('xieyi')->where('id',1)->find();
+        }else{
+            //支付协议
+            $res=Db::table('xieyi')->where('id',2)->find();
+        }
+        echo $this->resultToJson(1,'协议',$res);
+
+    }
     //返回结果的封装
     function resultToJson($code,$msg,$data){
         $re['code']=$code;

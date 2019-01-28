@@ -71,6 +71,7 @@ return [
     'dealwxlogin'=>'index/Myapi/dealwxlogin',
     'gethaotype'=>'index/Myapi/gethaotype',
     'apiLoadimg'=>'index/Myapi/apiLoadimg',
+    'getxieyi'=>'index/Myapi/getxieyi',
     //后端
     'admin/user'=>'admin/Userlist/index',
     'orderlist'=>'admin/Orderlist/index',
