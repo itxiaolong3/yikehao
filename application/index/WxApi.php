@@ -11,7 +11,7 @@ class WxApi{
 	}
 
 	//统一下单
-	public function UnifiedOrder($body,$sn,$attach,$price,$openid,$tz_url = false){
+	public function  UnifiedOrder($body,$sn,$attach,$price,$openid,$tz_url = false){
 		if(!$tz_url){
             $tz_url = request()->domain().'/yikehao/TZwx';
 		}
@@ -29,8 +29,10 @@ class WxApi{
 		$inputObj->SetOpenid($openid);										//设置openid    o9uGT0dGkDNIm1Wi_Rx8G0cigyG8
 		// $inputObj->SetScene_info('{"h5_info": {"type":"Wap","wap_url": "https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_20&index=1","wap_name": "加湿器"}}');
 		$inputObj->SetSign();												//设置签名
-		
 		$re = $this->wxApi->unifiedOrder($inputObj);
+        $files = __DIR__ . '/wxpailog.txt';
+        file_put_contents($files,"参数结果=".json_encode($re).'传的参数inputobj=='.
+            '$body='.$body.'$sn='.$sn.'$attach='.$attach.'$price='.$price.'$openid='.$openid);
 		$tools = new \JsApiPay();
 		return $tools->GetJsApiParameters($re);
 	}

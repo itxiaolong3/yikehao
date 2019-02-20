@@ -72,6 +72,9 @@ return [
     'gethaotype'=>'index/Myapi/gethaotype',
     'apiLoadimg'=>'index/Myapi/apiLoadimg',
     'getxieyi'=>'index/Myapi/getxieyi',
+    'doEditinfo'=>'index/Myapi/doEditinfo',
+    'getVip'=>'index/Myapi/getVip',
+    'doPosthao'=>'index/Myapi/doPosthao',
     //后端
     'admin/user'=>'admin/Userlist/index',
     'orderlist'=>'admin/Orderlist/index',
