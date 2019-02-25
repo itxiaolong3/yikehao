@@ -519,17 +519,14 @@ class Myapi extends Base
         //判断当前账户是否在看，这里有待处理的问题：看不同账号时再次回来看回另算一次了
         $uinfo=Db::table('userinfo')->where('uid',$uid)->find();
         if ($uinfo['lookid']==$id){
-            $re['code']=1;
             $re['phone']=$info['phone'];
-            echo json_encode($re);
             echo $this->resultToJson(1,'商家信息',$re);
         }else{
             if ($uinfo['looknum']>2){
                 //判断用户身份和等级有效期
                 if ($uinfo['vipstate']>2){//永久会员
-                    $re['code']=1;
                     $re['phone']=$info['phone'];
-                    echo json_encode($re);
+                    echo $this->resultToJson(1,'商家手机号',$re);
                 }else if($uinfo['vipstate']==2){
                     //判断时间
                     $viptime=$uinfo['paytime'];
@@ -537,14 +534,10 @@ class Myapi extends Base
                     $pktime=(strtotime($viptime))+86400*90-time();
                     if ($pktime<=0){
                         //过期
-                        $re['code']=-1;
-                        $re['phone']='';
-                        $re['msg']='会员过期';
-                        echo json_encode($re);
+                        echo $this->resultToJson(-1,'会员过期','');
                     }else{
-                        $re['code']=1;
                         $re['phone']=$info['phone'];
-                        echo json_encode($re);
+                        echo $this->resultToJson(1,'商家手机号',$re);
                     }
                 }else if($uinfo['vipstate']==1){
                     //判断时间
@@ -552,32 +545,116 @@ class Myapi extends Base
                     $pktime=(strtotime($viptime))+86400*30-time();
                     if ($pktime<=0){
                         //过期
-                        $re['code']=-1;
                         $re['phone']='';
-                        $re['msg']='会员过期';
-                        echo json_encode($re);
+                        echo $this->resultToJson(-1,'会员过期',$re);
                     }else{
-                        $re['code']=1;
                         $re['phone']=$info['phone'];
-                        echo json_encode($re);
+                        echo $this->resultToJson(1,'商家手机号',$re);
                     }
                 }else{
                     //通知购买会员
-                    $re['code']=0;
                     $re['phone']='';
-                    $re['msg']='需升级会员';
-                    echo json_encode($re);
+                    echo $this->resultToJson(0,'需升级会员',$re);
                 }
 
             }else{
                 //保存查看账户id并修改可看次数
-                Db::table('userinfo')->where('uid',$islogin)->setInc('looknum');
-                Db::table('userinfo')->where('uid',$islogin)->update(array('lookid'=>$id));
-                $re['code']=1;
+                Db::table('userinfo')->where('uid',$uid)->setInc('looknum');
+                Db::table('userinfo')->where('uid',$uid)->update(array('lookid'=>$id));
                 $re['phone']=$info['phone'];
-                echo json_encode($re);
+                echo $this->resultToJson(1,'商家手机号',$re);
             }
 
+        }
+    }
+    //增值服务
+    public function getaddserver(){
+        $serlist = Db::table('addserver')->select();
+        foreach ($serlist as $k => $v) {
+            $serlist[$k]['titleimg'] = request()->domain() . $v['titleimg'];
+        }
+        if ($serlist) {
+            echo $this->resultToJson(1, '增值服务获取成功', $serlist);
+        } else {
+            echo $this->resultToJson('0', '增值服务获取失败', '');
+        }
+    }
+    //服务中心数据
+    public function getSerandProinfo(){
+        $newlist = Db::table('newslist')->select();
+        foreach ($newlist as $k => $v) {
+            $newlist[$k]['titleimg'] = request()->domain() . $v['titleimg'];
+        }
+        $prolist = Db::table('problist')->select();
+        foreach ($prolist as $k => $v) {
+            $prolist[$k]['titleimg'] = request()->domain() . $v['titleimg'];
+        }
+        $res['newlist']=$newlist;
+        $res['prolist']=$prolist;
+        if ($res) {
+            echo $this->resultToJson(1, '服务中心获取成功', $res);
+        } else {
+            echo $this->resultToJson(0, '服务中心获取失败', '');
+        }
+    }
+    //新闻，问题详细
+    public function getNeworProdetail(){
+        $id=input('id');
+        $types=input('type');
+        if ($types){
+            $re=Db::table('newslist')->where('id',$id)->find();
+            //$re['contents']=htmlspecialchars_decode($re['contents']);
+        }else{
+            $re=Db::table('problist')->where('id',$id)->find();
+            // $re['contents']=htmlspecialchars_decode($re['contents']);
+        }
+
+        if ($re){
+            echo $this->resultToJson(1, '详细', $re);
+        }else{
+            echo $this->resultToJson(1, '无数据', $re);
+        }
+    }
+    //订单管理
+    public function getOrderlist(){
+        $uid=input('uid');
+        $selllist = Db::table('sellinfo')->where('uid',$uid)->select();
+        $addserlist = Db::table('addserorder')->where('uid',$uid)->select();
+        $payorderlist = Db::table('payorder')->where('uid',$uid)->select();
+        $viporderlist = Db::table('viporder')->where('uid',$uid)->select();
+        $re['selllist']=$selllist;
+        $re['addserlist']=$addserlist;
+        $re['payorderlist']=$payorderlist;
+        $re['viporderlist']=$viporderlist;
+        if ($re){
+            echo $this->resultToJson(1,'订单管理',$re);
+        }else{
+            echo $this->resultToJson(0,'无订单','');
+        }
+    }
+    //订单详细
+    public function getOrderdetail(){
+        $id=input('id');
+        $types=input('types');
+        switch ($types){
+            case 0:
+                $re=Db::table('payorder')->where('id',$id)->find();
+                break;
+            case 1:
+                $re=Db::table('viporder')->where('id',$id)->find();
+                break;
+            case 2:
+                $re=Db::table('sellinfo')->where('id',$id)->find();
+                break;
+            case 3:
+                $re=Db::table('addserorder')->where('id',$id)->find();
+                break;
+        }
+
+        if ($re){
+            echo $this->resultToJson(1, '详细', $re);
+        }else{
+            echo $this->resultToJson(1, '无数据', $re);
         }
     }
     //返回结果的封装

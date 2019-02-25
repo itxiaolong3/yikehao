@@ -75,6 +75,12 @@ return [
     'doEditinfo'=>'index/Myapi/doEditinfo',
     'getVip'=>'index/Myapi/getVip',
     'doPosthao'=>'index/Myapi/doPosthao',
+    'getbossphone'=>'index/Myapi/getbossphone',
+    'getaddserver'=>'index/Myapi/getaddserver',
+    'getSerandProinfo'=>'index/Myapi/getSerandProinfo',
+    'getNeworProdetail'=>'index/Myapi/getNeworProdetail',
+    'getOrderlist'=>'index/Myapi/getOrderlist',
+    'getOrderdetail'=>'index/Myapi/getOrderdetail',
     //后端
     'admin/user'=>'admin/Userlist/index',
     'orderlist'=>'admin/Orderlist/index',
