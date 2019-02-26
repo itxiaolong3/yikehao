@@ -53,6 +53,7 @@ return [
     'payforcode'=>'index/Login/payforcode',
     'addserver'=>'index/Addserver/index',
     'serpay'=>'index/Addserver/serpay',
+    'Alipayreturnurl'=>'index/Alipayreturnurl/index',
     //api接口
     'myapi'=>'index/Myapi/wxlogin',
     'getuseropenid'=>'index/Myapi/getuseropenid',
@@ -81,6 +82,7 @@ return [
     'getNeworProdetail'=>'index/Myapi/getNeworProdetail',
     'getOrderlist'=>'index/Myapi/getOrderlist',
     'getOrderdetail'=>'index/Myapi/getOrderdetail',
+    'AliPay'=>'index/Myapi/AliPay',
     //后端
     'admin/user'=>'admin/Userlist/index',
     'orderlist'=>'admin/Orderlist/index',

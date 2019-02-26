@@ -13,6 +13,9 @@ use think\Db;
 use think\File;
 use think\Request;
 use think\Session;
+use think\Loader;
+Loader::import('wapalipay.wappay.service.AlipayTradeService',EXTEND_PATH,'.php');
+Loader::import('wapalipay.wappay.buildermodel.AlipayTradeWapPayContentBuilder',EXTEND_PATH,'.php');
 class Myapi extends Base
 {
     public function __construct(Request $request = null)
@@ -656,6 +659,75 @@ class Myapi extends Base
         }else{
             echo $this->resultToJson(1, '无数据', $re);
         }
+    }
+    //支付宝支付
+    public function AliPay(){
+        $uid = input('uid');
+        $gid = input('gid');
+        $paytype = input('paytype');//0会员支付 1-买号 2-增值服务
+        $configs = Db::table('configs')->where('id', 1)->find();
+        switch ($paytype){
+            case 0:
+                if ($gid==1){
+                    $price=$configs['mothprice'];
+                }else if($gid==2){
+                    $price=$configs['jiprice'];
+                }else if ($gid==3){
+                    $price=$configs['yearprice'];
+                }
+                break;
+            case 1:
+                $price = input('price');
+                break;
+            case 2:
+                $price = input('price');
+                break;
+        }
+        $attach = $uid . '|' . $gid . '|' . $paytype;
+        $config = array (
+            //应用ID,您的APPID。
+            'app_id' => $configs['app_id'],
+            //商户私钥，您的原始格式RSA私钥
+            'merchant_private_key' =>$configs['private_key'],
+            //异步通知地址
+            'notify_url' => "",
+            //同步跳转
+            'return_url' => request()->domain().'/yikehao/Alipayreturnurl?paytype='.$attach,
+            //编码格式
+            'charset' => "UTF-8",
+            //签名方式
+            'sign_type'=>"RSA2",
+            //支付宝网关
+            'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
+            //支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
+            'alipay_public_key' =>$configs['public_key'],
+
+        );
+
+        //商户订单号，商户网站订单系统中唯一订单号，必填
+        $sn = time() . $this->getcode(8);
+        $out_trade_no = $sn;
+        //订单名称，必填
+        $subject = '云乐互联支付';
+
+        //付款金额，必填
+        $total_amount = $price;
+
+        //商品描述，可空
+        $body = '云乐互联支付';
+
+        //超时时间
+        $timeout_express="1m";
+        $payRequestBuilder = new \AlipayTradeWapPayContentBuilder();
+        $payRequestBuilder->setBody($body);
+        $payRequestBuilder->setSubject($subject);
+        $payRequestBuilder->setOutTradeNo($out_trade_no);
+        $payRequestBuilder->setTotalAmount($total_amount);
+        $payRequestBuilder->setTimeExpress($timeout_express);
+
+        $payResponse = new \AlipayTradeService($config);
+        $result = $payResponse->wapPay($payRequestBuilder,$config['return_url'],$config['notify_url']);
+        return ;
     }
     //返回结果的封装
     function resultToJson($code, $msg, $data)

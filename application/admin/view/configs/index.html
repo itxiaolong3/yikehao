@@ -56,6 +56,30 @@
                     <input type="text" name="accesskeyseret" placeholder="" value="{$configs.accesskeyseret}" class="input-text">
                 </div>
             </div>
+
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">如下是支付宝支付配置</label>
+                    <div class="formControls col-xs-6 col-sm-7"><hr/></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">支付宝公钥：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <input type="text" name="public_key" placeholder="" value="{$configs.public_key}" class="input-text">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">支付宝私钥：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <input type="text" name="private_key" placeholder="" value="{$configs.private_key}" class="input-text">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">支付宝app_id：</label>
+                    <div class="formControls col-xs-6 col-sm-7">
+                        <input type="text" name="app_id" placeholder="" value="{$configs.app_id}" class="input-text">
+                    </div>
+                </div>
+
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">如下是会员价格设置</label>
                     <div class="formControls col-xs-6 col-sm-7"><hr/></div>
@@ -269,6 +293,9 @@
         var mothprice=$("input[name='mothprice']").val();
         var jiprice=$("input[name='jiprice']").val();
         var yearprice=$("input[name='yearprice']").val();
+        var app_id=$("input[name='app_id']").val();
+        var private_key=$("input[name='private_key']").val();
+        var public_key=$("input[name='public_key']").val();
         $.post('',{
             appid:appid,
             appSecret:appSecret,
@@ -287,6 +314,9 @@
             jiprice:jiprice,
             yearprice:yearprice,
             id:1,
+            app_id:app_id,
+            private_key:private_key,
+            public_key:public_key
             },function (e) {
             layer.msg('已保存',{icon:1,time:800});
             location.reload();
