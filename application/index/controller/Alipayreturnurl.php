@@ -23,7 +23,8 @@ class Alipayreturnurl extends Controller
         $ordernum=htmlspecialchars($_GET['trade_no']);
         if ($appid==$getappid){
             //验证成功，这里开始写业务程序
-            $this->assign('baseuser', request()->domain());
+            $this->assign('baseurl', request()->domain());
+            $this->assign('payprice', $price);
             //这里写回调逻辑
             $uidandtype=explode('|',$paytype);
             $uid=$uidandtype[0];
@@ -44,6 +45,7 @@ class Alipayreturnurl extends Controller
                     Db::table('payorder')->insert(array('name'=>$name,'phone'=>$phone,'payprice'=>$payprice,
                         'paytime'=>$paytime,'types'=>$types,'uid'=>$uid,'gid'=>$gid,'ordernum'=>$ordernum));
                 }
+                $this->assign('goodname', '买号支付');
 
             }else if($payte==2){
                 $uinfo=Db::table('userinfo')->where('uid',$uid)->find();
@@ -57,7 +59,7 @@ class Alipayreturnurl extends Controller
                     Db::table('addserorder')->insert(array('phone'=>$phone,'payprice'=>$payprice,
                         'paytime'=>$paytime,'uid'=>$uid,'ordernum'=>$ordernum,'types'=>$goodinfo['title'],'sid'=>$gid));
                 }
-
+                $this->assign('goodname', '增值服务支付');
             }else{
                 $uinfo=Db::table('userinfo')->where('uid',$uid)->find();
                 $payprice=number_format($price,2);
@@ -71,6 +73,7 @@ class Alipayreturnurl extends Controller
                 }
                 //修改用户表身份状态
                 Db::table('userinfo')->where('uid',$uid)->update(array('paytime'=>$paytime,'vipstate'=>$gid));
+                $this->assign('goodname', '购买会员');
             }
             return $this->fetch();
         }else{

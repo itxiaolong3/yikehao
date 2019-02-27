@@ -489,14 +489,14 @@ class Myapi extends Base
         if(strstr($gethytpye,',')){
             $hytypearr=explode(',',$gethytpye);
             foreach ($hytypearr as $k=>$v){
-                $idandtext=explode('|',$v);
-                array_push($typeid,$idandtext[0]);
-                array_push($typetext,$idandtext[1]);
+                array_push($typeid,$v);
+                $typename = Db::table('type')->where('tid', $v)->find();
+                array_push($typetext,$typename['name']);
             }
         }else{
-            $idandtext=explode('|',$gethytpye);
-            array_push($typeid,$idandtext[0]);
-            array_push($typetext,$idandtext[1]);
+            array_push($typeid,$gethytpye);
+            $typename = Db::table('type')->where('tid', $gethytpye)->find();
+            array_push($typetext,$typename['name']);
         }
         $allinfo['fortype']=implode(',',$typeid);
         $allinfo['fortypetext']=implode('|',$typetext);
@@ -621,10 +621,10 @@ class Myapi extends Base
     //订单管理
     public function getOrderlist(){
         $uid=input('uid');
-        $selllist = Db::table('sellinfo')->where('uid',$uid)->select();
-        $addserlist = Db::table('addserorder')->where('uid',$uid)->select();
-        $payorderlist = Db::table('payorder')->where('uid',$uid)->select();
-        $viporderlist = Db::table('viporder')->where('uid',$uid)->select();
+        $selllist = Db::table('sellinfo')->where('uid',$uid)->order('id desc')->select();
+        $addserlist = Db::table('addserorder')->where('uid',$uid)->order('id desc')->select();
+        $payorderlist = Db::table('payorder')->where('uid',$uid)->order('id desc')->select();
+        $viporderlist = Db::table('viporder')->where('uid',$uid)->order('id desc')->select();
         $re['selllist']=$selllist;
         $re['addserlist']=$addserlist;
         $re['payorderlist']=$payorderlist;
