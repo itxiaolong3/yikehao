@@ -499,6 +499,7 @@ class Myapi extends Base
             array_push($typetext,$typename['name']);
         }
         $allinfo['fortype']=implode(',',$typeid);
+        $allinfo['addtime']=date('Y-m-d',time());
         $allinfo['fortypetext']=implode('|',$typetext);
         $allinfo['imgs']=substr($allinfo['imgs'],1);
         $allinfo['oneprice']=number_format(intval($allinfo['price'])/intval($allinfo['fansnum']),2);
