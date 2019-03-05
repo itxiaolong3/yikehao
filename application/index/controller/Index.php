@@ -45,6 +45,7 @@ class Index extends Base
             ->join('admin a','s.kefuid = a.id')
             ->field('s.*,h.*,a.qq as kfqq')
             ->where('s.state',2)
+            ->where('issell',0)
             ->limit(4)->select();
         foreach ($goodhao as $k=>$v){
             $goodhao[$k]['oneprice']=number_format(intval($v['price'])/intval($v['fansnum']),2);
@@ -61,6 +62,7 @@ class Index extends Base
             ->join('admin a','s.kefuid = a.id')
             ->field('s.*,h.*,a.qq as kfqq')
             ->where('s.state',2)
+            ->where('issell',0)
             ->limit(3)->select();
         foreach ($goodhao2 as $k=>$v){
             $goodhao2[$k]['oneprice']=number_format(intval($v['price'])/intval($v['fansnum']),2);

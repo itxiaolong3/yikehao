@@ -18,7 +18,7 @@
 
 <div id="header2">
     <div>
-        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到云乐互联！
+        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到益企发！
             {notempty name="uinfo"}
             <span onclick="loginout();" style="cursor: pointer;">【退出】</span>
             {/notempty}
@@ -32,7 +32,7 @@
 
     <form method="get">
         <div>
-            <div><img style="padding-bottom:30px;" onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+            <div><img style="padding-bottom:30px;" onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-益企发公众号交易平台"
                   src="__PUBLIC__static/index/picture/logo.jpg" width="120" height="130">
                 <div>
                     <em>
@@ -643,7 +643,7 @@
                             <input type="checkbox" value="None" id="squaredFour" name="check" checked />
                             <label for="squaredFour"></label>
                         </div>
-                        <span style="margin-left: 10px;margin-top: 3px;">我已阅读并同意<a onclick="showxieyi();" style="color: #69ADF0;margin-right:7px;cursor: pointer;">《云乐互联用户协议》</a></span>
+                        <span style="margin-left: 10px;margin-top: 3px;">我已阅读并同意<a onclick="showxieyi();" style="color: #69ADF0;margin-right:7px;cursor: pointer;">《益企发用户协议》</a></span>
                     </li>
                     <li class="bt">
                         <span class="topay"><a onclick="topay();">立即购买</a></span>
@@ -947,7 +947,7 @@
         $('.main').removeClass('dohidden');
     }
     function showphone() {
-        layer.confirm('<label style="color: red;">重点提示</label>  一定要经过云乐互联担保交易，保证资金100%安全。普通会员最多免费看3个商家，是否继续',function(index){
+        layer.confirm('<label style="color: red;">重点提示</label>  一定要经过益企发担保交易，保证资金100%安全。普通会员最多免费看3个商家，是否继续',function(index){
             var lod=layer.load(0, {shade: false});
             $.post('',{id:"{$detail.id}"},function (e) {
                 var datas=JSON.parse(e);

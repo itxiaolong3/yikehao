@@ -28,7 +28,7 @@ class Myapi extends Base
         $pay = new WxApi();
         //$body,$sn,$price,$openid,$tz_url = false
         $configs = Db::table('configs')->where('id', 1)->find();
-        $body = '云乐互联支付';
+        $body = '益企发支付';
         $sn = time() . $this->getcode(8);
         $openid = input('openid');
         //$openid=$this->encodeanduecode('itxiaolong',$getopenid,1);
@@ -381,6 +381,7 @@ class Myapi extends Base
         }
         $pageparam['query']['zhname'] = ['like', "%" . $getkeyword . "%"];
         $pageparam['query']['state'] = 2;
+        $pageparam['query']['issell'] = 0;
         if ($typeid) {
             $userlist = Db::table('sellinfo')
                 ->where($pageparam['query'])
@@ -403,6 +404,7 @@ class Myapi extends Base
         $pages = input('page', 1);
         $pageparam = ['query' => []];//查询条件
         $pageparam['query']['state'] = 2;
+        $pageparam['query']['issell'] = 0;
         $userlist = Db::table('sellinfo')->where($pageparam['query'])->page($pages, 10)->select();
         if ($userlist) {
             echo $this->resultToJson(1, '返回号列表成功', $userlist);
@@ -526,7 +528,7 @@ class Myapi extends Base
             $re['phone']=$info['phone'];
             echo $this->resultToJson(1,'商家信息',$re);
         }else{
-            if ($uinfo['looknum']>2){
+            if ($uinfo['looknum']>=0){
                 //判断用户身份和等级有效期
                 if ($uinfo['vipstate']>2){//永久会员
                     $re['phone']=$info['phone'];
@@ -709,13 +711,13 @@ class Myapi extends Base
         $sn = time() . $this->getcode(8);
         $out_trade_no = $sn;
         //订单名称，必填
-        $subject = '云乐互联支付';
+        $subject = '益企发支付';
 
         //付款金额，必填
         $total_amount = $price;
 
         //商品描述，可空
-        $body = '云乐互联支付';
+        $body = '益企发支付';
 
         //超时时间
         $timeout_express="1m";

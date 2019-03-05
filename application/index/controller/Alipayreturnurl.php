@@ -41,6 +41,8 @@ class Alipayreturnurl extends Controller
                 //查询是否已经存在改订单
                 $ishava=Db::table('payorder')->where('ordernum',$ordernum)->find();
                 if (empty($ishava)){
+                    //更新商品为已购买
+                    Db::table('sellinfo')->where('id',$gid)->setField('issell', 1);
                     //添加订单表
                     Db::table('payorder')->insert(array('name'=>$name,'phone'=>$phone,'payprice'=>$payprice,
                         'paytime'=>$paytime,'types'=>$types,'uid'=>$uid,'gid'=>$gid,'ordernum'=>$ordernum));

@@ -203,6 +203,7 @@ class Deal extends Base
         //判断是搜索还是选择搜索
         $pageparam['query']['zhname']=['like',"%".$getkeyword."%"];
         $pageparam['query']['state']=2;
+        $pageparam['query']['issell']=0;
         $this->assign('keyword',$getkeyword);
         $min=input('min');
         $max=input('max');

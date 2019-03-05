@@ -162,9 +162,11 @@ class Notify extends Controller
                 $phone=$uinfo['phone'];
                 $types="买号支付";
                 $ordernum=$reArr['out_trade_no'];
+                //更新商品为已购买
+                Db::table('sellinfo')->where('id',$gid)->setField('issell', 1);
                 //添加订单表
                 Db::table('payorder')->insert(array('name'=>$name,'phone'=>$phone,'payprice'=>$payprice,
-                    'paytime'=>$paytime,'types'=>$types,'uid'=>$uid,'gid'=>$gid,'ordernum'=>$ordernum));
+                    'paytime'=>$paytime,'types'=>$types,'uid'=>$uid,'gid'=>$gid,'issell'=>1,'ordernum'=>$ordernum));
             }else if($payte==2){
                 $uinfo=Db::table('userinfo')->where('uid',$uid)->find();
                 $goodinfo=Db::table('addserver')->where('id',$gid)->find();
