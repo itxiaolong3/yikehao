@@ -393,6 +393,10 @@ class Myapi extends Base
                 ->page($pages, 10)->select();
         }
         if ($userlist) {
+            foreach ($userlist as $k=>$v){
+                $gethaotypename=Db::table('haotype')->where('htid',$v['type'])->find();
+                $userlist[$k]['haotype']=$gethaotypename['name'];
+            }
             echo $this->resultToJson(1, '搜索返回成功', $userlist);
         } else {
             echo $this->resultToJson('0', '搜索返回失败', '');
@@ -406,6 +410,10 @@ class Myapi extends Base
         $pageparam['query']['state'] = 2;
         $pageparam['query']['issell'] = 0;
         $userlist = Db::table('sellinfo')->where($pageparam['query'])->page($pages, 10)->select();
+        foreach ($userlist as $k=>$v){
+            $gethaotypename=Db::table('haotype')->where('htid',$v['type'])->find();
+            $userlist[$k]['haotype']=$gethaotypename['name'];
+        }
         if ($userlist) {
             echo $this->resultToJson(1, '返回号列表成功', $userlist);
         } else {
