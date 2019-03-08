@@ -26,7 +26,7 @@
 </style>
 <div id="header2">
     <div>
-        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到云乐互联！
+        <div style="margin: 0 auto;width: 1200px;position: relative">您好&nbsp;{$uinfo.username}，欢迎来到益企发！
             {notempty name="uinfo"}
             <span onclick="loginout();" style="cursor: pointer;">【退出】</span>
             {/notempty}
@@ -40,7 +40,7 @@
 
     <form method="get">
         <div>
-            <div><img style="padding-bottom:30px;" onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-云乐互联公众号交易平台"
+            <div><img style="padding-bottom:30px;" onclick="gethref(this)" hc-href="{:url('index/index/index')}" alt="公众号出售-公众号价格-公众号买卖-益企发公众号交易平台"
                   src="__PUBLIC__static/index/picture/logo.jpg" width="120" height="130">
                 <div>
                     <em>
@@ -617,7 +617,7 @@
             <s><u>出售价格:</u><i><span>￥{$vo.price}</span></i></s>
             <s><u>粉丝数量:</u><b style="color: #6A6C71">{$vo.fansnum}</b></s>
             <s><u>账号类型:</u><b style="color: #6A6C71">{$vo.name}</b></s>
-            <s><u>行业分类:</u><b style="color: #6A6C71">{$vo.fortypetext}</b></s>
+            <s><u>行业分类:</u><b style="color: #6A6C71;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{$vo.fortypetext}</b></s>
             <s><u>流量主:</u><b style="color: #6A6C71">{$vo.isliu==0?'未开通':'已开通'}</b></s>
             <s><u>开通原创:</u><b style="color: #6A6C71"> {switch name="$vo.yuanorzan" }
                 {case value="0"}未开通{/case}

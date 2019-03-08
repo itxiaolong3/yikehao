@@ -606,7 +606,7 @@
                     <a>注册时间</a><i style="width: 100px;">{$detail.regtime}</i>
                 </li>
                 <li>
-                    <a>所属类目</a><i style="width: 120px;">{$detail.fortypetext}</i>
+                    <a>所属类目</a><i style="width: 180px;height: 87px;font-size: 13px;">{$detail.fortypetext}</i>
                     <a>阅读UV</a><i>{$detail.UV}</i>
                     <a>粉丝数量</a><i>{$detail.fansnum}</i>
                 </li>
@@ -667,7 +667,7 @@
                 </div>
                 <div class="right_m">
                     <ul>
-                        <li style="color: #A09D9D;font-size: 16px;font-weight:bold;margin-top: 30px;">云乐顾问</li>
+                        <li style="color: #A09D9D;font-size: 16px;font-weight:bold;margin-top: 30px;">益企发顾问</li>
                         <li style="color: #61656C;font-size: 18px;font-weight: bold;margin-top: 10px;">专业公众号顾问</li>
                         <li style="color: #A09D9D;font-size: 16px;font-weight:bold;margin-top: 20px;">联系电话:{$detail.kfphone}</li>
                         <li style="height: 40px;width: 80%;padding:5px 20px;margin:10px auto;background-color: #5A72F6;"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$detail.kfqq}&site=qq&menu=yes" style="color: white">联系客服</a></li>
@@ -947,7 +947,7 @@
         $('.main').removeClass('dohidden');
     }
     function showphone() {
-        layer.confirm('<label style="color: red;">重点提示</label>  一定要经过益企发担保交易，保证资金100%安全。普通会员最多免费看3个商家，是否继续',function(index){
+        layer.confirm('<label style="color: red;">重点提示</label>  一定要经过益企发担保交易，保证资金100%安全。',function(index){
             var lod=layer.load(0, {shade: false});
             $.post('',{id:"{$detail.id}"},function (e) {
                 var datas=JSON.parse(e);
